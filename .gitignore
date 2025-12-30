@@ -1,0 +1,51 @@
+# ===== LaTeX build files =====
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.bcf
+*.run.xml
+
+# ===== Latexmk =====
+latexmk/
+
+# ===== PDF output =====
+*.pdf
+
+# ===== Backup & temp files =====
+*.bak
+*.tmp
+*~
+*.swp
+*.swo
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+
+# ===== Editor folders =====
+.vscode/
+.idea/
+
+# ===== Overleaf =====
+__latexindent_temp.tex
+
+# ===== Logs =====
+*.synctex
+
+# ===== Optional: ignore figures build cache =====
+*.eps
