@@ -1,0 +1,20 @@
+\section{Thiết kế dữ liệu}
+
+\subsection{Mô hình dữ liệu tổng quan}
+
+Dữ liệu của hệ thống được quản lý theo nguyên tắc database per service. 
+Mỗi microservice sở hữu cơ sở dữ liệu riêng biệt nhằm đảm bảo tính độc lập.
+
+\subsection{Thiết kế cơ sở dữ liệu cho Profile Service}
+
+Bảng \texttt{profiles} được sử dụng để lưu trữ thông tin mở rộng của người dùng.
+
+\begin{itemize}
+    \item id (Primary Key)
+    \item user\_id (Logical reference tới Supabase Auth)
+    \item full\_name
+    \item phone
+    \item avatar\_url
+    \item role
+    \item created\_at
+\end{itemize}

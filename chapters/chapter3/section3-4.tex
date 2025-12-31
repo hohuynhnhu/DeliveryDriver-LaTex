@@ -1,0 +1,21 @@
+\section{Thiết kế xử lý và thuật toán}
+
+\subsection{Quy trình xác thực và quản lý hồ sơ}
+
+Hệ thống sử dụng Supabase Authentication để thực hiện xác thực người dùng. 
+Sau khi xác thực thành công, hệ thống sử dụng bảng \texttt{profiles} để lưu trữ và quản lý thông tin cá nhân.
+
+\subsection{Thiết kế thuật toán tối ưu lộ trình}
+
+Thuật toán tối ưu lộ trình được thiết kế nhằm xác định thứ tự giao hàng tối ưu cho danh sách các điểm giao.
+Thuật toán nhận đầu vào là tập các điểm cần giao và trả về lộ trình có tổng quãng đường ngắn nhất.
+
+\subsection{Luồng xử lý tối ưu lộ trình}
+
+Luồng xử lý bao gồm:
+\begin{enumerate}
+    \item Nhận danh sách điểm giao từ người dùng.
+    \item Gọi dịch vụ bản đồ để lấy dữ liệu khoảng cách.
+    \item Thực hiện thuật toán tối ưu lộ trình.
+    \item Trả kết quả lộ trình cho người dùng.
+\end{enumerate}
