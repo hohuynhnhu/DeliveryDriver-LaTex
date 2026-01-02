@@ -17,6 +17,37 @@ Hệ thống cần đáp ứng các yêu cầu chức năng sau:
     \item user: nhập các điểm cần đi và tiến hành tối ưu lộ trình, xem lại lộ trình.
     \item Nhân viên giao hàng (Driver): nhận đơn hàng, cập nhật trạng thái giao hàng.
 \end{itemize}
+\subsubsection{Giám sát nhân viên theo thời gian thực}
+
+Manager cần có khả năng theo dõi toàn bộ nhân viên giao hàng đang hoạt động. Hệ thống phải hiển thị vị trí GPS của nhân viên trên bản đồ cùng với các thông tin cơ bản như tên, trạng thái hiện tại và đơn hàng đang thực hiện. Chức năng này giúp Manager nắm bắt tình hình thực tế và có thể can thiệp kịp thời khi cần thiết.
+
+Dữ liệu vị trí được cập nhật định kỳ từ thiết bị di động của nhân viên, lưu trữ trong bảng GPS với các thông tin kinh độ, vĩ độ và tốc độ di chuyển. Manager có thể xem danh sách nhân viên, lọc theo trạng thái hoạt động và truy cập thông tin chi tiết của từng người.
+
+\subsubsection{Quản lý đơn hàng}
+
+Manager cần xem và quản lý toàn bộ đơn hàng trong hệ thống. Các đơn hàng được phân loại theo trạng thái như đang chờ duyệt, đã phân công, đang giao, hoàn thành hoặc đã hủy. Hệ thống cho phép Manager duyệt đơn hàng mới, phân công nhân viên phù hợp và theo dõi tiến độ thực hiện.
+
+Thông tin đơn hàng bao gồm địa chỉ giao nhận, nhân viên được phân công và trạng thái hiện tại được lưu trữ trong bảng Order. Manager có thể tìm kiếm đơn hàng theo nhiều tiêu chí và cập nhật trạng thái khi cần thiết.
+
+\subsubsection{Quản lý địa điểm}
+
+Hệ thống cung cấp chức năng quản lý các địa điểm giao nhận hàng thường xuyên. Manager có thể thêm mới địa điểm với thông tin đầy đủ bao gồm tên, địa chỉ, tọa độ GPS và loại địa điểm (kho hàng, điểm giao, trạm dừng). 
+
+Danh sách địa điểm được lưu trong bảng Location, mỗi địa điểm thuộc về một Manager cụ thể. Chức năng tìm kiếm và lọc giúp Manager dễ dàng quản lý khi số lượng địa điểm tăng lên. Các địa điểm có thể được đánh dấu là đang hoạt động hoặc tạm ngưng sử dụng.
+
+\subsubsection{Hệ thống thông báo}
+
+Manager cần tương tác với nhân viên và khách hàng thông qua hệ thống thông báo. Khi nhân viên gặp vấn đề trong quá trình giao hàng, họ có thể gửi phản hồi hoặc báo cáo sự cố. Manager nhận thông báo ngay lập tức và có thể trả lời trực tiếp trong hệ thống.
+
+Ngược lại, Manager cũng có thể gửi thông báo cập nhật trạng thái đơn hàng cho khách hàng. Các loại thông báo bao gồm xác nhận đơn hàng, thông báo đang giao và thông báo hoàn thành. Dữ liệu thông báo được lưu trong bảng Notification với thông tin người gửi, người nhận, loại thông báo và nội dung.
+
+\subsubsection{Phân tích RFM và gợi ý tuyến đường}
+
+Để hỗ trợ việc ra quyết định kinh doanh, hệ thống cung cấp chức năng phân tích RFM (Recency - Frequency - Monetary) cho các tuyến đường. Hệ thống tự động thu thập và phân tích dữ liệu đơn hàng trong một khoảng thời gian để xác định các tuyến đường có tần suất sử dụng cao và doanh thu tốt.
+
+Kết quả phân tích được lưu trong bảng RFM, bao gồm thời gian bắt đầu, kết thúc phân tích và danh sách các tuyến đường nổi bật. Dựa trên kết quả này, hệ thống đưa ra các gợi ý tuyến cố định được lưu trong bảng Routes\_suggest, giúp Manager xem xét khả năng thiết lập các tuyến giao hàng định kỳ để tối ưu chi phí vận hành.
+
+
 
 \subsection{Yêu cầu phi chức năng}
 
@@ -26,3 +57,22 @@ Ngoài các yêu cầu chức năng, hệ thống cần đáp ứng các yêu c�
     \item Bảo mật thông tin người dùng.
     \item Giao diện thân thiện và dễ sử dụng.
 \end{itemize}
+\subsubsection{Hiệu năng}
+
+Hệ thống cần đảm bảo thời gian phản hồi nhanh để Manager có thể giám sát và điều phối hiệu quả. Trang dashboard cần tải trong vòng 2 giây. Cập nhật vị trí GPS trên bản đồ có độ trễ tối đa 10 giây. Các thao tác tìm kiếm và lọc dữ liệu cần trả về kết quả trong vòng 1 giây.
+
+\subsubsection{Bảo mật}
+
+Chỉ người dùng có vai trò Manager mới được truy cập vào các chức năng quản lý. Hệ thống sử dụng cơ chế xác thực JWT token để kiểm tra quyền truy cập. Mọi thao tác quan trọng như phân công đơn hàng, cập nhật địa điểm cần được ghi log để kiểm tra sau này. Dữ liệu nhạy cảm như vị trí GPS và thông tin cá nhân phải được mã hóa khi truyền tải.
+
+\subsubsection{Khả năng sử dụng}
+
+Giao diện quản lý cần trực quan và dễ sử dụng. Bản đồ hiển thị vị trí nhân viên cần mượt mà, không bị giật lag. Dashboard hiển thị các thông tin quan trọng ngay trên trang chính để Manager dễ dàng nắm bắt tổng quan. Hệ thống hỗ trợ responsive design để có thể sử dụng trên cả máy tính và thiết bị di động.
+
+\subsubsection{Độ tin cậy}
+
+Hệ thống phải đảm bảo hoạt động ổn định với tỷ lệ uptime cao. Dữ liệu quan trọng như đơn hàng và vị trí GPS cần được sao lưu định kỳ. Khi có lỗi xảy ra, hệ thống hiển thị thông báo rõ ràng và không làm gián đoạn toàn bộ dịch vụ. Các thao tác quan trọng như gửi thông báo cần có cơ chế retry tự động khi gặp lỗi mạng.
+
+\subsubsection{Khả năng tương tác}
+
+Manager Services cần tích hợp mượt mà với các module khác trong hệ thống như Order Management, GPS Tracking và Notification Service. API tuân thủ chuẩn RESTful để dễ dàng tích hợp. Hệ thống hỗ trợ WebSocket để truyền dữ liệu real-time giữa server và client, đặc biệt cho chức năng theo dõi vị trí nhân viên.
