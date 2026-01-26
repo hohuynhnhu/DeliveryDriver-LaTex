@@ -19,3 +19,89 @@ Dựa trên yêu cầu hệ thống, các use case chính bao gồm:
     \item Tối ưu lộ trình giao hàng
     \item Theo dõi vị trí và thông báo
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.6\textheight]{frontmatter/image/nhanbuupham.jpg}
+    \caption{Use case Diagram tổng quát}
+    \label{fig:usecase-tongquat}
+\end{figure}
+Các Actor trong Hệ thống bao gồm:
+\begin{itemize}
+    \item Khách hàng (Customer):Người dùng cuối sử dụng hệ thống để tạo đơn giao nhận bưu phẩm. Khách hàng có thể thực hiện đặt hàng theo hai hình thức Drop-off (mang bưu phẩm đến bưu cục) hoặc Pick-up (yêu cầu nhân viên đến lấy hàng), theo dõi quá trình xử lý đơn và lựa chọn lịch giao hàng phù hợp.
+    \item Nhân viên (Staff):Bao gồm nhân viên bưu cục và tài xế giao hàng, sử dụng hệ thống để xử lý các đơn hàng do khách hàng tạo ra. Nhân viên bưu cục chịu trách nhiệm xác nhận đơn hàng và phân công tài xế, trong khi tài xế thực hiện việc lấy hàng và giao bưu phẩm theo lịch trình được thiết lập.
+    \item Admin:Người quản trị hệ thống, chịu trách nhiệm quản lý và điều phối hoạt động giao nhận. Admin thực hiện các chức năng như lên lịch giao hàng, thiết lập thời gian làm việc, xác định tuyến đường giao hàng và giám sát toàn bộ quá trình vận hành của hệ thống.
+    \item UserBase (Actor tổng quát):Là actor cha đại diện cho tất cả các loại người dùng trong hệ thống, bao gồm Khách hàng, Nhân viên và Admin. Actor này thể hiện các chức năng chung như truy cập hệ thống và tương tác với các chức năng cơ bản.
+\end{itemize}
+
+\subsection{Use case Diagram chi tiết về xử lý đăng nhập đăng ký}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/dangkivadangnhap.jpg}
+    \caption{Use case Diagram người dùng đăng nhập đăng ký}
+    \label{fig:intro}
+\end{figure}
+Dưới đây là các đặc tả use case của người dùng đăng nhập đăng ký:
+\begin{table}[H]
+\centering
+\caption{Đặc tả Use Case Đăng ký tài khoản}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Tên Use Case} & Đăng ký tài khoản \\ \hline
+\textbf{Mã Use Case} & UC\_Register \\ \hline
+\textbf{Actor} & UserBase (Khách hàng, Nhân viên, Admin) \\ \hline
+\textbf{Mô tả} & Cho phép người dùng tạo tài khoản mới để sử dụng hệ thống \\ \hline
+\textbf{Tiền điều kiện} & Người dùng chưa có tài khoản trong hệ thống \\ \hline
+\textbf{Hậu điều kiện} & Tài khoản mới được tạo và lưu vào cơ sở dữ liệu \\ \hline
+\textbf{Luồng chính} &
+\begin{itemize}
+  \item[1.] Người dùng chọn chức năng Đăng ký
+  \item[2.] Hệ thống hiển thị form đăng ký
+  \item[3.] Người dùng nhập thông tin cần thiết
+  \item[4.] Người dùng nhấn nút Đăng ký
+  \item[5.] Hệ thống kiểm tra tính hợp lệ của dữ liệu
+  \item[6.] Hệ thống tạo tài khoản và thông báo thành công
+\end{itemize}
+\\ \hline
+\textbf{Luồng phụ / Ngoại lệ} &
+\begin{itemize}
+  \item[4a.] Thông tin không hợp lệ → yêu cầu nhập lại
+  \item[4b.] Tên đăng nhập đã tồn tại → thông báo lỗi
+\end{itemize}
+\\ \hline
+\textbf{Yêu cầu đặc biệt} & Mật khẩu phải được mã hóa khi lưu trữ \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Đặc tả Use Case Đăng nhập}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Tên Use Case} & Đăng nhập \\ \hline
+\textbf{Mã Use Case} & UC\_Login \\ \hline
+\textbf{Actor} & UserBase (Khách hàng, Nhân viên, Admin) \\ \hline
+\textbf{Mô tả} & Cho phép người dùng truy cập vào hệ thống bằng tài khoản hợp lệ \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đã có tài khoản trong hệ thống \\ \hline
+\textbf{Hậu điều kiện} &
+Người dùng đăng nhập thành công và truy cập vào hệ thống \\ \hline
+\textbf{Luồng chính} &
+1. Người dùng chọn chức năng \textit{Đăng nhập} \newline
+2. Hệ thống hiển thị form đăng nhập \newline
+3. Người dùng nhập tên đăng nhập và mật khẩu \newline
+4. Người dùng nhấn nút \textit{Đăng nhập} \newline
+5. Hệ thống xác thực thông tin \newline
+6. Hệ thống cho phép truy cập hệ thống
+\\ \hline
+\textbf{Luồng ngoại lệ} &
+4a. Sai tên đăng nhập hoặc mật khẩu $\rightarrow$ Thông báo lỗi \newline
+4b. Tài khoản bị khóa $\rightarrow$ Từ chối đăng nhập
+\\ \hline
+\textbf{Yêu cầu đặc biệt} & 
+Giới hạn số lần đăng nhập sai để đảm bảo an toàn hệ thống \\ \hline
+\end{tabular}
+\end{table}
+
+
+
