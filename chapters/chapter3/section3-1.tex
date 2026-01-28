@@ -11,6 +11,25 @@ Hệ thống có các tác nhân chính bao gồm:
 \end{itemize}
 
 \subsection{Use Case tổng quát}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/hethong.jpg}
+    \caption{Use case Diagram tổng quát}
+    \label{fig:intro}
+\end{figure}
+\subsection{Actors của hệ thống}
+
+Các actor trong hệ thống giao nhận hàng bao gồm:
+
+\begin{itemize}
+    \item \textbf{Customer}: Người dùng cuối sử dụng ứng dụng để tạo đơn giao hàng, lựa chọn hình thức gửi hàng (gửi tại bưu cục hoặc yêu cầu lấy hàng), theo dõi hành trình đơn hàng và xem lịch sử các thông báo liên quan đến đơn giao.
+    
+    \item \textbf{Driver}: Nhân viên giao nhận trực tiếp thực hiện việc lấy hàng và giao hàng. Driver sử dụng hệ thống để xem lịch phân công, cập nhật trạng thái đơn hàng, chia sẻ vị trí theo thời gian thực, xác nhận đã lấy hàng, đã giao hàng và báo cáo các sự cố hoặc trường hợp giao hàng thất bại.
+    
+    \item \textbf{Admin}: Người quản trị hệ thống chịu trách nhiệm điều phối và giám sát toàn bộ hoạt động giao nhận. Admin thực hiện các chức năng như phân công đơn hàng cho tài xế, giám sát hoạt động của các driver, tối ưu lộ trình và xử lý các vấn đề phát sinh liên quan đến đơn hàng.
+    
+    \item \textbf{User}: Actor tổng quát đại diện cho các loại người dùng trong hệ thống. User thực hiện các chức năng chung như đăng ký tài khoản, đăng nhập hệ thống, quản lý hồ sơ cá nhân và quản lý sổ địa chỉ.
+\end{itemize}
 
 Dựa trên yêu cầu hệ thống, các use case chính bao gồm:
 \begin{itemize}
@@ -20,88 +39,487 @@ Dựa trên yêu cầu hệ thống, các use case chính bao gồm:
     \item Theo dõi vị trí và thông báo
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[height=0.6\textheight]{frontmatter/image/nhanbuupham.jpg}
-    \caption{Use case Diagram tổng quát}
-    \label{fig:usecase-tongquat}
-\end{figure}
-Các Actor trong Hệ thống bao gồm:
-\begin{itemize}
-    \item Khách hàng (Customer):Người dùng cuối sử dụng hệ thống để tạo đơn giao nhận bưu phẩm. Khách hàng có thể thực hiện đặt hàng theo hai hình thức Drop-off (mang bưu phẩm đến bưu cục) hoặc Pick-up (yêu cầu nhân viên đến lấy hàng), theo dõi quá trình xử lý đơn và lựa chọn lịch giao hàng phù hợp.
-    \item Nhân viên (Staff):Bao gồm nhân viên bưu cục và tài xế giao hàng, sử dụng hệ thống để xử lý các đơn hàng do khách hàng tạo ra. Nhân viên bưu cục chịu trách nhiệm xác nhận đơn hàng và phân công tài xế, trong khi tài xế thực hiện việc lấy hàng và giao bưu phẩm theo lịch trình được thiết lập.
-    \item Admin:Người quản trị hệ thống, chịu trách nhiệm quản lý và điều phối hoạt động giao nhận. Admin thực hiện các chức năng như lên lịch giao hàng, thiết lập thời gian làm việc, xác định tuyến đường giao hàng và giám sát toàn bộ quá trình vận hành của hệ thống.
-    \item UserBase (Actor tổng quát):Là actor cha đại diện cho tất cả các loại người dùng trong hệ thống, bao gồm Khách hàng, Nhân viên và Admin. Actor này thể hiện các chức năng chung như truy cập hệ thống và tương tác với các chức năng cơ bản.
-\end{itemize}
 
-\subsection{Use case Diagram chi tiết về xử lý đăng nhập đăng ký}
+
+\subsection{Use case Diagram chi tiết về xử lý đăng nhập đăng ký và hồ sơ}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.3\textheight]{frontmatter/image/dangkivadangnhap.jpg}
-    \caption{Use case Diagram người dùng đăng nhập đăng ký}
+    \includegraphics[height=0.4\textheight]{frontmatter/image/dangkidangnhap.jpg}
+    \caption{Use case Diagram người dùng đăng nhập đăng ký và hồ sơ}
     \label{fig:intro}
 \end{figure}
-Dưới đây là các đặc tả use case của người dùng đăng nhập đăng ký:
-\begin{table}[H]
-\centering
-\caption{Đặc tả Use Case Đăng ký tài khoản}
-\begin{tabular}{|p{4cm}|p{10cm}|}
-\hline
-\textbf{Tên Use Case} & Đăng ký tài khoản \\ \hline
-\textbf{Mã Use Case} & UC\_Register \\ \hline
-\textbf{Actor} & UserBase (Khách hàng, Nhân viên, Admin) \\ \hline
-\textbf{Mô tả} & Cho phép người dùng tạo tài khoản mới để sử dụng hệ thống \\ \hline
-\textbf{Tiền điều kiện} & Người dùng chưa có tài khoản trong hệ thống \\ \hline
-\textbf{Hậu điều kiện} & Tài khoản mới được tạo và lưu vào cơ sở dữ liệu \\ \hline
-\textbf{Luồng chính} &
-\begin{itemize}
-  \item[1.] Người dùng chọn chức năng Đăng ký
-  \item[2.] Hệ thống hiển thị form đăng ký
-  \item[3.] Người dùng nhập thông tin cần thiết
-  \item[4.] Người dùng nhấn nút Đăng ký
-  \item[5.] Hệ thống kiểm tra tính hợp lệ của dữ liệu
-  \item[6.] Hệ thống tạo tài khoản và thông báo thành công
-\end{itemize}
-\\ \hline
-\textbf{Luồng phụ / Ngoại lệ} &
-\begin{itemize}
-  \item[4a.] Thông tin không hợp lệ → yêu cầu nhập lại
-  \item[4b.] Tên đăng nhập đã tồn tại → thông báo lỗi
-\end{itemize}
-\\ \hline
-\textbf{Yêu cầu đặc biệt} & Mật khẩu phải được mã hóa khi lưu trữ \\ \hline
-\end{tabular}
-\end{table}
+Dưới đây là các đặc tả use case của người dùng đăng nhập đăng ký và hồ sơ:
 
 \begin{table}[H]
 \centering
-\caption{Đặc tả Use Case Đăng nhập}
+\caption{UC-01: Đăng nhập hệ thống}
+\renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
-\textbf{Tên Use Case} & Đăng nhập \\ \hline
-\textbf{Mã Use Case} & UC\_Login \\ \hline
-\textbf{Actor} & UserBase (Khách hàng, Nhân viên, Admin) \\ \hline
-\textbf{Mô tả} & Cho phép người dùng truy cập vào hệ thống bằng tài khoản hợp lệ \\ \hline
-\textbf{Tiền điều kiện} & Người dùng đã có tài khoản trong hệ thống \\ \hline
+\textbf{Use Case ID} & UC-01 \\ \hline
+\textbf{Tên Use Case} & Đăng nhập hệ thống \\ \hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Cho phép người dùng truy cập hệ thống bằng tài khoản đã đăng ký. Hệ thống xác thực, cấp quyền và chuyển hướng đến màn hình làm việc tương ứng. \\ \hline
+\textbf{Tiền điều kiện} & 
+1. Tài khoản đã được kích hoạt.\\
+& 2. Thiết bị có kết nối Internet. \\ \hline
+\textbf{Luồng chính} &
+1. Actor mở ứng dụng, chọn Đăng nhập.\\
+& 2. Nhập Email hoặc Số điện thoại và Mật khẩu.\\
+& 3. Nhấn nút "Đăng nhập".\\
+& 4. Hệ thống kiểm tra xác thực.\\
+& 5. Hệ thống lấy thông tin hồ sơ.\\
+& 6. Thông báo đăng nhập thành công và chuyển hướng vào trang chủ. \\ \hline
+\textbf{Luồng phụ} &
+2a. Đăng nhập Google: Chọn Google $\rightarrow$ Xác thực $\rightarrow$ Vào hệ thống.\\
+& 4a. Sai thông tin: Báo lỗi "Tài khoản hoặc mật khẩu không đúng".\\
+& 4b. Chưa kích hoạt: Yêu cầu kiểm tra email kích hoạt. \\ \hline
 \textbf{Hậu điều kiện} &
-Người dùng đăng nhập thành công và truy cập vào hệ thống \\ \hline
-\textbf{Luồng chính} &
-1. Người dùng chọn chức năng \textit{Đăng nhập} \newline
-2. Hệ thống hiển thị form đăng nhập \newline
-3. Người dùng nhập tên đăng nhập và mật khẩu \newline
-4. Người dùng nhấn nút \textit{Đăng nhập} \newline
-5. Hệ thống xác thực thông tin \newline
-6. Hệ thống cho phép truy cập hệ thống
-\\ \hline
-\textbf{Luồng ngoại lệ} &
-4a. Sai tên đăng nhập hoặc mật khẩu $\rightarrow$ Thông báo lỗi \newline
-4b. Tài khoản bị khóa $\rightarrow$ Từ chối đăng nhập
-\\ \hline
-\textbf{Yêu cầu đặc biệt} & 
-Giới hạn số lần đăng nhập sai để đảm bảo an toàn hệ thống \\ \hline
+Thành công: Người dùng truy cập được hệ thống và lưu phiên làm việc.\\
+& Thất bại: Vẫn ở màn hình đăng nhập. \\ \hline
 \end{tabular}
 \end{table}
 
+\begin{table}[H]
+\centering
+\caption{UC-02: Đăng ký tài khoản}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-02 \\ \hline
+\textbf{Actor} & Customer \\ \hline
+\textbf{Mô tả} & Người dùng mới tạo tài khoản để sử dụng dịch vụ. Hệ thống tự động tạo hồ sơ và gửi email xác thực. \\ \hline
+\textbf{Tiền điều kiện} & Email chưa từng được sử dụng trong hệ thống. \\ \hline
+\textbf{Luồng chính} &
+1. Chọn "Đăng ký".\\
+& 2. Nhập Họ tên, Email, Mật khẩu, Số điện thoại.\\
+& 3. Nhấn "Đăng ký".\\
+& 4. Hệ thống kiểm tra dữ liệu hợp lệ.\\
+& 5. Tạo tài khoản và hồ sơ người dùng.\\
+& 6. Gửi email xác thực.\\
+& 7. Thông báo kiểm tra email. \\ \hline
+\textbf{Luồng phụ} &
+4a. Email đã tồn tại: Báo lỗi và yêu cầu nhập email khác.\\
+& 4b. Mật khẩu yếu: Yêu cầu tối thiểu 6 ký tự. \\ \hline
+\textbf{Hậu điều kiện} & Tài khoản được tạo ở trạng thái chờ xác thực. \\ \hline
+\end{tabular}
+\end{table}
 
+\begin{table}[H]
+\centering
+\caption{UC-03: Quên mật khẩu}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Hỗ trợ người dùng đặt lại mật khẩu mới thông qua email. \\ \hline
+\textbf{Tiền điều kiện} & Tài khoản đã tồn tại trong hệ thống. \\ \hline
+\textbf{Luồng chính} &
+1. Chọn "Quên mật khẩu".\\
+& 2. Nhập Email đã đăng ký.\\
+& 3. Nhấn "Gửi yêu cầu".\\
+& 4. Hệ thống gửi link đặt lại mật khẩu.\\
+& 5. Actor mở email và truy cập link.\\
+& 6. Nhập mật khẩu mới và xác nhận.\\
+& 7. Hệ thống cập nhật và thông báo thành công. \\ \hline
+\textbf{Luồng phụ} &
+2a. Sai định dạng email: Yêu cầu nhập lại.\\
+& 5a. Link hết hạn: Yêu cầu gửi lại yêu cầu mới. \\ \hline
+\textbf{Hậu điều kiện} & Mật khẩu mới có hiệu lực, mật khẩu cũ bị hủy. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-04: Xem hồ sơ cá nhân}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-04 \\ \hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Người dùng xem lại thông tin cá nhân của mình trên hệ thống. \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đã đăng nhập thành công. \\ \hline
+\textbf{Luồng chính} &
+1. Chọn menu "Tài khoản" hoặc nhấn vào ảnh đại diện.\\
+& 2. Hệ thống tải dữ liệu hồ sơ từ máy chủ.\\
+& 3. Hiển thị thông tin: ảnh đại diện, họ tên, số điện thoại, email, địa chỉ.\\
+& 4. Hiển thị thêm trạng thái hoạt động nếu actor là Driver. \\ \hline
+\textbf{Luồng phụ} &
+2a. Lỗi mạng: Thông báo lỗi kết nối và hiển thị nút "Thử lại". \\ \hline
+\textbf{Hậu điều kiện} & Thông tin cá nhân được hiển thị đầy đủ cho người dùng. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-05: Cập nhật hồ sơ}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-05 \\ \hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Cho phép người dùng chỉnh sửa thông tin cá nhân và thay đổi ảnh đại diện. \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đang ở màn hình xem hồ sơ cá nhân. \\ \hline
+\textbf{Luồng chính} &
+1. Nhấn nút "Chỉnh sửa".\\
+& 2. Thay đổi các thông tin văn bản.\\
+& 3. Chọn ảnh đại diện mới.\\
+& 4. Nhấn "Lưu thay đổi".\\
+& 5. Hệ thống tải ảnh và cập nhật dữ liệu.\\
+& 6. Thông báo "Cập nhật thành công". \\ \hline
+\textbf{Luồng phụ} &
+3a. Ảnh không hợp lệ: Báo lỗi kích thước hoặc định dạng.\\
+& 5a. Lỗi lưu dữ liệu: Thông báo lỗi hệ thống và yêu cầu thử lại. \\ \hline
+\textbf{Hậu điều kiện} & Thông tin mới được lưu và hiển thị ngay lập tức. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-06: Đổi mật khẩu}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-06 \\ \hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Cho phép người dùng chủ động thay đổi mật khẩu nhằm tăng cường bảo mật. \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đang đăng nhập hệ thống. \\ \hline
+\textbf{Luồng chính} &
+1. Vào Cài đặt $\rightarrow$ Chọn "Đổi mật khẩu".\\
+& 2. Nhập mật khẩu cũ, mật khẩu mới và xác nhận mật khẩu mới.\\
+& 3. Nhấn "Xác nhận".\\
+& 4. Hệ thống kiểm tra mật khẩu cũ.\\
+& 5. Lưu mật khẩu mới và thông báo thành công. \\ \hline
+\textbf{Luồng phụ} &
+4a. Sai mật khẩu cũ: Báo lỗi và yêu cầu nhập lại.\\
+& 2a. Mật khẩu xác nhận không khớp: Báo lỗi nhập liệu. \\ \hline
+\textbf{Hậu điều kiện} & Mật khẩu cũ không còn hiệu lực, mật khẩu mới được áp dụng. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-07: Đăng xuất}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-07 \\ \hline
+\textbf{Actor} & Customer, Driver, Admin \\ \hline
+\textbf{Mô tả} & Cho phép người dùng đăng xuất khỏi hệ thống và kết thúc phiên làm việc. \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đang đăng nhập hệ thống. \\ \hline
+\textbf{Luồng chính} &
+1. Chọn "Đăng xuất" từ menu.\\
+& 2. Hệ thống yêu cầu xác nhận đăng xuất.\\
+& 3. Người dùng chọn "Có".\\
+& 4. Hệ thống xóa phiên đăng nhập trên thiết bị.\\
+& 5. Chuyển về màn hình đăng nhập. \\ \hline
+\textbf{Luồng phụ} &
+3a. Chọn "Không": Hủy thao tác đăng xuất và quay lại hệ thống. \\ \hline
+\textbf{Hậu điều kiện} & Ứng dụng trở về trạng thái chưa đăng nhập. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Use case Diagram chi tiết đặt hàng và theo dõi}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/dathangtheodoi.jpg}
+    \caption{Use case Diagram chi tiết đặt hàng và theo dõi}
+    \label{fig:intro}
+\end{figure}
+Dưới đây là các đặc tả use case của chi tiết đặt hàng và theo dõi:
+
+\begin{table}[H]
+\centering
+\caption{UC-01: Tạo đơn hàng mới}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-08 \\ \hline
+\textbf{Actor} & Customer \\ \hline
+\textbf{Mô tả} & Người dùng tạo yêu cầu giao hàng mới. Người dùng có thể chọn hình thức bưu tá đến lấy hàng tại nhà hoặc tự mang hàng ra bưu cục. \\ \hline
+\textbf{Tiền điều kiện} & Tài khoản đã đăng nhập vào hệ thống. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-02: Quản lý đơn hàng đã tạo}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-09 \\ \hline
+\textbf{Actor} & Customer \\ \hline
+\textbf{Mô tả} & Người dùng xem danh sách các đơn hàng đã tạo, lọc theo trạng thái và xem chi tiết từng đơn hàng. Cho phép hủy đơn nếu đơn chưa được xử lý. \\ \hline
+\textbf{Tiền điều kiện} & Người dùng đã đăng nhập vào hệ thống. \\ \hline
+\textbf{Luồng chính} &
+1. Actor truy cập menu "Đơn hàng của tôi".\\
+& 2. Hệ thống hiển thị danh sách đơn hàng theo thời gian gần nhất.\\
+& 3. Actor sử dụng bộ lọc để tìm đơn theo trạng thái xử lý.\\
+& 4. Actor chọn một đơn hàng cụ thể để xem chi tiết.\\
+& 5. Hệ thống hiển thị thông tin người gửi, người nhận, hàng hóa và lịch sử trạng thái. \\ \hline
+\textbf{Luồng phụ} &
+4a. Hủy đơn hàng: Nếu đơn ở trạng thái "Chờ xử lý", Actor chọn "Hủy đơn".\\
+& \quad Hệ thống yêu cầu nhập lý do hủy và cập nhật trạng thái thành "Đã hủy".\\
+& 2a. Không có dữ liệu: Hệ thống thông báo chưa có đơn hàng nào. \\ \hline
+\textbf{Hậu điều kiện} & Người dùng nắm được tình trạng và chi tiết các đơn hàng của mình. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-03: Tra cứu hành trình đơn hàng}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-10 \\ \hline
+\textbf{Actor} & Customer \\ \hline
+\textbf{Mô tả} & Cho phép người dùng theo dõi vị trí và trạng thái hiện tại của đơn hàng thông qua mã vận đơn. \\ \hline
+\textbf{Tiền điều kiện} & Có mã vận đơn hợp lệ. \\ \hline
+\textbf{Luồng chính} &
+1. Actor truy cập trang "Tra cứu đơn hàng".\\
+& 2. Nhập mã vận đơn vào ô tìm kiếm.\\
+& 3. Nhấn nút "Tra cứu".\\
+& 4. Hệ thống truy vấn dữ liệu từ lịch sử giao hàng.\\
+& 5. Hiển thị timeline hành trình gồm thời gian tạo, lấy hàng, vị trí hiện tại và trạng thái xử lý.\\
+& 6. Kết thúc tra cứu. \\ \hline
+\textbf{Luồng phụ} &
+2a. Sai mã vận đơn: Thông báo không tìm thấy thông tin đơn hàng.\\
+& 4a. Đơn hàng chưa có cập nhật: Hiển thị trạng thái vừa tạo, chưa có hành trình di chuyển. \\ \hline
+\textbf{Hậu điều kiện} & Thông tin hành trình đơn hàng được hiển thị cho người dùng. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Use case Diagram chi tiết lấy hàng và giao hàng của tài xế}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/layhanggiaohang.jpg}
+    \caption{Use case Diagram quản lý tài khoản và xác thực}
+    \label{fig:intro}
+\end{figure}
+Dưới đây là các đặc tả use case lấy hàng và giao hàng của tài xế:
+
+\begin{table}[H]
+\centering
+\caption{UC-01: Cập nhật trạng thái hoạt động}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-11 \\ \hline
+\textbf{Actor} & Driver \\ \hline
+\textbf{Mô tả} & Tài xế chủ động thay đổi trạng thái làm việc để hệ thống xác định khả năng tiếp nhận đơn hàng mới. \\ \hline
+\textbf{Tiền điều kiện} & Tài xế đã đăng nhập vào ứng dụng. \\ \hline
+\textbf{Luồng chính} &
+1. Actor truy cập màn hình trạng thái làm việc.\\
+& 2. Hệ thống hiển thị trạng thái hiện tại.\\
+& 3. Actor chọn trạng thái mới (Rảnh, Bận, Hết ca làm, Không hoạt động).\\
+& 4. Hệ thống cập nhật trạng thái lên máy chủ.\\
+& 5. Hệ thống điều chỉnh phân phối đơn hàng theo trạng thái mới.\\
+& 6. Thông báo cập nhật thành công. \\ \hline
+\textbf{Luồng phụ} &
+3a. Chọn trạng thái Hết ca làm: Hệ thống kiểm tra đơn chưa hoàn thành và yêu cầu xử lý trước khi nghỉ.\\
+& 4a. Mất kết nối mạng: Báo lỗi và giữ nguyên trạng thái cũ. \\ \hline
+\textbf{Hậu điều kiện} & Trạng thái làm việc của tài xế được cập nhật trên toàn hệ thống. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-02: Xem lịch trình phân công}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-12 \\ \hline
+\textbf{Actor} & Driver \\ \hline
+\textbf{Mô tả} & Tài xế xem danh sách các điểm lấy hàng và giao hàng được phân công theo lộ trình tối ưu. \\ \hline
+\textbf{Tiền điều kiện} & Tài xế đang ở trạng thái sẵn sàng nhận việc. \\ \hline
+\textbf{Luồng chính} &
+1. Actor chọn menu "Lịch trình".\\
+& 2. Hệ thống tải các chuyến xe được gán.\\
+& 3. Hiển thị danh sách điểm dừng gồm địa chỉ, loại tác vụ và thời gian dự kiến.\\
+& 4. Actor chọn một điểm dừng để xem chi tiết người liên hệ và hàng hóa.\\
+& 5. Actor chuyển sang chế độ xem bản đồ để xem tuyến đường.\\
+& 6. Kết thúc xem lịch trình. \\ \hline
+\textbf{Luồng phụ} &
+2a. Chưa có lịch phân công: Hiển thị thông báo chưa có nhiệm vụ mới.\\
+& 3a. Lịch trình thay đổi từ Admin: Tự động làm mới và gửi thông báo cập nhật. \\ \hline
+\textbf{Hậu điều kiện} & Tài xế nắm được lộ trình và thứ tự công việc cần thực hiện. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-03: Thực hiện lấy hàng}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-13 \\ \hline
+\textbf{Actor} & Driver \\ \hline
+\textbf{Mô tả} & Tài xế đến địa chỉ người gửi để nhận hàng và xác nhận việc lấy hàng trên hệ thống. \\ \hline
+\textbf{Tiền điều kiện} &
+1. Tài xế đã nhận lịch trình.\\
+& 2. Tài xế đã đến địa chỉ người gửi. \\ \hline
+\textbf{Luồng chính} &
+1. Actor chọn đơn hàng cần lấy trong lịch trình.\\
+& 2. Actor nhấn "Bắt đầu lấy hàng".\\
+& 3. Kiểm tra hàng hóa thực tế so với thông tin hệ thống.\\
+& 4. Quét mã đơn hàng hoặc nhập mã xác nhận.\\
+& 5. Nhấn "Xác nhận lấy hàng thành công".\\
+& 6. Hệ thống cập nhật trạng thái "Đã lấy hàng".\\
+& 7. Hệ thống đánh dấu nhiệm vụ đã hoàn thành. \\ \hline
+\textbf{Luồng phụ} &
+3a. Hàng hóa không hợp lệ: Từ chối nhận hàng và cập nhật lý do.\\
+& 4a. Không liên lạc được người gửi: Ghi nhận trạng thái và xếp lịch lại. \\ \hline
+\textbf{Hậu điều kiện} & Hàng hóa được chuyển sang trách nhiệm của tài xế. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{UC-04: Thực hiện giao hàng}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-14 \\ \hline
+\textbf{Actor} & Driver \\ \hline
+\textbf{Mô tả} & Tài xế giao hàng cho người nhận và ghi nhận bằng chứng giao hàng trên hệ thống. \\ \hline
+\textbf{Tiền điều kiện} &
+1. Tài xế đang giữ hàng hóa cần giao.\\
+& 2. Tài xế đã đến địa chỉ người nhận. \\ \hline
+\textbf{Luồng chính} &
+1. Actor chọn đơn hàng cần giao.\\
+& 2. Liên hệ người nhận để nhận hàng.\\
+& 3. Giao kiện hàng cho người nhận.\\
+& 4. Chụp ảnh bằng chứng hoặc yêu cầu ký nhận.\\
+& 5. Nhấn "Hoàn tất giao hàng".\\
+& 6. Hệ thống cập nhật trạng thái "Giao hàng thành công".\\
+& 7. Đơn hàng được đóng lại. \\ \hline
+\textbf{Luồng phụ} &
+2a. Người nhận vắng nhà: Hẹn lại hoặc cập nhật giao không thành công.\\
+& 3a. Người nhận từ chối: Ghi nhận lý do và cập nhật trạng thái chuyển hoàn. \\ \hline
+\textbf{Hậu điều kiện} & Đơn hàng hoàn tất quy trình vận chuyển. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Use case Diagram quản trị điều phối}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.2\textheight]{frontmatter/image/quantridieuphoi.jpg}
+    \caption{Use case Diagram quản trị điều phối}
+    \label{fig:intro}
+\end{figure}
+Dưới đây là các đặc tả use case của quản trị điều phối:
+
+\subsection{UC-01: Phân công đơn hàng}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Phân công đơn hàng \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Người quản trị thực hiện việc gán đơn hàng cho tài xế phù hợp dựa trên tuyến đường và tải trọng công việc. Việc phân công có thể được thực hiện thủ công hoặc duyệt phân công tự động do hệ thống đề xuất. \\ \hline
+\textbf{Tiền điều kiện} & 
+\begin{itemize}
+    \item Có đơn hàng ở trạng thái chờ xử lý.
+    \item Có tài xế đang hoạt động và sẵn sàng nhận việc.
+\end{itemize} \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor truy cập danh sách các đơn hàng chưa được phân công.
+    \item Actor chọn một hoặc nhiều đơn hàng cùng khu vực.
+    \item Hệ thống đề xuất danh sách tài xế phù hợp gần khu vực đó nhất.
+    \item Actor chọn tài xế cụ thể để gán đơn.
+    \item Hệ thống cập nhật trạng thái đơn hàng sang đã phân công.
+    \item Hệ thống thêm đơn hàng vào lịch trình làm việc của tài xế.
+    \item Hệ thống gửi thông báo nhiệm vụ mới đến ứng dụng của tài xế.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{3a. Không có tài xế phù hợp:}
+\begin{itemize}
+    \item Hệ thống cảnh báo tất cả tài xế đều bận hoặc ở quá xa.
+    \item Actor quyết định chờ đợi hoặc gán cho tài xế ở khu vực lân cận.
+\end{itemize}
+\textbf{4a. Tài xế quá tải:}
+\begin{itemize}
+    \item Hệ thống cảnh báo tài xế đã nhận quá số lượng đơn cho phép trong ca làm.
+    \item Actor xác nhận tiếp tục gán đè hoặc chọn tài xế khác.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Đơn hàng được chuyển sang trách nhiệm của tài xế và xuất hiện trong lịch trình làm việc của họ. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{UC-02: Quan sát các tài xế}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Quan sát các tài xế \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Người quản trị theo dõi vị trí thời gian thực, trạng thái hoạt động và tiến độ công việc của tất cả tài xế trên bản đồ số để điều phối vận hành hiệu quả. \\ \hline
+\textbf{Tiền điều kiện} & Admin đã đăng nhập hệ thống. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor truy cập màn hình Bản đồ điều phối.
+    \item Hệ thống hiển thị vị trí hiện tại của tất cả tài xế trên bản đồ.
+    \item Actor sử dụng bộ lọc để xem theo trạng thái: đang bận, đang rảnh hoặc ngoại tuyến.
+    \item Actor chọn một tài xế cụ thể.
+    \item Hệ thống hiển thị thông tin chi tiết gồm họ tên, số điện thoại, đơn hàng đang thực hiện và lộ trình dự kiến.
+    \item Actor theo dõi di chuyển của tài xế theo thời gian thực.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{2a. Tài xế mất tín hiệu GPS:}
+\begin{itemize}
+    \item Hệ thống hiển thị vị trí cuối cùng được ghi nhận.
+    \item Hệ thống cảnh báo mất kết nối.
+\end{itemize}
+\textbf{5a. Tài xế dừng quá lâu tại một điểm:}
+\begin{itemize}
+    \item Hệ thống hiển thị cảnh báo trạng thái bất thường để Actor kiểm tra.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Người quản trị nắm bắt được tình hình nhân sự và vận hành hiện tại của hệ thống. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{UC-03: Xử lý đơn hàng}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Xử lý đơn hàng \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Người quản trị quản lý vòng đời đơn hàng và can thiệp xử lý các sự cố phát sinh như khách hủy đơn, giao hàng thất bại hoặc thay đổi thông tin vận chuyển. \\ \hline
+\textbf{Tiền điều kiện} & Đơn hàng đã tồn tại trên hệ thống. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor tìm kiếm đơn hàng theo mã vận đơn hoặc số điện thoại.
+    \item Hệ thống hiển thị chi tiết trạng thái và lịch sử xử lý của đơn hàng.
+    \item Actor chọn hành động xử lý phù hợp (hủy đơn, cập nhật thông tin, điều phối lại).
+    \item Hệ thống yêu cầu nhập lý do thay đổi hoặc ghi chú nội bộ.
+    \item Actor xác nhận hành động.
+    \item Hệ thống cập nhật trạng thái mới cho đơn hàng.
+    \item Hệ thống gửi thông báo cập nhật đến các bên liên quan.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{3a. Xử lý đơn giao thất bại:}
+\begin{itemize}
+    \item Tài xế báo cáo giao không thành công.
+    \item Actor kiểm tra lý do và quyết định giao lại hoặc chuyển hoàn về kho.
+\end{itemize}
+\textbf{3b. Khách hàng yêu cầu đổi địa chỉ:}
+\begin{itemize}
+    \item Actor cập nhật địa chỉ mới.
+    \item Nếu địa chỉ mới khác khu vực, hệ thống yêu cầu gán lại tài xế.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Vấn đề của đơn hàng được giải quyết và trạng thái hệ thống được đồng bộ. \\ \hline
+\end{tabular}
+\end{table}
 

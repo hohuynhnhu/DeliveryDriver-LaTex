@@ -1,18 +1,94 @@
-\section{Thiết kế kiến trúc hệ thống}
+\section{Activity Diagram}
 
-\subsection{Tổng quan kiến trúc}
+\subsection{Activity Diagram xử lý đăng ký}
 
-Hệ thống được thiết kế theo kiến trúc microservice nhằm đảm bảo tính mở rộng và khả năng bảo trì. 
-Mỗi dịch vụ đảm nhận một chức năng riêng biệt và giao tiếp với nhau thông qua API.
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/xulidangki.jpg}
+    \caption{Activity Diagram xử lý đăng ký}
+    \label{fig:intro}
+\end{figure}
+\textbf{Mục đích}
 
-\subsection{Các thành phần chính}
+Activity Diagram \textbf{Đăng ký tài khoản} được xây dựng nhằm mô tả chi tiết
+luồng xử lý nghiệp vụ đăng ký tài khoản của người dùng trong hệ thống.
+Sơ đồ thể hiện rõ sự tương tác giữa \textbf{Người dùng} và \textbf{Hệ thống}
+thông qua các bước nhập liệu, kiểm tra tính hợp lệ của dữ liệu, xác minh
+tính duy nhất của email, xử lý lưu trữ thông tin và gửi email xác thực.
 
-Hệ thống bao gồm các thành phần:
+Thông qua Activity Diagram, nhóm phát triển có thể:
 \begin{itemize}
-    \item Client (Web, Mobile App)
-    \item API Gateway
-    \item Authentication \& Profile Service
-    \item Order Management Service
-    \item Route Optimization Service
-    \item Notification Service
+    \item Hiểu rõ trình tự các bước xử lý khi người dùng đăng ký tài khoản.
+    \item Xác định các nhánh rẽ (decision) trong quá trình kiểm tra dữ liệu và email.
+    \item Hỗ trợ thiết kế, cài đặt và kiểm thử chức năng đăng ký tài khoản một cách chính xác.
 \end{itemize}
+
+\textbf{Luồng hoạt động}
+
+Luồng hoạt động của chức năng đăng ký tài khoản được mô tả như sau:
+
+\begin{enumerate}
+    \item Người dùng bắt đầu quá trình đăng ký và nhập các thông tin cần thiết,
+    bao gồm: họ tên, email, số điện thoại và mật khẩu.
+    
+    \item Hệ thống tiếp nhận thông tin và thực hiện kiểm tra tính hợp lệ của dữ liệu:
+    \begin{itemize}
+        \item Nếu dữ liệu không hợp lệ, hệ thống hiển thị thông báo lỗi nhập liệu
+        và kết thúc luồng xử lý.
+        \item Nếu dữ liệu hợp lệ, hệ thống tiếp tục xử lý bước tiếp theo.
+    \end{itemize}
+
+    \item Hệ thống kiểm tra email đã tồn tại trong hệ thống hay chưa:
+    \begin{itemize}
+        \item Nếu email đã tồn tại, hệ thống thông báo \textit{``Email đã được sử dụng''}
+        và yêu cầu người dùng nhập email khác, sau đó kết thúc luồng.
+        \item Nếu email chưa tồn tại, hệ thống tiếp tục xử lý đăng ký.
+    \end{itemize}
+
+    \item Hệ thống tiến hành mã hóa mật khẩu của người dùng nhằm đảm bảo an toàn thông tin.
+
+    \item Thông tin người dùng được lưu vào cơ sở dữ liệu và hệ thống tạo tài khoản
+    cùng hồ sơ người dùng tương ứng.
+
+    \item Hệ thống gửi email xác thực đến địa chỉ email đã đăng ký.
+
+    \item Hệ thống hiển thị thông báo yêu cầu người dùng kiểm tra email để xác thực tài khoản.
+
+    \item Sau khi hoàn tất quá trình đăng ký, người dùng được chuyển hướng về trang chủ
+    và luồng hoạt động kết thúc.
+\end{enumerate}
+
+
+\subsection{Activity Diagram xử lý đăng nhập}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/xulidangnhap.jpg}
+    \caption{Activity Diagram xử lý đăng nhập}
+    \label{fig:intro}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Đăng nhập hệ thống'' được xây dựng nhằm mô tả trình tự các bước tương tác giữa người dùng và hệ thống trong quá trình đăng nhập.
+Sơ đồ giúp làm rõ cách hệ thống tiếp nhận thông tin đăng nhập, kiểm tra tính hợp lệ, xác thực trạng thái tài khoản và xử lý các trường hợp đăng nhập thành công hoặc thất bại.
+Qua đó, sơ đồ hỗ trợ việc phân tích yêu cầu và thiết kế chức năng đăng nhập một cách rõ ràng và chính xác.
+
+\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng đăng nhập hệ thống được mô tả như sau:
+
+\begin{enumerate}
+    \item Người dùng nhập Email và mật khẩu vào hệ thống.
+    \item Người dùng nhấn nút \textbf{``Đăng nhập''}.
+    \item Hệ thống kiểm tra định dạng và tính hợp lệ của thông tin đăng nhập.
+    \item Hệ thống xác thực thông tin tài khoản và kiểm tra trạng thái kích hoạt của tài khoản.
+    \item Nếu tài khoản hợp lệ và đã được kích hoạt:
+    \begin{itemize}
+        \item Hệ thống lấy thông tin hồ sơ người dùng.
+        \item Lưu thông tin phiên đăng nhập (session) vào cơ sở dữ liệu.
+        \item Chuyển người dùng đến trang chủ của hệ thống.
+    \end{itemize}
+    \item Kết thúc quá trình đăng nhập.
+\end{enumerate}
+
