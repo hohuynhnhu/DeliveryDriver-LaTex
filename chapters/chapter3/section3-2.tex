@@ -23,7 +23,7 @@ Thông qua Activity Diagram, nhóm phát triển có thể:
     \item Hỗ trợ thiết kế, cài đặt và kiểm thử chức năng đăng ký tài khoản một cách chính xác.
 \end{itemize}
 
-\textbf{Luồng hoạt động}
+\noindent\textbf{Luồng hoạt động}
 
 Luồng hoạt động của chức năng đăng ký tài khoản được mô tả như sau:
 
@@ -74,7 +74,7 @@ Activity Diagram ``Đăng nhập hệ thống'' được xây dựng nhằm mô 
 Sơ đồ giúp làm rõ cách hệ thống tiếp nhận thông tin đăng nhập, kiểm tra tính hợp lệ, xác thực trạng thái tài khoản và xử lý các trường hợp đăng nhập thành công hoặc thất bại.
 Qua đó, sơ đồ hỗ trợ việc phân tích yêu cầu và thiết kế chức năng đăng nhập một cách rõ ràng và chính xác.
 
-\textbf{Luồng hoạt động chính}
+\noindent\textbf{Luồng hoạt động chính}
 
 Luồng hoạt động chính của chức năng đăng nhập hệ thống được mô tả như sau:
 
@@ -92,3 +92,361 @@ Luồng hoạt động chính của chức năng đăng nhập hệ thống đư
     \item Kết thúc quá trình đăng nhập.
 \end{enumerate}
 
+\subsection{Activity Diagram tạo đơn hàng mới}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Taodonhangmoiactivity.jpg}
+    \caption{Activity Diagram tạo đơn hàng mới}
+    \label{fig:intro}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Tạo đơn hàng mới'' được xây dựng nhằm mô tả trình tự các bước tương tác giữa người dùng và hệ thống trong quá trình khởi tạo một yêu cầu vận chuyển.
+Sơ đồ giúp làm rõ cách hệ thống tiếp nhận thông tin người gửi, người nhận và hàng hóa, kiểm tra tính hợp lệ của dữ liệu, xử lý các tùy chọn phương thức lấy hàng (tại nhà hoặc bưu cục) và quy trình lưu trữ đơn hàng.
+Qua đó, sơ đồ hỗ trợ việc phân tích yêu cầu và thiết kế chức năng tạo đơn một cách minh bạch và chặt chẽ.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng tạo đơn hàng mới được mô tả như sau:
+
+\begin{enumerate}
+    \item Người dùng chọn chức năng \textbf{``Tạo đơn hàng''} từ giao diện chính.
+    \item Người dùng lần lượt nhập thông tin người gửi, người nhận và chi tiết hàng hóa (tên, khối lượng, kích thước).
+    \item Hệ thống kiểm tra định dạng và tính hợp lệ của thông tin đơn hàng (nếu không hợp lệ sẽ hiển thị thông báo lỗi).
+    \item Nếu thông tin hợp lệ, người dùng lựa chọn phương thức lấy hàng (xác nhận thời gian nếu lấy tại nhà hoặc chọn bưu cục nếu gửi trực tiếp).
+    \item Người dùng xem lại tổng quan thông tin và nhấn nút \textbf{``Tạo đơn''}.
+    \item Hệ thống thực hiện xử lý nghiệp vụ phía sau:
+    \begin{itemize}
+        \item Lưu thông tin đơn hàng vào cơ sở dữ liệu.
+        \item Tạo mã vận đơn (Tracking Code) duy nhất cho đơn hàng.
+        \item Hiển thị thông báo tạo đơn thành công cho người dùng.
+    \end{itemize}
+    \item Kết thúc quá trình tạo đơn hàng.
+\end{enumerate}
+
+
+
+
+
+
+\subsection{Activity Diagram quản lý đơn hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Quanlydonhangactivity.jpg}
+    \caption{Activity Diagram quản lý đơn hàng}
+    \label{fig:quanlydonhang}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Quản lý đơn hàng'' được xây dựng nhằm mô tả các tương tác của người dùng khi truy cập vào lịch sử đơn hàng của mình.
+Sơ đồ làm rõ quy trình hệ thống truy vấn và hiển thị danh sách đơn hàng, xem chi tiết từng đơn hàng cụ thể, đồng thời quy định logic nghiệp vụ quan trọng: chỉ cho phép hủy đơn hàng khi trạng thái đơn là ``Chờ xử lý''.
+Qua đó, sơ đồ giúp xác định rõ các điều kiện rẽ nhánh và hành vi cho phép của người dùng đối với các đơn hàng đã tạo.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng quản lý đơn hàng được mô tả như sau:
+
+\begin{enumerate}
+    \item Người dùng truy cập vào mục \textbf{``Đơn hàng''} trên giao diện hệ thống.
+    \item Hệ thống thực hiện truy vấn danh sách đơn hàng từ cơ sở dữ liệu.
+    \item Hệ thống kiểm tra kết quả truy vấn:
+    \begin{itemize}
+        \item Nếu danh sách trống: Hiển thị thông báo ``Chưa có đơn hàng nào'' và kết thúc quy trình.
+        \item Nếu có dữ liệu: Hiển thị danh sách các đơn hàng lên màn hình.
+    \end{itemize}
+    \item Người dùng chọn một đơn hàng cụ thể từ danh sách để xem.
+    \item Hệ thống hiển thị đầy đủ thông tin chi tiết của đơn hàng được chọn.
+    \item Hệ thống kiểm tra trạng thái hiện tại của đơn hàng:
+    \begin{itemize}
+        \item \textbf{Nếu không phải trạng thái ``Chờ xử lý'':} Người dùng chỉ xem thông tin đơn hàng và quy trình kết thúc (không được phép hủy).
+        \item \textbf{Nếu đang ở trạng thái ``Chờ xử lý'':} Hệ thống cho phép người dùng chọn chức năng \textbf{``Hủy đơn''}.
+    \end{itemize}
+    \item Trong trường hợp hủy đơn, người dùng nhập lý do hủy vào biểu mẫu.
+    \item Hệ thống xử lý yêu cầu, cập nhật trạng thái và hiển thị thông báo hủy đơn thành công.
+    \item Kết thúc quá trình quản lý đơn hàng.
+\end{enumerate}
+
+\subsection{Activity Diagram phân công đơn hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Phancongdonhangactivity.jpg}
+    \caption{Activity Diagram phân công đơn hàng}
+    \label{fig:phancongdonhang}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Phân công đơn hàng'' được xây dựng nhằm mô tả quy trình nghiệp vụ khi Quản trị viên (Admin) thực hiện điều phối đơn hàng cho tài xế.
+Sơ đồ làm rõ logic hệ thống trong việc tìm kiếm tài xế phù hợp, cơ chế kiểm tra tải trọng công việc (workload) để tránh quá tải, và các quy tắc xử lý ngoại lệ như gán đè (Force Assign) hoặc xử lý khi không tìm thấy tài xế.
+Qua đó, sơ đồ giúp đảm bảo quy trình giao việc diễn ra minh bạch và tối ưu hóa hiệu suất vận hành.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng phân công đơn hàng được mô tả như sau:
+
+\begin{enumerate}
+    \item Admin truy cập danh sách các đơn hàng chưa được phân công.
+    \item Admin chọn một hoặc nhiều đơn hàng (thường trong cùng một khu vực) để tiến hành gán.
+    \item Hệ thống tự động tìm kiếm và đề xuất danh sách tài xế phù hợp dựa trên vị trí và trạng thái.
+    \item Hệ thống kiểm tra kết quả tìm kiếm:
+    \begin{itemize}
+        \item \textbf{Nếu không có tài xế phù hợp:} Hệ thống cảnh báo ``Tất cả tài xế đều bận hoặc ở quá xa''. Admin có thể quyết định ``Chờ đợi'' (kết thúc quy trình) hoặc ``Gán cho tài xế lân cận'' (tiếp tục quy trình).
+        \item \textbf{Nếu có tài xế phù hợp:} Tiếp tục sang bước chọn tài xế.
+    \end{itemize}
+    \item Admin chọn một tài xế cụ thể từ danh sách để gán đơn.
+    \item Hệ thống kiểm tra tải trọng công việc hiện tại của tài xế đó:
+    \begin{itemize}
+        \item \textbf{Nếu tài xế quá tải:} Hệ thống hiển thị cảnh báo ``Đã nhận quá số lượng đơn cho phép''. Admin cần xác nhận: chọn ``Gán đè'' (Force Assign) để tiếp tục hoặc ``Chọn người khác'' để quay lại bước chọn tài xế.
+        \item \textbf{Nếu tải trọng bình thường:} Quy trình tiếp tục sang bước cập nhật.
+    \end{itemize}
+    \item Hệ thống cập nhật trạng thái đơn hàng thành ``Đã phân công''.
+    \item Hệ thống thêm đơn hàng vào lịch trình làm việc của tài xế.
+    \item Hệ thống gửi thông báo nhiệm vụ mới đến ứng dụng của tài xế.
+    \item Kết thúc quá trình phân công đơn hàng.
+\end{enumerate}
+
+
+\subsection{Activity Diagram theo dõi tài xế}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Theodoitaixeactivity.jpg}
+    \caption{Activity Diagram theo dõi tài xế}
+    \label{fig:theodoitaixe}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Theo dõi tài xế'' được xây dựng nhằm mô tả quy trình Quản trị viên (Admin) giám sát hoạt động của đội ngũ giao hàng trên bản đồ điều phối.
+Sơ đồ làm rõ cơ chế hệ thống xử lý tín hiệu GPS (ổn định hoặc mất kết nối), các thao tác lọc trạng thái tài xế, và logic cảnh báo tự động khi phát hiện các dấu hiệu bất thường như dừng đỗ quá lâu.
+Qua đó, sơ đồ giúp đảm bảo khả năng kiểm soát vận hành theo thời gian thực và xử lý kịp thời các sự cố trên đường.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng theo dõi tài xế được mô tả như sau:
+
+\begin{enumerate}
+    \item Admin truy cập vào màn hình \textbf{``Bản đồ điều phối''} trên giao diện quản trị.
+    \item Hệ thống thực hiện truy xuất dữ liệu vị trí của các tài xế trong hệ thống.
+    \item Hệ thống kiểm tra tình trạng tín hiệu GPS của từng thiết bị:
+    \begin{itemize}
+        \item \textbf{Nếu mất tín hiệu:} Hiển thị vị trí cuối cùng được ghi nhận kèm theo cảnh báo ``Mất kết nối''.
+        \item \textbf{Nếu tín hiệu ổn định:} Hiển thị vị trí hiện tại dưới dạng biểu tượng trên bản đồ.
+    \end{itemize}
+    \item Admin sử dụng bộ lọc để xem danh sách tài xế theo trạng thái (Bận, Rảnh, Ngoại tuyến).
+    \item Admin nhấp chọn biểu tượng của một tài xế cụ thể trên bản đồ.
+    \item Hệ thống hiển thị thông tin chi tiết bao gồm: Họ tên, Số điện thoại, Đơn hàng đang nhận và Lộ trình di chuyển.
+    \item Hệ thống tiếp tục kiểm tra dữ liệu di chuyển để phát hiện bất thường:
+    \begin{itemize}
+        \item \textbf{Nếu xe dừng quá lâu tại một điểm:} Hệ thống hiển thị cảnh báo ``Trạng thái bất thường''.
+        \item \textbf{Nếu di chuyển bình thường:} Hệ thống cập nhật vị trí liên tục theo thời gian thực.
+    \end{itemize}
+    \item Admin thực hiện theo dõi quá trình di chuyển của tài xế trên màn hình.
+    \item Kết thúc quy trình theo dõi (hoặc chuyển sang thao tác khác).
+\end{enumerate}
+
+\subsection{Activity Diagram quản lý và xử lý sự cố đơn hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Quanlyxulysucoactivity.jpg}
+    \caption{Activity Diagram quản lý và xử lý sự cố đơn hàng}
+    \label{fig:quanlyxulysuco}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Quản lý và xử lý sự cố đơn hàng'' được xây dựng nhằm mô tả quy trình can thiệp thủ công của Quản trị viên (Admin) khi xảy ra các tình huống ngoại lệ trong vận hành.
+Sơ đồ chi tiết hóa các luồng xử lý phức tạp như: giải quyết đơn hàng giao thất bại, hỗ trợ khách hàng thay đổi địa chỉ giao hàng, hoặc cập nhật trạng thái đơn hàng thủ công.
+Qua đó, sơ đồ giúp định nghĩa rõ ràng logic nghiệp vụ để đảm bảo mọi sự cố đều được giải quyết triệt để, đúng quy trình và đồng bộ dữ liệu chính xác trên hệ thống.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng xử lý sự cố đơn hàng được mô tả như sau:
+
+\begin{enumerate}
+    \item Admin tìm kiếm đơn hàng cần xử lý thông qua Mã vận đơn hoặc Số điện thoại.
+    \item Hệ thống hiển thị chi tiết trạng thái hiện tại và lịch sử xử lý của đơn hàng đó.
+    \item Admin chọn hành động xử lý cụ thể. Hệ thống sẽ rẽ nhánh dựa trên loại hành động:
+    \begin{itemize}
+        \item \textbf{Trường hợp Xử lý giao thất bại :}
+        \begin{itemize}
+            \item Admin kiểm tra lý do thất bại từ báo cáo của tài xế.
+            \item Admin đưa ra quyết định: chọn ``Cho giao lại lần 2'' hoặc ``Chuyển hoàn về kho''.
+        \end{itemize}
+        \item \textbf{Trường hợp Đổi địa chỉ :}
+        \begin{itemize}
+            \item Admin cập nhật địa chỉ mới theo yêu cầu khách hàng.
+            \item Hệ thống kiểm tra khu vực của địa chỉ mới.
+            \item Nếu khác khu vực: Hệ thống yêu cầu gán lại tài xế khác (Re-dispatch).
+            \item Nếu cùng khu vực: Hệ thống giữ nguyên tài xế hiện tại.
+        \end{itemize}
+        \item \textbf{Trường hợp Hủy/Cập nhật khác:} Admin chọn trực tiếp trạng thái mong muốn từ danh sách.
+    \end{itemize}
+    \item Hệ thống yêu cầu nhập lý do thay đổi hoặc ghi chú nội bộ.
+    \item Admin nhập thông tin và xác nhận hành động.
+    \item Hệ thống thực hiện cập nhật trạng thái mới cho đơn hàng vào cơ sở dữ liệu.
+    \item Hệ thống gửi thông báo cập nhật đến các bên liên quan (Khách hàng, Tài xế).
+    \item Kết thúc quá trình xử lý sự cố.
+\end{enumerate}
+
+\subsection{Activity Diagram xem lịch trình}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Xemlichtrinhactivity.jpg}
+    \caption{Activity Diagram xem lịch trình}
+    \label{fig:xemlichtrinh}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Xem lịch trình'' được xây dựng nhằm mô tả quy trình tài xế tiếp nhận và quản lý danh sách các nhiệm vụ được phân công.
+Sơ đồ làm rõ cơ chế đồng bộ dữ liệu hai chiều: hệ thống tự động tải chuyến xe được gán, kiểm tra các cập nhật thay đổi từ phía Admin để làm mới danh sách, và cung cấp các công cụ hỗ trợ tài xế như xem chi tiết điểm dừng hoặc xem lộ trình trực quan trên bản đồ.
+Qua đó, sơ đồ giúp đảm bảo tài xế luôn nắm bắt được kế hoạch di chuyển chính xác và mới nhất.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng xem lịch trình được mô tả như sau:
+
+\begin{enumerate}
+    \item Tài xế chọn menu \textbf{``Lịch trình''} trên ứng dụng.
+    \item Hệ thống thực hiện tải dữ liệu các chuyến xe đã được gán cho tài xế đó.
+    \item Hệ thống kiểm tra dữ liệu phân công:
+    \begin{itemize}
+        \item \textbf{Nếu chưa có lịch:} Hiển thị thông báo ``Chưa có nhiệm vụ mới'' và kết thúc.
+        \item \textbf{Nếu đã có lịch:} Hệ thống tiếp tục kiểm tra trạng thái cập nhật từ máy chủ.
+    \end{itemize}
+    \item Hệ thống kiểm tra xem Admin có thay đổi thông tin chuyến đi hay không:
+    \begin{itemize}
+        \item \textbf{Nếu có thay đổi:} Gửi thông báo cập nhật cho tài xế và tự động làm mới danh sách.
+        \item \textbf{Nếu không thay đổi:} Giữ nguyên dữ liệu hiện tại.
+    \end{itemize}
+    \item Hệ thống hiển thị danh sách các điểm dừng, bao gồm thông tin: Địa chỉ, Loại tác vụ, và Thời gian.
+    \item Tài xế chọn một thao tác mong muốn từ danh sách. Hệ thống xử lý theo hai nhánh:
+    \begin{itemize}
+        \item \textbf{Xem chi tiết điểm dừng:} Hệ thống hiển thị thông tin người liên hệ và chi tiết hàng hóa.
+        \item \textbf{Chuyển chế độ Bản đồ:} Hệ thống hiển thị trực quan tuyến đường và các điểm dừng trên giao diện bản đồ (Map View).
+    \end{itemize}
+    \item Tài xế quyết định tiếp tục xem hoặc kết thúc phiên làm việc.
+\end{enumerate}
+
+\subsection{Activity Diagram thực hiện lấy hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Thuchienlayhangactivity.jpg}
+    \caption{Activity Diagram thực hiện lấy hàng}
+    \label{fig:thuchienlayhang}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Thực hiện lấy hàng'' được xây dựng nhằm mô tả quy trình nghiệp vụ của Tài xế từ lúc bắt đầu tiếp nhận đơn hàng tại điểm lấy cho đến khi hoàn tất việc nhận hàng.
+Sơ đồ làm rõ các bước kiểm tra quan trọng như xác thực liên lạc với người gửi và đối chiếu hàng hóa thực tế với thông tin trên hệ thống. Đồng thời, sơ đồ cũng quy định rõ các luồng xử lý ngoại lệ khi không liên lạc được hoặc hàng hóa không đúng quy định, đảm bảo tính chặt chẽ trong khâu vận hành đầu vào.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng thực hiện lấy hàng được mô tả như sau:
+
+\begin{enumerate}
+    \item Tài xế chọn một đơn hàng cần xử lý từ danh sách lịch trình.
+    \item Tài xế nhấn nút \textbf{``Bắt đầu lấy hàng''} trên ứng dụng.
+    \item Tài xế thực hiện liên hệ với người gửi và hệ thống kiểm tra kết quả:
+    \begin{itemize}
+        \item \textbf{Nếu không liên lạc được:} Tài xế cập nhật trạng thái ``Không liên lạc được''. Hệ thống ghi nhận nỗ lực lấy hàng và tự động xếp lịch lấy lại sau. Quy trình kết thúc.
+        \item \textbf{Nếu liên lạc thành công:} Quy trình tiếp tục sang bước kiểm tra hàng hóa.
+    \end{itemize}
+    \item Tài xế kiểm tra hàng hóa thực tế so với thông tin hiển thị trên ứng dụng.
+    \item Hệ thống rẽ nhánh dựa trên tình trạng hàng hóa:
+    \begin{itemize}
+        \item \textbf{Nếu hàng không đúng quy định:} Tài xế từ chối nhận hàng và chọn lý do từ chối trên ứng dụng. Hệ thống cập nhật trạng thái ``Lấy hàng thất bại'' và kết thúc quy trình.
+        \item \textbf{Nếu hàng đúng quy định:} Tài xế tiến hành quét mã đơn hàng hoặc nhập mã xác nhận để xác thực.
+    \end{itemize}
+    \item Tài xế nhấn nút \textbf{``Xác nhận lấy hàng thành công''}.
+    \item Hệ thống cập nhật trạng thái đơn hàng thành ``Đã lấy hàng''.
+    \item Hệ thống cập nhật trạng thái nhiệm vụ trong lịch trình thành ``Đã hoàn thành''.
+    \item Kết thúc quá trình lấy hàng.
+\end{enumerate}
+
+\subsection{Activity Diagram thực hiện giao hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Thuchiengiaohangactivity.jpg}
+    \caption{Activity Diagram thực hiện giao hàng}
+    \label{fig:thuchiengiaohang}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Thực hiện giao hàng'' được xây dựng nhằm mô tả quy trình nghiệp vụ cuối cùng của tài xế tại địa chỉ người nhận.
+Sơ đồ mô tả chi tiết các bước tương tác với khách hàng và cách hệ thống xử lý các kịch bản thực tế phổ biến như: khách hàng vắng nhà, khách hàng từ chối nhận hoặc giao hàng thành công.
+Qua đó, sơ đồ giúp chuẩn hóa quy trình thu thập bằng chứng giao hàng (Proof of Delivery) và đảm bảo trạng thái đơn hàng được cập nhật chính xác để phục vụ việc đối soát sau này.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng thực hiện giao hàng được mô tả như sau:
+
+\begin{enumerate}
+    \item Tài xế chọn đơn hàng cần giao trong danh sách nhiệm vụ.
+    \item Tài xế thực hiện liên hệ với người nhận qua điện thoại.
+    \item Quy trình rẽ nhánh dựa trên kết quả liên hệ:
+    \begin{itemize}
+        \item \textbf{Nếu khách vắng nhà hoặc không nghe máy:} Tài xế gọi điện hẹn lại hoặc chọn chức năng ``Giao không thành công''. Hệ thống lưu lý do và đẩy đơn hàng về danh sách chờ xử lý lại.
+        \item \textbf{Nếu gặp được khách hàng:} Quy trình tiếp tục sang bước xác nhận nhận hàng.
+    \end{itemize}
+    \item Tài xế xác nhận ý định nhận hàng của khách:
+    \begin{itemize}
+        \item \textbf{Nếu khách từ chối nhận:} Tài xế ghi nhận lý do từ chối vào ứng dụng. Hệ thống cập nhật trạng thái đơn hàng là ``Chuyển hoàn'' và kết thúc quy trình.
+        \item \textbf{Nếu khách đồng ý nhận:} Tài xế tiến hành giao kiện hàng cho người nhận.
+    \end{itemize}
+    \item Tài xế thực hiện chụp ảnh bằng chứng giao hàng hoặc yêu cầu khách hàng ký tên xác nhận.
+    \item Tài xế nhấn nút \textbf{``Hoàn tất giao hàng''} trên ứng dụng.
+    \item Hệ thống cập nhật trạng thái đơn hàng thành ``Giao thành công''.
+    \item Hệ thống thực hiện đóng đơn hàng và ghi nhận doanh thu/KPI cho tài xế.
+    \item Kết thúc quá trình giao hàng.
+\end{enumerate}
+
+\subsection{Activity Diagram xem thông báo}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Xemthongbaoactivity.jpg}
+    \caption{Activity Diagram xem thông báo}
+    \label{fig:xemthongbao}
+\end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Xem thông báo'' được xây dựng nhằm mô tả quy trình người dùng truy cập và tương tác với các cập nhật từ hệ thống.
+Sơ đồ làm rõ logic hiển thị danh sách (sắp xếp theo thời gian), cách hệ thống xử lý các trường hợp danh sách trống hoặc có dữ liệu, và cơ chế tự động đánh dấu trạng thái ``Đã đọc''.
+Qua đó, sơ đồ giúp định nghĩa rõ các hành động điều hướng (Navigation) khi người dùng tương tác với các nút chức năng bên trong nội dung thông báo.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng xem thông báo được mô tả như sau:
+
+\begin{enumerate}
+    \item Người dùng nhấn vào biểu tượng chuông thông báo trên giao diện.
+    \item Hệ thống thực hiện tải danh sách thông báo và sắp xếp theo thời gian.
+    \item Hệ thống kiểm tra dữ liệu trả về:
+    \begin{itemize}
+        \item \textbf{Nếu danh sách trống:} Hiển thị hình ảnh minh họa trống và kết thúc.
+        \item \textbf{Nếu có thông báo:} Hiển thị thông tin tóm tắt (Tiêu đề, nội dung, thời gian) và đánh dấu nổi bật các tin chưa đọc.
+    \end{itemize}
+    \item Người dùng chọn một thông báo cụ thể để xem chi tiết.
+    \item Hệ thống hiển thị toàn bộ nội dung của thông báo đó.
+    \item Hệ thống tự động cập nhật trạng thái ``Đã đọc'' vào cơ sở dữ liệu.
+    \item Người dùng đưa ra quyết định hành động tiếp theo:
+    \begin{itemize}
+        \item \textbf{Nếu chỉ xem hoặc quay lại:} Hệ thống chuyển sang bước kiểm tra nhu cầu xem tiếp.
+        \item \textbf{Nếu nhấn nút hành động:} Hệ thống điều hướng người dùng đến màn hình chức năng tương ứng (ví dụ: màn hình chi tiết đơn hàng).
+    \end{itemize}
+    \item Hệ thống kiểm tra người dùng có muốn xem thông báo khác không. Nếu có thì quay lại danh sách, nếu không thì kết thúc quy trình.
+\end{enumerate}
