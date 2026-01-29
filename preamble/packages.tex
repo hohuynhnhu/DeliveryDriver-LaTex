@@ -1,21 +1,42 @@
-% Ngôn ngữ
+% ===== ENCODING =====
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage[vietnamese]{babel}
 
-% Toán
+% ===== FONT GIỐNG TIMES =====
+\usepackage{tgtermes}
+\usepackage{newtxmath}
+
+% ===== TOÁN =====
 \usepackage{amsmath}
 
-% Hình ảnh
+% ===== HÌNH =====
 \usepackage{graphicx}
 
-% Layout
+% ===== LAYOUT =====
 \usepackage{geometry}
-\geometry{left=3cm,right=2.5cm,top=3cm,bottom=3cm}
+\geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
 
-% Điều khiển section
+% ===== SECTION CONTROL =====
 \usepackage{titlesec}
 
-% Float H
+% ===== FLOAT =====
 \usepackage{float}
 
-% HYPERREF LUÔN CUỐI
+% ===== FORMAT CHAPTER =====
+\titleformat{\chapter}
+  {\normalfont\bfseries\Large\centering}
+  {CHƯƠNG~\thechapter}
+  {0.5em}
+  {\MakeUppercase}
+
+\titlespacing*{\chapter}
+  {0pt}
+  {0pt}
+  {20pt}
+% ===== GIÃN DÒNG 1.5 =====
+\usepackage{setspace}
+\onehalfspacing
+
+% ===== HYPERREF LUÔN CUỐI =====
 \usepackage[hidelinks]{hyperref}
