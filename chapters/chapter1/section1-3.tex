@@ -19,12 +19,12 @@ Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký,
 
 Docker được sử dụng để containerize ứng dụng backend, đảm bảo môi trường development và production nhất quán.
 
-\textbf{Lợi ích:}
+\textbf{Các bảng chính:}
 \begin{itemize}
-    \item Portable: Chạy ổn định trên mọi môi trường
-    \item Isolation: Tách biệt services
-    \item Scalable: Dễ dàng scale horizontal
-    \item CI/CD: Tích hợp deployment pipeline
+  \item orders: Thông tin đơn hàng
+  \item drivers: Thông tin tài xế
+  \item routes: Tuyến đường tối ưu
+  \item profiles: Hồ sơ người dùng
 \end{itemize}
 
 \subsection{Thuật toán tối ưu hóa}
@@ -32,6 +32,42 @@ Docker được sử dụng để containerize ứng dụng backend, đảm bả
 Hệ thống áp dụng nhiều thuật toán và kỹ thuật khác nhau nhằm tối ưu hóa cả tuyến đường giao hàng và lịch làm việc của tài xế:
 
 \begin{itemize}
+<<<<<<< HEAD
+    \item \textbf{Nearest Neighbor}: Tạo tuyến đường ban đầu nhanh chóng
+    \item \textbf{2-opt}: Cải thiện tuyến đường bằng cách loại bỏ crossings
+    \item \textbf{OSRM API}: Tính toán tuyến đường thực tế trên bản đồ OpenStreetMap
+\end{itemize}
+
+Kết hợp cả hai thuật toán giúp giảm 10-30\% tổng quãng đường so với cách phân công thủ công.
+
+\subsubsection{OSRM (Open Source Routing Machine)}
+
+OSRM là routing engine mã nguồn mở cho OpenStreetMap, cung cấp các API để tính toán tuyến đường.
+
+\textbf{Các API chính:}
+\begin{itemize}
+    \item \textbf{Route Service}: Tính tuyến đường nhanh nhất giữa các điểm
+    \item \textbf{Table Service}: Ma trận khoảng cách giữa nhiều điểm
+    \item \textbf{Match Service}: Map matching GPS traces lên đường
+    \item \textbf{Trip Service}: Giải quyết Traveling Salesman Problem
+\end{itemize}
+
+\textbf{Ưu điểm so với Google Maps:}
+\begin{itemize}
+    \item Miễn phí, không giới hạn requests
+    \item Có thể tự host server
+    \item Dữ liệu OpenStreetMap cập nhật liên tục
+    \item API đơn giản, response nhanh
+\end{itemize}
+
+\textbf{Ứng dụng trong dự án:}
+\begin{itemize}
+    \item Tính khoảng cách và thời gian thực tế giữa các điểm giao hàng
+    \item Lấy tọa độ waypoints để vẽ tuyến đường trên Leaflet map
+    \item Tối ưu thứ tự giao hàng với Trip Service
+    \item Hiển thị hướng dẫn turn-by-turn cho tài xế
+\end{itemize}
+=======
     \item \textbf{Nearest Neighbor}: Tạo lời giải ban đầu nhanh chóng cho bài toán TSP.
     \item \textbf{2-opt}: Cải thiện tuyến đường bằng cách loại bỏ các đoạn cắt nhau (crossing).
     \item \textbf{OR-Tools (Google)}: Tối ưu thứ tự ghé thăm các điểm giao hàng dựa trên ma trận khoảng cách.
@@ -116,3 +152,4 @@ Quy trình xử lý và tối ưu tuyến đường được mô tả như sau:
 \caption{Pipeline tối ưu hóa tuyến đường giao hàng}
 \label{fig:routing_pipeline}
 \end{figure}
+>>>>>>> 17d5b43494552c18bf376346eb7c31c14ed9a519

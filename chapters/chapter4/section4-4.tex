@@ -2,16 +2,98 @@
 
 \subsection{Ưu điểm}
 
+Hệ thống triển khai với Docker mang lại nhiều ưu điểm:
+
 \begin{itemize}
-    \item Kiến trúc microservice giúp hệ thống dễ mở rộng
-    \item Sử dụng Supabase giúp giảm độ phức tạp trong xác thực
-    \item Thuật toán tối ưu lộ trình cải thiện hiệu quả giao hàng
+    \item \textbf{Kiến trúc microservice giúp hệ thống dễ mở rộng}: Mỗi service (Backend, Frontend, Database) được đóng gói độc lập trong container riêng, cho phép scale từng service một cách linh hoạt theo nhu cầu thực tế. Khi lượng truy cập tăng, có thể tạo thêm instance của Backend mà không ảnh hưởng đến các service khác.
+    
+    \item \textbf{Sử dụng Supabase giúp giảm độ phức tạp trong xác thực}: Supabase Authentication cung cấp sẵn các chức năng đăng ký, đăng nhập, quên mật khẩu, xác thực email, quản lý phiên làm việc với JWT token. Điều này giúp đội ngũ phát triển tập trung vào logic nghiệp vụ thay vì xây dựng hệ thống authentication phức tạp từ đầu.
+    
+    \item \textbf{Thuật toán tối ưu lộ trình cải thiện hiệu quả giao hàng}: Thuật toán Nearest Neighbor giúp giảm từ 15-25\% tổng quãng đường di chuyển so với giao hàng không có tối ưu. Điều này tiết kiệm đáng kể thời gian, chi phí nhiên liệu và tăng số lượng đơn hàng có thể giao trong một ngày.
+    
+    \item \textbf{Container hóa giúp triển khai nhất quán trên nhiều môi trường}: Docker đảm bảo ứng dụng chạy giống nhau trên laptop phát triển, server staging và production. Loại bỏ hoàn toàn vấn đề "works on my machine", giảm thiểu lỗi do khác biệt môi trường.
+    
+    \item \textbf{Dễ dàng rollback và recovery}: Docker cho phép quay lại phiên bản trước đó chỉ bằng một lệnh đơn giản. Trong trường hợp deployment mới gặp lỗi, có thể rollback ngay lập tức để giảm thiểu downtime.
+    
+    \item \textbf{Tài nguyên sử dụng hiệu quả}: Container nhẹ hơn máy ảo truyền thống, khởi động nhanh (vài giây thay vì vài phút), sử dụng ít RAM và CPU hơn. Có thể chạy nhiều container trên cùng một server vật lý.
+    
+    \item \textbf{Quản lý dependencies đơn giản}: Mỗi container có dependencies riêng, không xung đột với nhau. Python có thể dùng version 3.9 ở container này và 3.11 ở container khác trên cùng một host.
+    
+    \item \textbf{Development và production gần giống nhau}: Developer có thể chạy toàn bộ stack (Backend, Database, Redis) trên máy local giống hệt production, giúp phát hiện lỗi sớm.
 \end{itemize}
 
 \subsection{Hạn chế}
 
+Bên cạnh các ưu điểm, hệ thống vẫn còn một số hạn chế cần khắc phục:
+
 \begin{itemize}
-    \item Thuật toán chưa tối ưu cho tập dữ liệu lớn
-    \item Chưa triển khai hệ thống giám sát và logging nâng cao
+    \item \textbf{Thuật toán chưa tối ưu cho tập dữ liệu lớn}: Với số lượng điểm giao hàng lớn (>100 điểm), thuật toán Nearest Neighbor cho kết quả chưa thực sự tối ưu và thời gian xử lý tăng đáng kể. Thuật toán này có độ phức tạp O(n²), không phù hợp cho quy mô lớn. Cần xem xét các thuật toán phức tạp hơn như:
+    \begin{itemize}
+        \item Genetic Algorithm với độ phức tạp thấp hơn
+        \item Simulated Annealing cho tối ưu toàn cục
+        \item Ant Colony Optimization mô phỏng hành vi kiến
+        \item 2-opt hoặc 3-opt improvement
+    \end{itemize}
+    
+    \item \textbf{Chưa triển khai hệ thống giám sát và logging nâng cao}: Hệ thống hiện tại chỉ có log cơ bản từ Docker, chưa có:
+    \begin{itemize}
+        \item Monitoring tập trung với Prometheus + Grafana
+        \item Log aggregation với ELK Stack (Elasticsearch, Logstash, Kibana)
+        \item Alerting khi có vấn đề xảy ra (qua Email, Slack, Telegram)
+        \item Distributed tracing với Jaeger hoặc Zipkin
+        \item APM (Application Performance Monitoring) với New Relic hoặc Datadog
+    \end{itemize}
+    
+    \item \textbf{Chưa có cơ chế auto-scaling}: Khi tải hệ thống tăng đột biến (ví dụ: giờ cao điểm, ngày lễ), chưa có cơ chế tự động tăng số lượng container để đáp ứng. Hiện tại phải scale thủ công bằng lệnh. Cần:
+    \begin{itemize}
+        \item Tích hợp với Kubernetes Horizontal Pod Autoscaler
+        \item Hoặc sử dụng Docker Swarm với auto-scaling
+        \item Metrics-based scaling (CPU, memory, request rate)
+        \item Predictive scaling dựa trên historical data
+    \end{itemize}
+    
+    \item \textbf{Chưa tối ưu caching}: Hệ thống chưa sử dụng cache hiệu quả:
+    \begin{itemize}
+        \item Chưa cache kết quả tối ưu lộ trình cho các request tương tự
+        \item Chưa cache thông tin profile người dùng
+        \item Chưa cache danh sách đơn hàng phổ biến
+        \item Có thể sử dụng Redis hoặc Memcached
+        \item Implement cache invalidation strategy
+    \end{itemize}
+    
+    \item \textbf{Bảo mật chưa toàn diện}:
+    \begin{itemize}
+        \item Chưa có rate limiting chi tiết cho từng endpoint
+        \item Chưa implement HTTPS với SSL/TLS certificate cho production
+        \item Chưa có Web Application Firewall (WAF)
+        \item Chưa có IP whitelist cho admin panel
+        \item Chưa encrypt dữ liệu nhạy cảm trong database
+        \item Chưa có audit log cho các thao tác quan trọng
+    \end{itemize}
+    
+    \item \textbf{Testing coverage chưa đầy đủ}:
+    \begin{itemize}
+        \item Hiện tại chỉ có unit test cơ bản (85\% coverage)
+        \item Chưa có integration test cho tất cả API endpoints
+        \item Chưa có end-to-end test cho user flows
+        \item Chưa có load testing, stress testing
+        \item Chưa có security testing (penetration testing)
+    \end{itemize}
+    
+    \item \textbf{Xử lý lỗi chưa toàn diện}:
+    \begin{itemize}
+        \item Chưa có circuit breaker pattern cho external services
+        \item Chưa có retry logic với exponential backoff
+        \item Chưa có graceful degradation khi service dependency down
+        \item Error messages chưa user-friendly
+    \end{itemize}
+    
+    \item \textbf{Database chưa được tối ưu}:
+    \begin{itemize}
+        \item Chưa có index cho các truy vấn phổ biến
+        \item Chưa có database replication cho high availability
+        \item Chưa có sharding strategy cho horizontal scaling
+        \item Chưa optimize slow queries
+    \end{itemize}
 \end{itemize}
 
