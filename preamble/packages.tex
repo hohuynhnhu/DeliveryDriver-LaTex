@@ -1,21 +1,126 @@
-% Ngôn ngữ
+% ===== ENCODING =====
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage[vietnamese]{babel}
 
-% Toán
+% ===== FONT GIỐNG TIMES =====
+\usepackage{tgtermes}
+\usepackage{newtxmath}
+
+% ===== TOÁN =====
 \usepackage{amsmath}
 
-% Hình ảnh
+% ===== HÌNH =====
 \usepackage{graphicx}
 
-% Layout
+% ===== LAYOUT =====
 \usepackage{geometry}
-\geometry{left=3cm,right=2.5cm,top=3cm,bottom=3cm}
+\geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
 
-% Điều khiển section
+% ===== SECTION CONTROL =====
 \usepackage{titlesec}
 
-% Float H
-\usepackage{float}
+% ===== VẼ SƠ ĐỒ =====
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
 
-% HYPERREF LUÔN CUỐI
+
+% ===== FLOAT =====
+\usepackage{float}
+\usepackage{tocloft}
+
+\usepackage{caption}
+% ===== Caption hình & bảng in nghiêng =====
+\captionsetup{
+    font=it,
+    labelfont=it
+}
+
+% ===== GIÃN DÒNG =====
+\usepackage{setspace}   % ❗ CHƯA bật onehalfspacing ở đây
+
+% ===== ĐỔI TÊN SANG TIẾNG VIỆT =====
+\renewcommand{\contentsname}{MỤC LỤC}
+\renewcommand{\listfigurename}{DANH MỤC HÌNH}
+\renewcommand{\listtablename}{DANH MỤC BẢNG}
+
+\renewcommand{\chaptername}{Chương}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+
+\addto\captionsvietnamese{
+  \renewcommand{\contentsname}{MỤC LỤC}
+  \renewcommand{\listfigurename}{DANH MỤC HÌNH}
+  \renewcommand{\listtablename}{DANH MỤC BẢNG}
+}
+
+% ===== FORMAT TIÊU ĐỀ MỤC LỤC / HÌNH / BẢNG =====
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftbeforelottitleskip}{0pt}
+
+\renewcommand{\cfttoctitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+\renewcommand{\cftloftitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftafterloftitle}{\hfill}
+
+\renewcommand{\cftlottitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftafterlottitle}{\hfill}
+
+\setlength{\cftaftertoctitleskip}{10pt}
+\setlength{\cftafterloftitleskip}{10pt}
+\setlength{\cftafterlottitleskip}{10pt}
+
+% ===== HIỂN THỊ "Chương X", "Hình", "Bảng" =====
+\renewcommand{\cftchappresnum}{CHƯƠNG~}
+\setlength{\cftchapnumwidth}{6em}
+
+\renewcommand{\cftfigpresnum}{Hình~}
+\setlength{\cftfignumwidth}{5em}
+
+\renewcommand{\cfttabpresnum}{Bảng~}
+\setlength{\cfttabnumwidth}{5em}
+% ===== FORMAT SECTION: 14pt, đậm, chữ thường =====
+\titleformat{\section}
+  {\normalfont\bfseries\fontsize{14pt}{16pt}\selectfont}
+  {\thesection}
+  {1em}
+  {}
+
+% ===== FORMAT SUBSECTION: chữ nghiêng, chữ thường =====
+% ===== FORMAT SUBSECTION: chữ nghiêng, to hơn =====
+\titleformat{\subsection}
+  {\normalfont\itshape\large}   % chữ thường + nghiêng + to hơn
+  {\thesubsection}
+  {1em}
+  {}
+
+
+% ===== ĐÁNH SỐ HÌNH/BẢNG THEO CHƯƠNG =====
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+% ===== FORMAT CHAPTER =====
+\titleformat{\chapter}
+  {\normalfont\bfseries\Large\centering}
+  {CHƯƠNG~\thechapter}
+  {0.5em}
+  {\MakeUppercase}
+
+\titlespacing*{\chapter}
+  {0pt}{0pt}{20pt}
+
+% ===== GIÃN DÒNG RIÊNG CHO DANH MỤC =====
+\usepackage{etoolbox}
+\pretocmd{\tableofcontents}{\onehalfspacing}{}{}
+\pretocmd{\listoffigures}{\onehalfspacing}{}{}
+\pretocmd{\listoftables}{\onehalfspacing}{}{}
+
+% ===== GIÃN DÒNG CHO NỘI DUNG CHÍNH =====
+\AtBeginDocument{\onehalfspacing}
+
+% ===== HYPERREF =====
 \usepackage[hidelinks]{hyperref}

@@ -1,21 +1,131 @@
-\section{Thiết kế xử lý và thuật toán}
+\section{Sequence Diagram}
 
-\subsection{Quy trình xác thực và quản lý hồ sơ}
+\subsection{Sequence Diagram đăng ký tài khoản}
 
-Hệ thống sử dụng Supabase Authentication để thực hiện xác thực người dùng. 
-Sau khi xác thực thành công, hệ thống sử dụng bảng \texttt{profiles} để lưu trữ và quản lý thông tin cá nhân.
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Dangkytaikhoansequence.jpg}
+    \caption{Sequence Diagram đăng ký tài khoản}
+    \label{fig:dangkytaikhoan_seq}
+\end{figure}
 
-\subsection{Thiết kế thuật toán tối ưu lộ trình}
+Sơ đồ mô tả quy trình đăng ký tài khoản người dùng mới trong hệ thống.
+Người dùng nhập thông tin đăng ký thông qua ứng dụng Mobile App, sau đó hệ thống Backend API tiếp nhận và gửi yêu cầu tạo người dùng đến Supabase Auth.
+Trong trường hợp email đã tồn tại, hệ thống sẽ trả về lỗi trùng lặp; ngược lại, nếu thông tin hợp lệ, hệ thống tiến hành tạo tài khoản mới, lưu trữ hồ sơ người dùng vào PostgreSQL và sử dụng Email Service để gửi thư xác thực.
+Quy trình hoàn tất khi hệ thống thông báo đăng ký thành công và yêu cầu người dùng kiểm tra email để kích hoạt tài khoản.
 
-Thuật toán tối ưu lộ trình được thiết kế nhằm xác định thứ tự giao hàng tối ưu cho danh sách các điểm giao.
-Thuật toán nhận đầu vào là tập các điểm cần giao và trả về lộ trình có tổng quãng đường ngắn nhất.
+\subsection{Sequence Diagram đăng nhập hệ thống}
 
-\subsection{Luồng xử lý tối ưu lộ trình}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Dangnhaphethongsequence.jpg}
+    \caption{Sequence Diagram đăng nhập hệ thống}
+    \label{fig:dangnhaphethong_seq}
+\end{figure}
 
-Luồng xử lý bao gồm:
-\begin{enumerate}
-    \item Nhận danh sách điểm giao từ người dùng.
-    \item Gọi dịch vụ bản đồ để lấy dữ liệu khoảng cách.
-    \item Thực hiện thuật toán tối ưu lộ trình.
-    \item Trả kết quả lộ trình cho người dùng.
-\end{enumerate}
+Sơ đồ mô tả quy trình xác thực và đăng nhập vào hệ thống.
+Người dùng nhập Email và Mật khẩu thông qua ứng dụng Mobile App, sau đó hệ thống gửi thông tin đến Backend API để thực hiện xác thực với Supabase.
+Trong trường hợp thông tin đăng nhập sai, hệ thống trả về lỗi xác thực; ngược lại, nếu thông tin hợp lệ, hệ thống tiếp tục truy vấn PostgreSQL để lấy thông tin chi tiết người dùng (Vai trò và Trạng thái).
+Quy trình kiểm tra tiếp trạng thái tài khoản: nếu bị khóa sẽ thông báo vô hiệu hóa, nếu hoạt động bình thường sẽ thiết lập phiên làm việc và chuyển hướng người dùng vào màn hình chính.
+
+\subsection{Sequence Diagram tạo đơn hàng mới}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Taodonhangmoisequence.jpg}
+    \caption{Sequence Diagram tạo đơn hàng mới}
+    \label{fig:taodonhangmoi_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình khách hàng khởi tạo một yêu cầu giao hàng mới trên hệ thống.
+Khách hàng nhập thông tin người gửi và người nhận trên ứng dụng Customer App, sau đó Backend API thực hiện kiểm tra địa chỉ và tính toán khoảng cách thông qua Map Service để xác nhận khả năng phục vụ.
+Sau khi địa chỉ được xác thực, khách hàng nhập thông tin hàng hóa và gửi yêu cầu tạo đơn. Hệ thống tiến hành lưu trữ bản ghi đơn hàng mới vào PostgreSQL, khởi tạo Mã vận đơn và đặt trạng thái ban đầu là ``Chờ xử lý''.
+Quy trình kết thúc khi hệ thống thông báo tạo đơn thành công và chuyển hướng khách hàng đến màn hình chi tiết đơn hàng vừa tạo.
+
+\subsection{Sequence Diagram phân công đơn hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Phancongdonhangsequence.jpg}
+    \caption{Sequence Diagram phân công đơn hàng}
+    \label{fig:phancongdonhang_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình quản trị viên thực hiện gán đơn hàng cho tài xế cụ thể.
+Quản trị viên chọn đơn hàng trên Web Admin, hệ thống truy vấn Backend API và PostgreSQL để tìm kiếm và hiển thị danh sách tài xế trực tuyến trong khu vực.
+Sau khi Admin chọn tài xế, hệ thống kiểm tra số lượng đơn đang thực hiện. Trong trường hợp tài xế đang quá tải, hệ thống hiển thị cảnh báo và cung cấp tùy chọn gán đè (Force Assign) cho quản trị viên.
+Nếu tài xế đủ điều kiện hoặc quản trị viên xác nhận gán đè, hệ thống cập nhật thông tin người phụ trách vào cơ sở dữ liệu và kích hoạt Notification Service để gửi thông báo nhận việc đến tài xế, đồng thời chuyển trạng thái đơn hàng sang ``Đã phân công''.
+
+\subsection{Sequence Diagram thực hiện lấy hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Thuchienlayhangsequence.jpg}
+    \caption{Sequence Diagram thực hiện lấy hàng}
+    \label{fig:thuchienlayhang_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình tài xế thực hiện nhận hàng hóa tại điểm lấy.
+Khi tài xế đến nơi, họ xác nhận trên ứng dụng Driver App, sau đó Backend API ghi nhận thời gian, vị trí vào PostgreSQL và gửi thông báo cho khách hàng qua Notification Service.
+Tiếp theo, tài xế kiểm tra hàng hóa, chụp ảnh bằng chứng và gửi xác nhận lên hệ thống. Tại đây quy trình rẽ nhánh: nếu hàng hóa đúng quy định, hệ thống lưu ảnh, cập nhật trạng thái đơn hàng sang ``Đang giao hàng'' và thông báo cho khách.
+Ngược lại, trong trường hợp hàng hóa sai lệch hoặc hư hỏng, hệ thống ghi nhận sự cố, gửi cảnh báo đến Admin và hủy nhiệm vụ lấy hàng hiện tại.
+
+\subsection{Sequence Diagram thực hiện giao hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Thuchiengiaohangsequence.jpg}
+    \caption{Sequence Diagram thực hiện giao hàng}
+    \label{fig:thuchiengiaohang_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình tài xế thực hiện các bước cuối cùng để giao kiện hàng cho người nhận.
+Quy trình bắt đầu khi tài xế thực hiện gọi điện cho người nhận qua Driver App; Backend API sẽ hỗ trợ kết nối bằng cách truy xuất số điện thoại ảo từ cơ sở dữ liệu để bảo mật thông tin.
+Sau khi tương tác với khách, tài xế cập nhật kết quả giao hàng kèm hình ảnh bằng chứng lên hệ thống. Tại đây, quy trình rẽ nhánh dựa trên kết quả thực tế:
+Trong trường hợp giao thành công, hệ thống lưu ảnh bằng chứng, cập nhật trạng thái đơn hàng thành ``Giao thành công'' và gửi thông báo đến khách hàng.
+Ngược lại, nếu giao thất bại, hệ thống ghi nhận lý do, cập nhật trạng thái lỗi và gửi cảnh báo đến cả Admin lẫn khách hàng để xử lý quy trình hoàn hàng.
+
+\subsection{Sequence Diagram xử lý sự cố đơn hàng}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Xulysucodonhangsequence.jpg}
+    \caption{Sequence Diagram xử lý sự cố đơn hàng}
+    \label{fig:xulysucodonhang_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình quản trị viên giải quyết các vấn đề phát sinh đối với đơn hàng thông qua giao diện Web Admin.
+Quản trị viên bắt đầu bằng việc tìm kiếm đơn hàng lỗi; hệ thống Backend API sẽ truy vấn PostgreSQL để lấy dữ liệu chi tiết hiển thị lên màn hình.
+Sau khi quản trị viên chọn hành động xử lý, quy trình rẽ nhánh dựa trên loại sự cố:
+Nếu khách hàng đổi địa chỉ, hệ thống cập nhật thông tin mới; trường hợp địa chỉ mới khác khu vực hoạt động, hệ thống sẽ hủy gán tài xế hiện tại để đưa đơn về trạng thái chờ tìm tài xế mới.
+Đối với trường hợp xử lý giao thất bại hoặc hủy đơn, hệ thống cập nhật trạng thái tương ứng  vào cơ sở dữ liệu.
+Quy trình kết thúc khi hệ thống gửi thông báo cập nhật đến các bên liên quan thông qua Notification Service và làm mới danh sách trên giao diện quản trị.
+
+\subsection{Sequence Diagram tra cứu hành trình đơn}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Tracuuhanhtrinhdonsequence.jpg}
+    \caption{Sequence Diagram tra cứu hành trình đơn}
+    \label{fig:tracuuhanhtrinhdon_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình khách hàng thực hiện kiểm tra trạng thái và lịch sử di chuyển của đơn hàng.
+Khách hàng nhập Mã vận đơn trên giao diện Customer App và nhấn nút tra cứu, yêu cầu này được gửi đến Backend API.
+Hệ thống truy vấn thông tin cơ bản từ PostgreSQL. Tại đây quy trình rẽ nhánh: nếu không tìm thấy đơn hàng, hệ thống báo lỗi mã không tồn tại cho người dùng.
+Trong trường hợp đơn hàng hợp lệ, Backend API tiếp tục truy xuất danh sách các mốc thời gian chi tiết từ cơ sở dữ liệu.
+Dữ liệu đầy đủ bao gồm thời gian tạo, thời gian lấy hàng và vị trí hiện tại được trả về để ứng dụng hiển thị dòng thời gian hành trình cho khách hàng.
+
+\subsection{Sequence Diagram cập nhật trạng thái hoạt động}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Capnhattrangthaihoatdongsequence.jpg}
+    \caption{Sequence Diagram cập nhật trạng thái hoạt động}
+    \label{fig:capnhattrangthai_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình tài xế thay đổi trạng thái làm việc (Rảnh, Bận, Hết ca...) trên ứng dụng Driver App để hệ thống điều phối đơn hàng phù hợp.
+Tài xế chọn trạng thái mới từ menu, ứng dụng gửi yêu cầu đến Backend API. Quy trình xử lý rẽ nhánh đặc biệt khi tài xế chọn trạng thái ``Hết ca làm''.
+Trong trường hợp này, hệ thống kiểm tra PostgreSQL xem còn đơn hàng chưa hoàn thành không. Nếu còn, hệ thống gửi cảnh báo lỗi yêu cầu hoàn tất; nếu không còn vướng bận, hệ thống cập nhật trạng thái nghỉ, chốt tổng kết ca và ghi nhận thời gian kết thúc.
+Đối với các trạng thái thông thường khác (Rảnh, Bận), hệ thống thực hiện cập nhật trực tiếp vào cơ sở dữ liệu và gửi thông báo thay đổi thành công để ứng dụng hiển thị trạng thái hiện tại.

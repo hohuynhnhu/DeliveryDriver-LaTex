@@ -1,3 +1,93 @@
+\section{Kiến trúc tổng thể hệ thống}
+
+Hệ thống được thiết kế theo mô hình client--server với kiến trúc microservices, nhằm đảm bảo khả năng mở rộng, dễ bảo trì và phân tách rõ ràng các chức năng nghiệp vụ.
+
+\textbf{Tầng trình diễn (Presentation Layer)} bao gồm:
+\begin{itemize}
+    \item \textbf{Ứng dụng di động}: xây dựng theo mô hình MVVM, phục vụ cho Customer và Driver.
+    \item \textbf{Ứng dụng web}: xây dựng bằng Nuxt, phục vụ cho Admin và người dùng quản trị.
+\end{itemize}
+
+\textbf{Tầng backend (Application Layer)} được triển khai theo kiến trúc microservices sử dụng FastAPI, bao gồm các dịch vụ chính:
+\begin{itemize}
+    \item Authentication Service
+    \item Order Service
+    \item Driver Scheduling Service
+    \item Routing Optimization Service
+    \item Notification Service
+\end{itemize}
+
+Các service giao tiếp với nhau thông qua REST API và được truy cập từ frontend thông qua API Gateway.
+
+Tầng dữ liệu (Data Layer) sử dụng Supabase (PostgreSQL) để:
+\begin{itemize}
+    \item Lưu trữ dữ liệu nghiệp vụ (orders, drivers, routes, profiles, ...)
+    \item Quản lý xác thực người dùng và phân quyền bằng JWT và Row Level Security (RLS)
+\end{itemize}
+
+Ngoài ra, hệ thống tích hợp với các dịch vụ bản đồ mã nguồn mở:
+\begin{itemize}
+    \item \textbf{OpenStreetMap (OSM)}: cung cấp dữ liệu bản đồ
+    \item \textbf{OSRM}: tính toán khoảng cách và truy vấn tuyến đường thực tế
+\end{itemize}
+
+Kiến trúc tổng thể của hệ thống được minh họa trong Hình~\ref{fig:system_architecture}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.15cm,
+    every node/.style={draw, rectangle, rounded corners, align=center, minimum width=3.4cm, minimum height=0.9cm},
+    arrow/.style={->, semithick}
+]
+
+% ===== Clients =====
+\node (customer) {Customer App\\(Mobile -- MVVM)};
+\node (driver) [below of=customer] {Driver App\\(Mobile -- MVVM)};
+\node (admin) [below of=driver] {Admin Web\\(Nuxt)};
+
+% ===== API Gateway =====
+\node (gateway) [right=1.2cm of driver] {API Gateway};
+
+% ===== Backend Services =====
+\node (auth) [right=1.2cm of gateway, yshift=2.3cm] {Authentication\\Service};
+\node (order) [below of=auth] {Order\\Service};
+\node (schedule) [below of=order] {Driver and\\ Scheduling\\Service};
+\node (routing) [below of=schedule] {Routing and\\ Optimization\\Service};
+\node (noti) [below of=routing] {Notification\\Service};
+
+% ===== Database =====
+\node (db) [right=1.5cm of schedule] {Supabase\\PostgreSQL + Auth};
+
+% ===== External APIs =====
+\node (osrm) [below of=db] {OSRM / OSM\\Map Services};
+
+% ===== Connections =====
+\draw[arrow] (customer) -- (gateway);
+\draw[arrow] (driver) -- (gateway);
+\draw[arrow] (admin) -- (gateway);
+
+\draw[arrow] (gateway) -- (auth);
+\draw[arrow] (gateway) -- (order);
+\draw[arrow] (gateway) -- (schedule);
+\draw[arrow] (gateway) -- (routing);
+\draw[arrow] (gateway) -- (noti);
+
+\draw[arrow] (auth) -- (db);
+\draw[arrow] (order) -- (db);
+\draw[arrow] (schedule) -- (db);
+\draw[arrow] (routing) -- (db);
+\draw[arrow] (noti) -- (db);
+
+\draw[arrow] (routing) -- (osrm);
+
+\end{tikzpicture}
+\caption{Kiến trúc tổng thể hệ thống giao hàng}
+\label{fig:system_architecture}
+\end{figure}
+
+
+
+
 \section{Phân tích nghiệp vụ}
 
 \subsection{Các tác nhân của hệ thống}

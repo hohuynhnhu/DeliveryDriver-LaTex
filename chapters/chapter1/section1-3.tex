@@ -1,28 +1,19 @@
 \section{Cơ sở dữ liệu, Authentication và Deployment}
 
-\subsection{PostgreSQL (Supabase)}
+\subsection{Cơ sở dữ liệu và xác thực người dùng với Supabase}
 
-Hệ thống sử dụng PostgreSQL thông qua Supabase platform. Dữ liệu được lưu trữ và đồng bộ thông qua Supabase Database.
+Hệ thống sử dụng PostgreSQL thông qua nền tảng Supabase để lưu trữ và quản lý dữ liệu. Supabase cung cấp đồng thời cơ sở dữ liệu, dịch vụ xác thực và cơ chế bảo mật truy cập.
 
-\textbf{Các bảng chính:}
+Các bảng dữ liệu chính bao gồm: orders (đơn hàng), drivers (tài xế), routes (tuyến đường tối ưu) và profiles (thông tin người dùng).
+
+Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký, đăng nhập và quản lý phiên làm việc. Sau khi xác thực thành công, người dùng được liên kết với bảng profiles. Cơ chế bảo mật dựa trên:
+
 \begin{itemize}
-  \item orders: Thông tin đơn hàng
-  \item drivers: Thông tin tài xế
-  \item routes: Tuyến đường tối ưu
-  \item profiles: Hồ sơ người dùng
+    \item Xác thực Email/Password
+    \item Quản lý phiên bằng JWT
+    \item Row Level Security (RLS) để kiểm soát quyền truy cập dữ liệu ở mức bản ghi
 \end{itemize}
 
-\subsection{Supabase Authentication}
-
-Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký, đăng nhập và quản lý phiên làm việc của người dùng. Sau khi xác thực thành công, thông tin người dùng được liên kết với bảng \texttt{profiles}.
-
-\textbf{Tính năng:}
-\begin{itemize}
-    \item Email/Password authentication
-    \item JWT-based sessions
-    \item Row Level Security (RLS) policies
-    \item Real-time subscriptions
-\end{itemize}
 
 \subsection{Docker}
 
@@ -38,9 +29,10 @@ Docker được sử dụng để containerize ứng dụng backend, đảm bả
 
 \subsection{Thuật toán tối ưu hóa}
 
-Hệ thống áp dụng các thuật toán để tối ưu tuyến đường giao hàng:
+Hệ thống áp dụng nhiều thuật toán và kỹ thuật khác nhau nhằm tối ưu hóa cả tuyến đường giao hàng và lịch làm việc của tài xế:
 
 \begin{itemize}
+<<<<<<< HEAD
     \item \textbf{Nearest Neighbor}: Tạo tuyến đường ban đầu nhanh chóng
     \item \textbf{2-opt}: Cải thiện tuyến đường bằng cách loại bỏ crossings
     \item \textbf{OSRM API}: Tính toán tuyến đường thực tế trên bản đồ OpenStreetMap
@@ -75,3 +67,89 @@ OSRM là routing engine mã nguồn mở cho OpenStreetMap, cung cấp các API 
     \item Tối ưu thứ tự giao hàng với Trip Service
     \item Hiển thị hướng dẫn turn-by-turn cho tài xế
 \end{itemize}
+=======
+    \item \textbf{Nearest Neighbor}: Tạo lời giải ban đầu nhanh chóng cho bài toán TSP.
+    \item \textbf{2-opt}: Cải thiện tuyến đường bằng cách loại bỏ các đoạn cắt nhau (crossing).
+    \item \textbf{OR-Tools (Google)}: Tối ưu thứ tự ghé thăm các điểm giao hàng dựa trên ma trận khoảng cách.
+    \item \textbf{Google Maps / OSRM API}: Tính khoảng cách và thời gian di chuyển thực tế theo đường giao thông.
+    \item \textbf{Ramer--Douglas--Peucker}: Đơn giản hóa dữ liệu GPS để giảm số lượng điểm lưu trữ.
+    \item \textbf{Genetic Algorithm (GA)}: Tối ưu bài toán xếp lịch ca làm việc cho tài xế.
+\end{itemize}
+
+\subsubsection{Đơn giản hóa tuyến đường bằng thuật toán Ramer--Douglas--Peucker}
+
+Trong quá trình ghi nhận lộ trình di chuyển của tài xế, dữ liệu GPS có thể chứa hàng nghìn điểm, gây tốn dung lượng lưu trữ và làm chậm quá trình xử lý. Hệ thống sử dụng thuật toán \textbf{Ramer--Douglas--Peucker (RDP)} để:
+
+\begin{itemize}
+    \item Giảm số lượng điểm trong polyline
+    \item Vẫn giữ nguyên hình dạng tổng thể của tuyến đường
+    \item Giảm dung lượng lưu trữ trong cơ sở dữ liệu
+\end{itemize}
+
+Thuật toán hoạt động bằng cách loại bỏ các điểm trung gian không cần thiết nếu sai lệch so với đoạn thẳng nối hai đầu nhỏ hơn ngưỡng $\varepsilon$.
+
+\subsubsection{Tối ưu hóa lịch tài xế bằng Genetic Algorithm}
+
+Bài toán xếp lịch tài xế là một bài toán tổ hợp (combinatorial optimization) với nhiều ràng buộc:
+
+\begin{itemize}
+    \item Giới hạn số giờ làm việc mỗi tài xế
+    \item Phân bố đơn hàng theo khu vực
+    \item Cân bằng tải công việc giữa các tài xế
+\end{itemize}
+
+Hệ thống sử dụng Genetic Algorithm (GA) để:
+
+\begin{itemize}
+    \item Mã hóa mỗi phương án xếp lịch như một cá thể (chromosome)
+    \item Áp dụng các toán tử: selection, crossover, mutation
+    \item Tối ưu dần hàm mục tiêu: giảm tổng thời gian giao hàng và tăng mức độ cân bằng tải
+\end{itemize}
+
+\subsubsection{Pipeline tối ưu hóa tuyến đường}
+
+Quy trình xử lý và tối ưu tuyến đường được mô tả như sau:
+
+\begin{itemize}
+    \item Đầu vào: danh sách các điểm giao hàng (latitude, longitude)
+    \item Tính ma trận khoảng cách bằng:
+    \begin{itemize}
+        \item \textbf{OSRM}: ưu tiên dùng để lấy khoảng cách theo đường thực tế
+        \item \textbf{Haversine}: dùng làm phương án dự phòng (fallback)
+    \end{itemize}
+    \item Sử dụng OR-Tools để tối ưu thứ tự ghé thăm các điểm
+    \item Sau khi có thứ tự tối ưu, gọiOSRM get\_route để vẽ tuyến đường thực tế trên bản đồ
+\end{itemize}
+
+\subsubsection{Sơ đồ luồng xử lý tối ưu tuyến}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=1.4cm,
+    every node/.style={draw, rectangle, rounded corners, align=center, minimum width=3cm, minimum height=0.9cm},
+    arrow/.style={->, thick}
+]
+
+\node (loc) {List locations\\(lat, lon)};
+\node (dist) [below of=loc] {DistanceMatrixService};
+\node (osrm) [below left of=dist, xshift=-2cm] {OSRM\\(ưu tiên)};
+\node (hav) [below right of=dist, xshift=2cm] {Haversine\\(fallback)};
+\node (matrix) [below of=dist, yshift=-1.2cm] {distance\_matrix};
+\node (opt) [below of=matrix] {RouteOptimizer\\(OR-Tools)};
+\node (order) [below of=opt] {Thứ tự đi tối ưu};
+\node (route) [below of=order] {OSRM get\_route\\(vẽ đường thực)};
+
+\draw[arrow] (loc) -- (dist);
+\draw[arrow] (dist) -- (osrm);
+\draw[arrow] (dist) -- (hav);
+\draw[arrow] (osrm) -- (matrix);
+\draw[arrow] (hav) -- (matrix);
+\draw[arrow] (matrix) -- (opt);
+\draw[arrow] (opt) -- (order);
+\draw[arrow] (order) -- (route);
+
+\end{tikzpicture}
+\caption{Pipeline tối ưu hóa tuyến đường giao hàng}
+\label{fig:routing_pipeline}
+\end{figure}
+>>>>>>> 17d5b43494552c18bf376346eb7c31c14ed9a519
