@@ -100,3 +100,32 @@ Sau khi quản trị viên chọn hành động xử lý, quy trình rẽ nhánh
 Nếu khách hàng đổi địa chỉ, hệ thống cập nhật thông tin mới; trường hợp địa chỉ mới khác khu vực hoạt động, hệ thống sẽ hủy gán tài xế hiện tại để đưa đơn về trạng thái chờ tìm tài xế mới.
 Đối với trường hợp xử lý giao thất bại hoặc hủy đơn, hệ thống cập nhật trạng thái tương ứng  vào cơ sở dữ liệu.
 Quy trình kết thúc khi hệ thống gửi thông báo cập nhật đến các bên liên quan thông qua Notification Service và làm mới danh sách trên giao diện quản trị.
+
+\subsection{Sequence Diagram tra cứu hành trình đơn}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Tracuuhanhtrinhdonsequence.jpg}
+    \caption{Sequence Diagram tra cứu hành trình đơn}
+    \label{fig:tracuuhanhtrinhdon_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình khách hàng thực hiện kiểm tra trạng thái và lịch sử di chuyển của đơn hàng.
+Khách hàng nhập Mã vận đơn trên giao diện Customer App và nhấn nút tra cứu, yêu cầu này được gửi đến Backend API.
+Hệ thống truy vấn thông tin cơ bản từ PostgreSQL. Tại đây quy trình rẽ nhánh: nếu không tìm thấy đơn hàng, hệ thống báo lỗi mã không tồn tại cho người dùng.
+Trong trường hợp đơn hàng hợp lệ, Backend API tiếp tục truy xuất danh sách các mốc thời gian chi tiết từ cơ sở dữ liệu.
+Dữ liệu đầy đủ bao gồm thời gian tạo, thời gian lấy hàng và vị trí hiện tại được trả về để ứng dụng hiển thị dòng thời gian hành trình cho khách hàng.
+
+\subsection{Sequence Diagram cập nhật trạng thái hoạt động}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Capnhattrangthaihoatdongsequence.jpg}
+    \caption{Sequence Diagram cập nhật trạng thái hoạt động}
+    \label{fig:capnhattrangthai_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình tài xế thay đổi trạng thái làm việc (Rảnh, Bận, Hết ca...) trên ứng dụng Driver App để hệ thống điều phối đơn hàng phù hợp.
+Tài xế chọn trạng thái mới từ menu, ứng dụng gửi yêu cầu đến Backend API. Quy trình xử lý rẽ nhánh đặc biệt khi tài xế chọn trạng thái ``Hết ca làm''.
+Trong trường hợp này, hệ thống kiểm tra PostgreSQL xem còn đơn hàng chưa hoàn thành không. Nếu còn, hệ thống gửi cảnh báo lỗi yêu cầu hoàn tất; nếu không còn vướng bận, hệ thống cập nhật trạng thái nghỉ, chốt tổng kết ca và ghi nhận thời gian kết thúc.
+Đối với các trạng thái thông thường khác (Rảnh, Bận), hệ thống thực hiện cập nhật trực tiếp vào cơ sở dữ liệu và gửi thông báo thay đổi thành công để ứng dụng hiển thị trạng thái hiện tại.
