@@ -1,0 +1,47 @@
+\section{Cơ sở dữ liệu, Authentication và Deployment}
+
+\subsection{PostgreSQL (Supabase)}
+
+Hệ thống sử dụng PostgreSQL thông qua Supabase platform. Dữ liệu được lưu trữ và đồng bộ thông qua Supabase Database.
+
+\textbf{Các bảng chính:}
+\begin{itemize}
+    \item \texttt{orders}: Thông tin đơn hàng
+    \item \texttt{drivers}: Thông tin tài xế
+    \item \texttt{routes}: Tuyến đường tối ưu
+    \item \texttt{profiles}: Hồ sơ người dùng
+\end{itemize}
+
+\subsection{Supabase Authentication}
+
+Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký, đăng nhập và quản lý phiên làm việc của người dùng. Sau khi xác thực thành công, thông tin người dùng được liên kết với bảng \texttt{profiles}.
+
+\textbf{Tính năng:}
+\begin{itemize}
+    \item Email/Password authentication
+    \item JWT-based sessions
+    \item Row Level Security (RLS) policies
+    \item Real-time subscriptions
+\end{itemize}
+
+\subsection{Docker}
+
+Docker được sử dụng để containerize ứng dụng backend, đảm bảo môi trường development và production nhất quán.
+
+\textbf{Lợi ích:}
+\begin{itemize}
+    \item Portable: Chạy ổn định trên mọi môi trường
+    \item Isolation: Tách biệt services
+    \item Scalable: Dễ dàng scale horizontal
+    \item CI/CD: Tích hợp deployment pipeline
+\end{itemize}
+
+\subsection{Thuật toán tối ưu hóa}
+
+Hệ thống áp dụng các thuật toán để tối ưu tuyến đường giao hàng:
+
+\begin{itemize}
+    \item \textbf{Nearest Neighbor}: Tạo tuyến đường ban đầu nhanh chóng
+    \item \textbf{2-opt}: Cải thiện tuyến đường bằng cách loại bỏ crossings
+    \item \textbf{Google Maps API}: Tính khoảng cách và thời gian thực tế
+\end{itemize}
