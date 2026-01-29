@@ -1,8 +1,82 @@
 \begin{titlepage}
+\thispagestyle{empty}
+
+% ================== VẼ KHUNG ==================
+\AddToShipoutPictureBG{
+\begin{tikzpicture}[remember picture,overlay]
+
+% ===== Khung ngoài =====
+\draw[line width=5pt, color=blue!50!black]
+  ([xshift=1.5cm,yshift=-1.5cm]current page.north west)
+  rectangle
+  ([xshift=-1.5cm,yshift=1.5cm]current page.south east);
+
+% ===== Khung trong =====
+\draw[line width=0.8pt, color=blue!50!black]
+  ([xshift=1.8cm,yshift=-1.8cm]current page.north west)
+  rectangle
+  ([xshift=-1.8cm,yshift=1.8cm]current page.south east);
+
+% ===== Hoa góc =====
+\foreach \p in {north west, north east, south west, south east}{
+  \draw[line width=1pt]
+    ([xshift=1.3cm,yshift=-1.3cm]current page.\p) -- ++(1cm,0);
+  \draw[line width=1pt]
+    ([xshift=1.3cm,yshift=-1.3cm]current page.\p) -- ++(0,-1cm);
+}
+
+\end{tikzpicture}
+}
+% ==============================================
+
+% ===== NỘI DUNG =====
 \centering
-{\Large TÊN TRƯỜNG ĐẠI HỌC \par}
+
+\vspace*{1cm}
+
+{\Large \textbf{TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI TP. HỒ CHÍ MINH} \par}
+\vspace{0.3cm}
+{\large \textbf{VIỆN CÔNG NGHỆ THÔNG TIN VÀ ĐIỆN, ĐIỆN TỬ} \par}
 \vspace{2cm}
-{\Huge\bfseries TÊN ĐỒ ÁN \par}
+\begin{center}
+\includegraphics[width=12cm]{figures/chapter1/logo_uth.png}
+\end{center}
+
+
+\vspace{2cm}
+
+
+{\Large \textbf{ĐỒ ÁN MÔN HỌC} \par}
+\vspace{0.5cm}
+{\Large \textbf{XÂY DỰNG HỆ THỐNG THÔNG TIN VÀ QUẢN LÝ} \par}
+
+\vspace{2cm}
+
+{\Huge \bfseries 
+\makebox[\textwidth][c]{HỆ THỐNG TỐI ƯU VẬN TẢI HÀNG HÓA}
+\par}
+
+\vspace{2.5cm}
+
+\begin{flushleft}
+\hspace{8cm}
+\begin{minipage}{0.45\textwidth}
+\textbf{GVHD:} Th.S Lê Huỳnh Long \\[0.3cm]
+\textbf{SVTH:} \\ 
+ Lê Tuấn Khang\\ 
+Hồ Huỳnh Nhu \\ 
+Phạm Ngọc Diễm My \\
+Nguyễn Huỳnh Tường Vi \\
+Huỳnh Sĩ Nguyên \\
+Trương Thục Trinh\\
+Nguyễn Hoàng Uyển Nhi   
+\end{minipage}
+\end{flushleft}
+
 \vfill
-Sinh viên thực hiện: ...
+
+{\large Tp. Hồ Chí Minh, năm 2025 \par}
+
 \end{titlepage}
+
+\ClearShipoutPictureBG
