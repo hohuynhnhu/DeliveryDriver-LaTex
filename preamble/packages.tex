@@ -17,6 +17,12 @@
 \usepackage{geometry}
 \geometry{left=3cm,right=2cm,top=2cm,bottom=2cm}
 
+% ===== FLOAT =====
+\usepackage{float}
+
+% ===== GIÃN DÒNG =====
+\usepackage{setspace}
+
 % ===== SECTION CONTROL =====
 \usepackage{titlesec}
 
@@ -26,26 +32,20 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{arrows.meta, positioning, shapes.geometric}
 
-
-% ===== FLOAT =====
-\usepackage{float}
+% ===== TOC / LOF / LOT =====
 \usepackage{tocloft}
 
+% ===== CAPTION =====
 \usepackage{caption}
-% ===== Caption hình & bảng in nghiêng =====
 \captionsetup{
     font=it,
     labelfont=it
 }
 
-% ===== GIÃN DÒNG =====
-\usepackage{setspace}   % ❗ CHƯA bật onehalfspacing ở đây
-
 % ===== ĐỔI TÊN SANG TIẾNG VIỆT =====
 \renewcommand{\contentsname}{MỤC LỤC}
 \renewcommand{\listfigurename}{DANH MỤC HÌNH}
 \renewcommand{\listtablename}{DANH MỤC BẢNG}
-
 \renewcommand{\chaptername}{Chương}
 \renewcommand{\figurename}{Hình}
 \renewcommand{\tablename}{Bảng}
@@ -61,20 +61,23 @@
 \setlength{\cftbeforeloftitleskip}{0pt}
 \setlength{\cftbeforelottitleskip}{0pt}
 
-\renewcommand{\cfttoctitlefont}{\hfill\bfseries\Large}
-\renewcommand{\cftaftertoctitle}{\hfill}
+% ===== CĂN GIỮA THẬT TIÊU ĐỀ =====
+% ===== CĂN GIỮA THẬT TIÊU ĐỀ MỤC LỤC / HÌNH / BẢNG =====
+\renewcommand{\cfttoctitlefont}{\bfseries\Large\makebox[\textwidth][c]}
+\renewcommand{\cftaftertoctitle}{\par}
 
-\renewcommand{\cftloftitlefont}{\hfill\bfseries\Large}
-\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\bfseries\Large\makebox[\textwidth][c]}
+\renewcommand{\cftafterloftitle}{\par}
 
-\renewcommand{\cftlottitlefont}{\hfill\bfseries\Large}
-\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\bfseries\Large\makebox[\textwidth][c]}
+\renewcommand{\cftafterlottitle}{\par}
+
 
 \setlength{\cftaftertoctitleskip}{10pt}
 \setlength{\cftafterloftitleskip}{10pt}
 \setlength{\cftafterlottitleskip}{10pt}
 
-% ===== HIỂN THỊ "Chương X", "Hình", "Bảng" =====
+% ===== HIỂN THỊ "Chương X", "Hình", "Bảng" TRONG MỤC LỤC =====
 \renewcommand{\cftchappresnum}{CHƯƠNG~}
 \setlength{\cftchapnumwidth}{6em}
 
@@ -83,21 +86,20 @@
 
 \renewcommand{\cfttabpresnum}{Bảng~}
 \setlength{\cfttabnumwidth}{5em}
-% ===== FORMAT SECTION: 14pt, đậm, chữ thường =====
+
+% ===== FORMAT SECTION =====
 \titleformat{\section}
   {\normalfont\bfseries\fontsize{14pt}{16pt}\selectfont}
   {\thesection}
   {1em}
   {}
 
-% ===== FORMAT SUBSECTION: chữ nghiêng, chữ thường =====
-% ===== FORMAT SUBSECTION: chữ nghiêng, to hơn =====
+% ===== FORMAT SUBSECTION =====
 \titleformat{\subsection}
-  {\normalfont\itshape\large}   % chữ thường + nghiêng + to hơn
+  {\normalfont\itshape\large}
   {\thesubsection}
   {1em}
   {}
-
 
 % ===== ĐÁNH SỐ HÌNH/BẢNG THEO CHƯƠNG =====
 \numberwithin{figure}{chapter}
@@ -119,8 +121,8 @@
 \pretocmd{\listoffigures}{\onehalfspacing}{}{}
 \pretocmd{\listoftables}{\onehalfspacing}{}{}
 
-% ===== GIÃN DÒNG CHO NỘI DUNG CHÍNH =====
+% ===== GIÃN DÒNG TOÀN VĂN BẢN =====
 \AtBeginDocument{\onehalfspacing}
 
-% ===== HYPERREF =====
+% ===== HYPERREF (LUÔN ĐỂ CUỐI) =====
 \usepackage[hidelinks]{hyperref}

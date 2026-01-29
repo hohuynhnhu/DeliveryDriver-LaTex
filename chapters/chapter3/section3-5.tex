@@ -1,20 +1,32 @@
+\section{Mô tả sơ đồ ngữ cảnh}
+
+Hình~\ref{fig:dfd} minh họa sơ đồ ngữ cảnh của hệ thống tối ưu vận tải hàng hóa, thể hiện mối quan hệ giữa hệ thống và các tác nhân bên ngoài gồm \textit{Customer}, \textit{Driver}, \textit{Manager}, \textit{Notification Service} và \textit{Map/GPS Service}.  
+
+Hệ thống đóng vai trò trung tâm trong việc tiếp nhận yêu cầu tạo đơn, theo dõi trạng thái đơn hàng, điều phối và tối ưu lộ trình giao hàng. \textit{Customer} tương tác với hệ thống để tạo và theo dõi đơn hàng, \textit{Driver} nhận và thực hiện giao hàng, trong khi \textit{Manager} thực hiện giám sát và điều phối hoạt động. Đồng thời, hệ thống kết nối với \textit{Map/GPS Service} để truy vấn dữ liệu bản đồ và vị trí, và với \textit{Notification Service} để gửi thông báo đến các bên liên quan.  
+
+Sơ đồ ngữ cảnh giúp xác định rõ phạm vi hệ thống cũng như các luồng trao đổi dữ liệu chính giữa hệ thống và các thực thể bên ngoài.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{figures/chapter2/dfd.jpg}
+    \caption{Sơ đồ ngữ cảnh}
+    \label{fig:dfd}
+\end{figure}
+
+
 \section{Thiết kế dữ liệu}
 
-\subsection{Mô hình dữ liệu tổng quan}
+
 
 Dữ liệu của hệ thống được quản lý theo nguyên tắc database per service. 
 Mỗi microservice sở hữu cơ sở dữ liệu riêng biệt nhằm đảm bảo tính độc lập.
 
-\subsection{Thiết kế cơ sở dữ liệu cho Profile Service}
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{figures/chapter2/erd.jpg}
+    \caption{Sơ đồ ERD }
+    \label{fig:intro}
+\end{figure}
 
-Bảng \texttt{profiles} được sử dụng để lưu trữ thông tin mở rộng của người dùng.
 
-\begin{itemize}
-    \item id (Primary Key)
-    \item user\_id (Logical reference tới Supabase Auth)
-    \item full\_name
-    \item phone
-    \item avatar\_url
-    \item role
-    \item created\_at
-\end{itemize}
