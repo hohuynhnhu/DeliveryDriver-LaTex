@@ -1,32 +1,115 @@
-\section{Mô tả sơ đồ ngữ cảnh}
+\section{Dataflow Diagram (DFD)}
+Trong phần này, hệ thống được mô hình hóa qua các sơ đồ luồng dữ liệu từ tổng quát đến chi tiết.
 
-Hình~\ref{fig:dfd} minh họa sơ đồ ngữ cảnh của hệ thống tối ưu vận tải hàng hóa, thể hiện mối quan hệ giữa hệ thống và các tác nhân bên ngoài gồm \textit{Customer}, \textit{Driver}, \textit{Manager}, \textit{Notification Service} và \textit{Map/GPS Service}.  
+% --- 3.5.1 ---
+\subsection{DFD Ngữ cảnh}
 
-Hệ thống đóng vai trò trung tâm trong việc tiếp nhận yêu cầu tạo đơn, theo dõi trạng thái đơn hàng, điều phối và tối ưu lộ trình giao hàng. \textit{Customer} tương tác với hệ thống để tạo và theo dõi đơn hàng, \textit{Driver} nhận và thực hiện giao hàng, trong khi \textit{Manager} thực hiện giám sát và điều phối hoạt động. Đồng thời, hệ thống kết nối với \textit{Map/GPS Service} để truy vấn dữ liệu bản đồ và vị trí, và với \textit{Notification Service} để gửi thông báo đến các bên liên quan.  
 
-Sơ đồ ngữ cảnh giúp xác định rõ phạm vi hệ thống cũng như các luồng trao đổi dữ liệu chính giữa hệ thống và các thực thể bên ngoài.
 
+Hình~\ref{fig:dfd} minh họa sơ đồ ngữ cảnh của hệ thống tối ưu vận tải hàng hóa, thể hiện mối quan hệ giữa hệ thống và các tác nhân bên ngoài gồm \textit{Customer}, \textit{Driver}, \textit{Manager}, \textit{Notification Service} và \textit{Map/GPS Service}.
+
+Hệ thống đóng vai trò trung tâm trong việc tiếp nhận yêu cầu tạo đơn, theo dõi trạng thái đơn hàng, điều phối và tối ưu lộ trình giao hàng. \textit{Customer} tương tác với hệ thống để tạo và theo dõi đơn hàng, \textit{Driver} nhận và thực hiện giao hàng, trong khi \textit{Manager} thực hiện giám sát và điều phối hoạt động. Đồng thời, hệ thống kết nối với \textit{Map/GPS Service} để truy vấn dữ liệu bản đồ và vị trí, và với \textit{Notification Service} để gửi thông báo đến các bên liên quan.
 
 \begin{figure}[H]
     \centering
     \includegraphics[height=0.3\textheight]{figures/chapter2/dfd.jpg}
-    \caption{Sơ đồ ngữ cảnh}
+    \caption{Sơ đồ ngữ cảnh DFD}
     \label{fig:dfd}
 \end{figure}
 
+% --- 3.5.2 ---
+\subsection{DFD Cấp 1 - Quản lý Người dùng \& Xác thực}
+Sơ đồ mô tả chi tiết quy trình quản lý vòng đời tài khoản và bảo mật hệ thống.
 
-\section{Thiết kế dữ liệu}
 
-
-
-Dữ liệu của hệ thống được quản lý theo nguyên tắc database per service. 
-Mỗi microservice sở hữu cơ sở dữ liệu riêng biệt nhằm đảm bảo tính độc lập.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.9\textheight]{figures/chapter2/erd.jpg}
-    \caption{Sơ đồ ERD }
-    \label{fig:intro}
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/DFD_Level1_1.0.jpg}
+    \caption{DFD cấp 1 - Quản lý Người dùng \& Xác thực}
+    \label{fig:dfd_1_0}
 \end{figure}
 
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{1.1 Đăng ký Tài khoản:} Tiếp nhận thông tin (Email/SĐT), kiểm tra trùng lặp trong cơ sở dữ liệu và khởi tạo bản ghi người dùng mới.
+    \item \textbf{1.2 Đăng nhập \& Xác thực:} Đối chiếu thông tin đăng nhập với kho dữ liệu, cấp phát Token  nếu hợp lệ.
+    \item \textbf{1.3 Quản lý Hồ sơ \& Trạng thái:} Cho phép người dùng cập nhật thông tin cá nhân và tài xế cập nhật trạng thái hoạt động .
+\end{itemize}
 
+% --- 3.5.3 ---
+\subsection{DFD Cấp 1 - Quản lý Đơn hàng }
+Sơ đồ thể hiện quy trình tiếp nhận và xử lý vòng đời của một đơn hàng từ khi khởi tạo đến khi kết thúc.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/DFD_Level1_2.0.jpg}
+    \caption{DFD cấp 1 - Quản lý Đơn hàng}
+    \label{fig:dfd_2_0}
+\end{figure}
+
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{2.1 Khởi tạo Đơn hàng:} Tiếp nhận thông tin người gửi, người nhận và chi tiết hàng hóa từ khách hàng để lập hồ sơ vận chuyển.
+    \item \textbf{2.2 Xác thực Địa chỉ \& Tọa độ:} Gửi dữ liệu địa chỉ sang Map Service để xác thực sự tồn tại và chuyển đổi thành tọa độ GPS phục vụ cho việc điều hướng.
+    \item \textbf{2.3 Xử lý Sự cố:} Quy trình dành cho Admin để can thiệp vào các đơn hàng lỗi, thực hiện hủy đơn hoặc chuyển trạng thái hoàn kho khi có vấn đề phát sinh.
+\end{itemize}
+
+\subsection{DFD Cấp 1 - Điều phối \& Phân công }
+Đây là module trung tâm của hệ thống, xử lý việc tìm kiếm và gán tài xế tối ưu nhất cho đơn hàng.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/DFD_Level1_3.0.jpg}
+    \caption{DFD cấp 1 - Điều phối \& Phân công}
+    \label{fig:dfd_3_0}
+\end{figure}
+
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{3.1 Tìm kiếm Tài xế:} Truy vấn kho dữ liệu D3 để lọc ra danh sách tài xế đang trực tuyến và nằm trong bán kính phục vụ.
+    \item \textbf{3.2 Tối ưu Lộ trình:} Sử dụng thuật toán và dữ liệu từ Map Service để tính toán chi phí di chuyển, sắp xếp thứ tự ưu tiên.
+    \item \textbf{3.3 Gán đơn \& Thông báo:} Cập nhật ID tài xế vào đơn hàng (D2) và kích hoạt Notification Service để gửi yêu cầu nhận việc.
+\end{itemize}
+
+\subsection{DFD Cấp 1 - Thực hiện Giao hàng}
+Mô tả các hoạt động nghiệp vụ diễn ra thông qua ứng dụng của tài xế.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/DFD_Level1_4.0.jpg}
+    \caption{DFD cấp 1 - Thực hiện Giao hàng}
+    \label{fig:dfd_4_0}
+\end{figure}
+
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{4.1 Tiếp nhận \& Lấy hàng:} Tài xế xác nhận nhiệm vụ, hệ thống ghi nhận thời gian và vị trí lấy hàng thành công.
+    \item \textbf{4.2 Giao hàng \& :} Xử lý việc giao kiện hàng, yêu cầu tải lên hình ảnh bằng chứng giao hàng để hoàn tất đơn.
+    \item \textbf{4.3 Cập nhật Thất bại:} Ghi nhận các lý do không giao được hàng và cập nhật trạng thái chờ xử lý lại.
+\end{itemize}
+
+\subsection{DFD Cấp 1 - Giám sát \& Theo dõi }
+Module xử lý dữ liệu vị trí thời gian thực phục vụ cho việc quản lý và tra cứu.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/DFD_Level1_5.0.jpg}
+    \caption{DFD cấp 1 - Giám sát \& Theo dõi}
+    \label{fig:dfd_5_0}
+\end{figure}
+
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{5.1 Cập nhật Vị trí (GPS):} Nhận tín hiệu tọa độ liên tục từ thiết bị tài xế và lưu trữ vào nhật ký hành trình (D4).
+    \item \textbf{5.2 Hiển thị Bản đồ:} Cung cấp giao diện trực quan cho Admin để quan sát vị trí và trạng thái của toàn bộ tài xế.
+    \item \textbf{5.3 Tra cứu Hành trình:} Cho phép khách hàng nhập mã vận đơn để truy xuất lịch sử di chuyển và vị trí hiện tại của hàng hóa.
+\end{itemize}
