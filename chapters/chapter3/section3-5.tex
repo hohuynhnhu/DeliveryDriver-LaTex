@@ -113,3 +113,20 @@ Module xử lý dữ liệu vị trí thời gian thực phục vụ cho việc 
     \item \textbf{5.2 Hiển thị Bản đồ:} Cung cấp giao diện trực quan cho Admin để quan sát vị trí và trạng thái của toàn bộ tài xế.
     \item \textbf{5.3 Tra cứu Hành trình:} Cho phép khách hàng nhập mã vận đơn để truy xuất lịch sử di chuyển và vị trí hiện tại của hàng hóa.
 \end{itemize}
+
+\subsection{DFD Cấp 1 - Tối ưu hóa phân bổ lịch trình}
+Module thực hiện tính toán và sắp xếp lịch trình tự động dựa trên thuật toán di truyền (Genetic Algorithm) để tối ưu hóa việc giao hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{frontmatter/image/ToiUuHoaPhanBoLichTrinh-DFD.jpeg}
+    \caption{DFD cấp 1 - Tối ưu hóa phân bổ lịch trình}
+    \label{fig:dfd_6_0}
+\end{figure}
+
+\noindent \textbf{Các tiến trình con:}
+\begin{itemize}
+    \item \textbf{6.1 Tiếp nhận \& Kiểm tra dữ liệu:} Tiếp nhận yêu cầu tạo lịch từ Quản trị viên, thực hiện truy vấn danh sách đơn hàng và tài xế từ kho dữ liệu để đảm bảo đủ điều kiện thực hiện tối ưu.
+    \item \textbf{6.2 Tối ưu hóa bằng thuật toán GA:} Thực hiện các bước tiến hóa bao gồm tính điểm thích nghi (Fitness), lai ghép (Crossover) và đột biến (Mutation) để tìm ra phương án phân bổ đơn hàng cho tài xế hiệu quả nhất.
+    \item \textbf{6.3 Lưu trữ \& Xuất lịch trình:} Tiếp nhận kết quả tối ưu, thực hiện đánh số thứ tự giao hàng (Queue), lưu trữ thông tin vào kho dữ liệu Lịch trình (D6) và phản hồi bảng tổng hợp cho Quản trị viên.
+\end{itemize}

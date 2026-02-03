@@ -101,6 +101,7 @@ Hệ thống có các tác nhân chính bao gồm:
     \item Khách hàng (Customer)
     \item Quản lý vận hành (Admin)
     \item Nhân viên giao hàng (Driver)
+    \item Hệ thống (System)
 \end{itemize}
 
 \subsection{Use Case tổng quát}
@@ -616,3 +617,40 @@ Dưới đây là các đặc tả use case của quản trị điều phối:
 \end{tabular}
 \end{table}
 
+\subsection{Tối ưu hóa phân bổ theo độ ưu tiên}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Tối ưu hóa phân bổ theo độ ưu tiên \\ \hline
+\textbf{Actor} & Hệ thống (Scheduler Service), Admin \\ \hline
+\textbf{Mô tả} & Hệ thống tự động tính toán và sắp xếp thứ tự giao hàng sao cho các đơn hàng có độ ưu tiên cao (Express, Fragile) được xử lý sớm nhất, đồng thời cân bằng tải trọng giữa các tài xế. \\ \hline
+\textbf{Tiền điều kiện} & 
+\begin{itemize}
+    \item Danh sách đơn hàng đang ở trạng thái chờ xử lý (Pending).
+    \item Có ít nhất một tài xế đang ở trạng thái sẵn sàng (Active).
+\end{itemize} \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Hệ thống truy xuất danh sách đơn hàng và thông tin độ ưu tiên (Express: 100, Fragile: 80, Normal: 50).
+    \item Hệ thống khởi tạo quần thể các phương án phân bổ ngẫu nhiên (Genetic Algorithm Population).
+    \item Hệ thống tính toán điểm thích nghi (Fitness Score) cho từng phương án dựa trên trọng số ưu tiên (Priority Weight).
+    \item Hệ thống thực hiện các bước tiến hóa (Lai ghép và Đột biến) để tìm ra lịch trình có điểm tối ưu nhất.
+    \item Hệ thống gán thứ tự ưu tiên giao hàng (Queue position) cho từng đơn hàng trong lịch trình của tài xế.
+    \item Hệ thống lưu kết quả vào cơ sở dữ liệu và hiển thị lịch trình đã tối ưu.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{3a. Đơn hàng hỏa tốc (Express) bị xếp muộn:}
+\begin{itemize}
+    \item Thuật toán phát hiện đơn Express có vị trí hàng đợi (Queue) lớn.
+    \item Hệ thống áp dụng hình phạt (Penalty) vào điểm Fitness để loại bỏ phương án này, ưu tiên đưa đơn lên đầu danh sách.
+\end{itemize}
+\textbf{4a. Nhiều đơn hàng cùng độ ưu tiên trong một khu vực:}
+\begin{itemize}
+    \item Hệ thống sử dụng tiêu chí khoảng cách (Area Code) để sắp xếp các đơn này liên tiếp nhau nhằm tối ưu quãng đường di chuyển.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Các đơn hàng quan trọng được xếp vào vị trí giao hàng sớm nhất và tài xế nhận được danh sách nhiệm vụ đã sắp xếp. \\ \hline
+\end{tabular}
+\end{table}
