@@ -19,3 +19,13 @@ FastAPI là ASGI framework hiệu năng cao, hỗ trợ async/await. Ưu điểm
     \item Auto validation với Pydantic
     \item Auto generate API documentation (Swagger UI)
 \end{itemize}
+
+\subsection{WebSocket}
+
+Hệ thống sử dụng giao thức WebSocket để thiết lập kênh giao tiếp hai chiều (Full-duplex) giữa máy chủ và các ứng dụng theo dõi. WebSocket được lựa chọn vì những ưu điểm sau:
+
+\begin{itemize}
+    \item {Cập nhật thời gian thực (Real-time):} Cho phép máy chủ chủ động đẩy dữ liệu vị trí tài xế xuống ứng dụng của khách hàng và người quản trị ngay khi có sự thay đổi, giảm thiểu tối đa độ trễ so với cơ chế HTTP Polling truyền thống.
+    \item {Tối ưu hóa băng thông:} Sau khi thiết lập kết nối (Handshake), các gói tin trao đổi có kích thước tiêu đề (header) rất nhỏ, giúp tiết kiệm dung lượng truyền tải dữ liệu GPS liên tục.
+    \item {Quản lý trạng thái kết nối:} Sử dụng lớp ConnectionManager để duy trì và phân loại các nhóm kết nối (Admin, Viewer, Customer), đảm bảo dữ liệu được phát (broadcast) đến đúng đối tượng đích.
+\end{itemize}

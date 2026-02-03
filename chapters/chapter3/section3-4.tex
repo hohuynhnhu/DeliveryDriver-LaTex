@@ -129,3 +129,14 @@ Sơ đồ mô tả quy trình tài xế thay đổi trạng thái làm việc (R
 Tài xế chọn trạng thái mới từ menu, ứng dụng gửi yêu cầu đến Backend API. Quy trình xử lý rẽ nhánh đặc biệt khi tài xế chọn trạng thái ``Hết ca làm''.
 Trong trường hợp này, hệ thống kiểm tra PostgreSQL xem còn đơn hàng chưa hoàn thành không. Nếu còn, hệ thống gửi cảnh báo lỗi yêu cầu hoàn tất; nếu không còn vướng bận, hệ thống cập nhật trạng thái nghỉ, chốt tổng kết ca và ghi nhận thời gian kết thúc.
 Đối với các trạng thái thông thường khác (Rảnh, Bận), hệ thống thực hiện cập nhật trực tiếp vào cơ sở dữ liệu và gửi thông báo thay đổi thành công để ứng dụng hiển thị trạng thái hiện tại.
+
+\subsection{Sequence Diagram Tối ưu hoá phân bổ lịch trình}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/ToiUuHoaPhanBoLichTrinh-SD.jpeg}
+    \caption{Sequence Diagram tối ưu hoá phân bổ lịch trình}
+    \label{fig:toiuuhoalichtrinh_seq}
+\end{figure}
+
+Sơ đồ trình tự mô tả quy trình tối ưu hóa lịch trình giao hàng tự động bắt đầu từ việc Quản trị viên gửi yêu cầu, hệ thống sẽ ngay lập tức truy vấn dữ liệu đơn hàng và tài xế để kiểm tra điều kiện cần; nếu dữ liệu hợp lệ, bộ điều phối gọi Thuật toán Di truyền (GA) để thực hiện hàng loạt vòng lặp tiến hóa nhằm tìm ra phương án phân bổ có điểm Fitness cao nhất dựa trên độ ưu tiên và quãng đường, sau đó kết quả được gán số thứ tự giao hàng, lưu trữ đồng bộ vào Supabase và phản hồi lịch trình hoàn chỉnh cho người dùng.
