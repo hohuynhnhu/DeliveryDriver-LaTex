@@ -451,11 +451,44 @@ Luồng hoạt động chính của chức năng xem thông báo được mô t�
     \item Hệ thống kiểm tra người dùng có muốn xem thông báo khác không. Nếu có thì quay lại danh sách, nếu không thì kết thúc quy trình.
 \end{enumerate}
 
-\subsection{Activity Diagram tối ưu hoá phân bổ lịch trình}
+\subsection{Activity Diagram tối ưu lộ trình}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/ToiUuHoaPhanBoLichTrinh-AD.jpeg}
-    \caption{Activity Diagram tối ưu hoá phân bổ lịch trình}
-    \label{fig:toiuuhoaphanbolichtrinh}
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Toiuulotrinhactivity.jpg}
+    \caption{Activity Diagram tối ưu lộ trình}
+    \label{fig:toiuulotrinh}
 \end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Tối ưu lộ trình'' được xây dựng nhằm mô tả quy trình xử lý dữ liệu thông minh khi Quản trị viên (Admin) thực hiện gom nhóm và sắp xếp đơn hàng hàng loạt.
+Sơ đồ làm rõ logic quyết định của hệ thống trong việc lựa chọn thuật toán market basket analysis  dựa trên độ đo Lift để tối ưu hóa quãng đường di chuyển. Đồng thời, nó mô tả cơ chế tương tác  cho phép Admin xem trước và duyệt kế hoạch trước khi hệ thống thực thi gán đơn và xử lý các tình huống.
+Qua đó, sơ đồ giúp đảm bảo lộ trình giao hàng được xây dựng khoa học, tiết kiệm chi phí vận hành.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng tối ưu lộ trình được mô tả như sau:
+
+\begin{enumerate}
+    \item Admin truy cập danh sách đơn hàng chờ và chọn các đơn hàng cần xử lý.
+    \item Admin kích hoạt chức năng ``Tối ưu lộ trình''.
+    \item Hệ thống tiến hành phân tích dữ liệu địa điểm và truy xuất tập luật kết hợp (Association Rules).
+    \item Hệ thống kiểm tra độ đo Lift để quyết định thuật toán áp dụng:
+    \begin{itemize}
+        \item \textbf{Nếu Lift > 1 (Có mối liên hệ mạnh):} Hệ thống gom nhóm đơn hàng theo cụm MBA, sau đó sắp xếp thứ tự giao trong cụm để tối ưu hóa quãng đường và đưa ra gợi ý thông minh.
+        \item \textbf{Nếu Lift thấp (Ít liên hệ):} Hệ thống chuyển sang thuật toán tham lam (Greedy) để gom nhóm dựa trên khoảng cách địa lý gần nhất.
+    \end{itemize}
+    \item Hệ thống tạo bảng kế hoạch phân công dự kiến và hiển thị bản xem trước kèm các thông số tiết kiệm ước tính.
+    \item Admin xem xét kế hoạch đề xuất và đưa ra quyết định:
+    \begin{itemize}
+        \item \textbf{Nếu kế hoạch không hợp lý:} Admin nhấn ``Hủy bỏ''. Hệ thống hủy kết quả tạm tính và quay lại màn hình danh sách gốc.
+        \item \textbf{Nếu đồng ý áp dụng:} Admin nhấn ``Xác nhận''. Hệ thống thực hiện gán hàng loạt và lưu lộ trình chính thức vào cơ sở dữ liệu.
+    \end{itemize}
+    \item Hệ thống gửi lệnh phân công xuống ứng dụng của Tài xế và kiểm tra kết nối:
+    \begin{itemize}
+        \item \textbf{Nếu gửi thành công:} Hệ thống thông báo quy trình phân công hoàn tất.
+        \item \textbf{Nếu gặp lỗi mạng:} Hệ thống lưu lệnh vào hàng đợi (Queue) để tự động gửi lại sau và thông báo trạng thái ``Đã lưu'' cho Admin.
+    \end{itemize}
+    \item Kết thúc quá trình tối ưu lộ trình.
+\end{enumerate}

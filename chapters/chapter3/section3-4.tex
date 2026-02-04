@@ -51,11 +51,13 @@ Quy trình kết thúc khi hệ thống thông báo tạo đơn thành công và
     \label{fig:phancongdonhang_seq}
 \end{figure}
 
-Sơ đồ mô tả quy trình quản trị viên thực hiện gán đơn hàng cho tài xế cụ thể.
-Quản trị viên chọn đơn hàng trên Web Admin, hệ thống truy vấn Backend API và PostgreSQL để tìm kiếm và hiển thị danh sách tài xế trực tuyến trong khu vực.
-Sau khi Admin chọn tài xế, hệ thống kiểm tra số lượng đơn đang thực hiện. Trong trường hợp tài xế đang quá tải, hệ thống hiển thị cảnh báo và cung cấp tùy chọn gán đè (Force Assign) cho quản trị viên.
-Nếu tài xế đủ điều kiện hoặc quản trị viên xác nhận gán đè, hệ thống cập nhật thông tin người phụ trách vào cơ sở dữ liệu và kích hoạt Notification Service để gửi thông báo nhận việc đến tài xế, đồng thời chuyển trạng thái đơn hàng sang ``Đã phân công''.
+Sơ đồ mô tả quy trình Quản trị viên (Admin) thực hiện phân công đơn hàng cho tài xế thông qua giao diện Web Admin, có tích hợp sự hỗ trợ từ thuật toán gợi ý thông minh.
 
+Quy trình bắt đầu khi Admin chọn đơn hàng cần xử lý. Hệ thống Backend API không chỉ truy vấn dữ liệu từ PostgreSQL mà còn kích hoạt thuật toán MBA nội bộ để phân tích vị trí, lịch sử và các luật kết hợp, từ đó trả về danh sách tài xế được sắp xếp theo độ phù hợp cao nhất.
+
+Sau khi Admin chọn tài xế từ danh sách gợi ý và gửi yêu cầu phân công, hệ thống thực hiện kiểm tra logic nghiệp vụ về số lượng đơn hàng tài xế đang thực hiện.
+Nếu tài xế đang trong trạng thái quá tải (vượt định mức cho phép), hệ thống lập tức trả về cảnh báo lỗi và ngăn chặn việc gán đơn.
+Trong trường hợp tài xế đủ điều kiện tiếp nhận, hệ thống tiến hành cập nhật thông tin người phụ trách vào cơ sở dữ liệu, đồng thời gọi Notification Service để gửi thông báo nhận việc tức thời đến ứng dụng của tài xế và cập nhật trạng thái thành công trên giao diện quản trị.
 \subsection{Sequence Diagram thực hiện lấy hàng}
 
 \begin{figure}[H]
