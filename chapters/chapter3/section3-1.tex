@@ -107,7 +107,7 @@ Hệ thống có các tác nhân chính bao gồm:
 \subsection{Use Case tổng quát}
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/hethong.jpg}
+    \includegraphics[height=0.4\textheight]{frontmatter/image/hethong_new.jpg}
     \caption{Use case Diagram tổng quát}
     \label{fig:intro}
 \end{figure}
@@ -655,5 +655,46 @@ Dưới đây là các đặc tả use case của quản trị điều phối:
     \item Actor nhấn nút "Hủy bỏ" và quay lại màn hình phân công thủ công.
 \end{itemize} \\ \hline
 \textbf{Hậu điều kiện} & Các đơn hàng được phân công hàng loạt một cách tối ưu, giảm thiểu thao tác thủ công cho Admin. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{UC-05: Xử lý đơn khẩn cấp}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Xử lý đơn khẩn cấp \\ \hline
+\textbf{Actor} & Driver, Admin \\ \hline
+\textbf{Mô tả} & Khi tài xế đang giao hàng gặp tai nạn hoặc sự cố nghiêm trọng và không thể tiếp tục, hệ thống ghi nhận sự cố, Admin gán lại đơn cho tài xế khác phù hợp và thông báo cho các bên liên quan. \\ \hline
+\textbf{Tiền điều kiện} & 
+\begin{itemize}
+    \item Đơn hàng đang ở trạng thái \textit{Đang giao}.
+    \item Driver và Admin đã đăng nhập hệ thống.
+\end{itemize} \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Driver chọn đơn đang giao và nhấn ``Báo sự cố'' (tai nạn/không thể tiếp tục).
+    \item Hệ thống tạo bản ghi sự cố, cập nhật đơn là ``Đơn khẩn cấp'' và gửi thông báo cho Admin.
+    \item Admin mở màn hình xử lý sự cố, xem chi tiết đơn và danh sách tài xế rảnh gần đó.
+    \item Admin chọn tài xế thay thế và xác nhận ``Gán lại đơn khẩn cấp''.
+    \item Hệ thống gỡ đơn khỏi lịch trình tài xế cũ, gán cho tài xế mới và cập nhật trạng thái sự cố là ``Đã xử lý''.
+    \item Hệ thống gửi thông báo cho tài xế mới và khách hàng về việc thay đổi tài xế giao hàng.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{3a. Không có tài xế rảnh phù hợp:}
+\begin{itemize}
+    \item Hệ thống thông báo ``Không tìm thấy tài xế thay thế''.
+    \item Admin có thể chờ tài xế khác rảnh hoặc chọn tài xế xa hơn để tiếp tục giao.
+\end{itemize}
+\textbf{2a. Driver không gửi được báo cáo:}
+\begin{itemize}
+    \item Admin phát hiện bất thường qua màn hình theo dõi và chủ động tạo sự cố, kích hoạt xử lý đơn khẩn cấp.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & 
+\begin{itemize}
+    \item Đơn khẩn cấp được gán cho tài xế mới hoặc được đánh dấu chờ xử lý tiếp.
+\end{itemize} \\ \hline
 \end{tabular}
 \end{table}
