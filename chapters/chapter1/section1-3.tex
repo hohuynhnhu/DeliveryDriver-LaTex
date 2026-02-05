@@ -1,31 +1,3 @@
-\section{Cơ sở dữ liệu, Authentication và Deployment}
-
-\subsection{Cơ sở dữ liệu và xác thực người dùng với Supabase}
-
-Hệ thống sử dụng PostgreSQL thông qua nền tảng Supabase để lưu trữ và quản lý dữ liệu. Supabase cung cấp đồng thời cơ sở dữ liệu, dịch vụ xác thực và cơ chế bảo mật truy cập.
-
-Các bảng dữ liệu chính bao gồm: orders (đơn hàng), drivers (tài xế), routes (tuyến đường tối ưu) và profiles (thông tin người dùng).
-
-Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký, đăng nhập và quản lý phiên làm việc. Sau khi xác thực thành công, người dùng được liên kết với bảng profiles. Cơ chế bảo mật dựa trên:
-
-\begin{itemize}
-    \item Xác thực Email/Password
-    \item Quản lý phiên bằng JWT
-    \item Row Level Security (RLS) để kiểm soát quyền truy cập dữ liệu ở mức bản ghi
-\end{itemize}
-
-
-\subsection{Docker}
-
-Docker được sử dụng để containerize ứng dụng backend, đảm bảo môi trường development và production nhất quán.
-
-\textbf{Các bảng chính:}
-\begin{itemize}
-  \item orders: Thông tin đơn hàng
-  \item drivers: Thông tin tài xế
-  \item routes: Tuyến đường tối ưu
-  \item profiles: Hồ sơ người dùng
-\end{itemize}
 
 \subsection{Thuật toán tối ưu hóa}
 

@@ -1,31 +1,11 @@
-\section{Công nghệ Backend}
+\subsection{Khái niệm tối ưu chi phí}
 
-\subsection{Python}
+Tối ưu chi phí là quá trình tổ chức, kiểm soát và phân bổ các nguồn lực tài chính một cách hợp lý nhằm giảm thiểu chi phí phát sinh nhưng vẫn đảm bảo hiệu quả hoạt động, chất lượng sản phẩm/dịch vụ và mục tiêu của tổ chức. Việc tối ưu chi phí không đồng nghĩa với cắt giảm chi phí một cách máy móc, mà hướng đến sử dụng chi phí hiệu quả và bền vững.
 
-Backend của hệ thống được xây dựng bằng Python với FastAPI. Python được sử dụng bởi vì:
+Trong bối cảnh cạnh tranh ngày càng gay gắt, tối ưu chi phí đóng vai trò quan trọng trong việc nâng cao năng lực cạnh tranh, gia tăng lợi nhuận và đảm bảo sự phát triển lâu dài của doanh nghiệp.
 
-\begin{itemize}
-    \item Cộng đồng lớn, tài liệu phong phú
-    \item Tích hợp dễ dàng với các API và SDK
-    \item Hỗ trợ xử lý dữ liệu và tính toán hiệu quả
-\end{itemize}
+\subsection{Khái niệm tối ưu chi phí vận tải}
 
-\subsection{FastAPI}
+Tối ưu chi phí vận tải là quá trình lập kế hoạch, tổ chức và quản lý hoạt động vận chuyển hàng hóa nhằm giảm thiểu các chi phí liên quan đến vận tải như chi phí nhiên liệu, nhân công, phương tiện, bảo dưỡng, thời gian và các chi phí phát sinh khác, trong khi vẫn đảm bảo hàng hóa được giao đúng thời gian, đúng địa điểm và an toàn.
 
-FastAPI là ASGI framework hiệu năng cao, hỗ trợ async/await. Ưu điểm:
-
-\begin{itemize}
-    \item Xử lý concurrent requests hiệu quả
-    \item Auto validation với Pydantic
-    \item Auto generate API documentation (Swagger UI)
-\end{itemize}
-
-\subsection{WebSocket}
-
-Hệ thống sử dụng giao thức WebSocket để thiết lập kênh giao tiếp hai chiều (Full-duplex) giữa máy chủ và các ứng dụng theo dõi. WebSocket được lựa chọn vì những ưu điểm sau:
-
-\begin{itemize}
-    \item {Cập nhật thời gian thực (Real-time):} Cho phép máy chủ chủ động đẩy dữ liệu vị trí tài xế xuống ứng dụng của khách hàng và người quản trị ngay khi có sự thay đổi, giảm thiểu tối đa độ trễ so với cơ chế HTTP Polling truyền thống.
-    \item {Tối ưu hóa băng thông:} Sau khi thiết lập kết nối (Handshake), các gói tin trao đổi có kích thước tiêu đề (header) rất nhỏ, giúp tiết kiệm dung lượng truyền tải dữ liệu GPS liên tục.
-    \item {Quản lý trạng thái kết nối:} Sử dụng lớp ConnectionManager để duy trì và phân loại các nhóm kết nối (Admin, Viewer, Customer), đảm bảo dữ liệu được phát (broadcast) đến đúng đối tượng đích.
-\end{itemize}
+Tối ưu chi phí vận tải là một nội dung quan trọng trong quản lý logistics, góp phần làm giảm tổng chi phí chuỗi cung ứng và nâng cao hiệu quả hoạt động kinh doanh của doanh nghiệp.
