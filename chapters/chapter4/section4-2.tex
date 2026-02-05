@@ -1,4 +1,150 @@
+\section{Giao diện người dùng}
+
+Phần này trình bày các giao diện chính của hệ thống giao nhận bưu phẩm. Các giao diện được thiết kế đơn giản, trực quan, phù hợp với từng vai trò người dùng gồm khách hàng, shipper và admin.
+
+\subsection{Giao diện bắt đầu}
+
+Giao diện bắt đầu là màn hình đầu tiên khi người dùng mở ứng dụng, có chức năng giới thiệu hệ thống và điều hướng người dùng đến các chức năng tiếp theo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{frontmatter/image/start.jpg}
+    \caption{Giao diện bắt đầu}
+    \label{fig:start}
+\end{figure}
+
+\subsection{Giao diện đăng nhập}
+
+Giao diện đăng nhập cho phép người dùng nhập thông tin tài khoản để truy cập vào hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{frontmatter/image/login.jpg}
+    \caption{Giao diện đăng nhập}
+    \label{fig:login}
+\end{figure}
+
+\subsection{Giao diện đăng ký}
+
+Giao diện đăng ký cho phép người dùng tạo tài khoản mới bằng cách nhập các thông tin cần thiết.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{frontmatter/image/register.jpg}
+    \caption{Giao diện đăng ký}
+    \label{fig:register}
+\end{figure}
+
+\subsection{Giao diện hồ sơ cá nhân}
+
+Giao diện hồ sơ cá nhân cho phép người dùng xem và cập nhật thông tin cá nhân.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.35\textwidth]{frontmatter/image/profile.jpg}
+    \caption{Giao diện hồ sơ cá nhân}
+    \label{fig:profile}
+\end{figure}
+
+\subsection{Giao diện Dashboard}
+
+Sau khi đăng nhập, người dùng được chuyển đến Dashboard tương ứng với vai trò của mình trong hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{frontmatter/image/dashboard.jpg}
+    \caption{Giao diện Dashboard theo vai trò}
+    \label{fig:dashboard}
+\end{figure}
+
 \section{Triển khai các chức năng chính}
+
+Phần này mô tả quá trình triển khai các chức năng chính của hệ thống, bao gồm giao diện người dùng kết hợp với xử lý nghiệp vụ và lưu trữ dữ liệu.
+
+\subsection{Triển khai chức năng dành cho khách hàng}
+
+\subsubsection{Tạo đơn hàng}
+
+Khách hàng có thể tạo đơn hàng mới bằng cách nhập thông tin lấy hàng và giao hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{frontmatter/image/taodon.jpg}
+    \caption{Giao diện tạo đơn hàng}
+    \label{fig:create_order}
+\end{figure}
+
+\subsubsection{Theo dõi trạng thái đơn hàng}
+
+Chức năng theo dõi đơn hàng cho phép khách hàng quan sát trạng thái xử lý và giao hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{frontmatter/image/theodoidon.jpg}
+    \caption{Giao diện theo dõi trạng thái đơn hàng}
+    \label{fig:track_order}
+\end{figure}
+
+\subsection{Triển khai chức năng dành cho Admin}
+
+\subsubsection{Theo dõi trạng thái shipper}
+
+Admin có thể theo dõi tình trạng hoạt động của shipper trong hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{frontmatter/image/trangthaishipper.jpg}
+    \caption{Giao diện theo dõi trạng thái shipper}
+    \label{fig:shipper_status}
+\end{figure}
+
+\subsubsection{Xử lý và phân công đơn hàng}
+
+Admin thực hiện phân công đơn hàng và xử lý các đơn khẩn cấp.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{frontmatter/image/xulydon.jpg}
+    \caption{Giao diện xử lý và phân công đơn hàng}
+    \label{fig:assign_order}
+\end{figure}
+
+\subsubsection{Lên lịch giao hàng}
+
+Admin có thể lên lịch giao hàng cho shipper dựa trên tình trạng hoạt động.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{frontmatter/image/lichshipper.jpg}
+    \caption{Giao diện lên lịch cho shipper}
+    \label{fig:schedule}
+\end{figure}
+
+\subsection{Triển khai chức năng dành cho Shipper}
+
+\subsubsection{Danh sách đơn hàng}
+
+Shipper có thể xem danh sách các đơn hàng được phân công.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{frontmatter/image/donshipper.jpg}
+    \caption{Danh sách đơn hàng của shipper}
+    \label{fig:shipper_orders}
+\end{figure}
+
+\subsubsection{Màn hình bản đồ}
+
+Màn hình bản đồ hỗ trợ shipper theo dõi vị trí và lộ trình giao hàng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{frontmatter/image/mapshipper.jpg}
+    \caption{Màn hình bản đồ shipper}
+    \label{fig:map}
+\end{figure}
+
+
 
 \subsection{Triển khai chức năng xác thực}
 
@@ -14,3 +160,5 @@ Dữ liệu được lưu trữ và đồng bộ thông qua Supabase Database.
 
 Thuật toán tối ưu lộ trình được triển khai dưới dạng một microservice độc lập.
 Dịch vụ này nhận danh sách các điểm giao hàng và trả về thứ tự giao hàng tối ưu nhằm giảm tổng quãng đường di chuyển.
+
+
