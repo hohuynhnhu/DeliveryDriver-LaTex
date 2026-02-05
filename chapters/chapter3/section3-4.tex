@@ -51,11 +51,13 @@ Quy trình kết thúc khi hệ thống thông báo tạo đơn thành công và
     \label{fig:phancongdonhang_seq}
 \end{figure}
 
-Sơ đồ mô tả quy trình quản trị viên thực hiện gán đơn hàng cho tài xế cụ thể.
-Quản trị viên chọn đơn hàng trên Web Admin, hệ thống truy vấn Backend API và PostgreSQL để tìm kiếm và hiển thị danh sách tài xế trực tuyến trong khu vực.
-Sau khi Admin chọn tài xế, hệ thống kiểm tra số lượng đơn đang thực hiện. Trong trường hợp tài xế đang quá tải, hệ thống hiển thị cảnh báo và cung cấp tùy chọn gán đè (Force Assign) cho quản trị viên.
-Nếu tài xế đủ điều kiện hoặc quản trị viên xác nhận gán đè, hệ thống cập nhật thông tin người phụ trách vào cơ sở dữ liệu và kích hoạt Notification Service để gửi thông báo nhận việc đến tài xế, đồng thời chuyển trạng thái đơn hàng sang ``Đã phân công''.
+Sơ đồ mô tả quy trình Quản trị viên (Admin) thực hiện phân công đơn hàng cho tài xế thông qua giao diện Web Admin, có tích hợp sự hỗ trợ từ thuật toán gợi ý thông minh.
 
+Quy trình bắt đầu khi Admin chọn đơn hàng cần xử lý. Hệ thống Backend API không chỉ truy vấn dữ liệu từ PostgreSQL mà còn kích hoạt thuật toán MBA nội bộ để phân tích vị trí, lịch sử và các luật kết hợp, từ đó trả về danh sách tài xế được sắp xếp theo độ phù hợp cao nhất.
+
+Sau khi Admin chọn tài xế từ danh sách gợi ý và gửi yêu cầu phân công, hệ thống thực hiện kiểm tra logic nghiệp vụ về số lượng đơn hàng tài xế đang thực hiện.
+Nếu tài xế đang trong trạng thái quá tải (vượt định mức cho phép), hệ thống lập tức trả về cảnh báo lỗi và ngăn chặn việc gán đơn.
+Trong trường hợp tài xế đủ điều kiện tiếp nhận, hệ thống tiến hành cập nhật thông tin người phụ trách vào cơ sở dữ liệu, đồng thời gọi Notification Service để gửi thông báo nhận việc tức thời đến ứng dụng của tài xế và cập nhật trạng thái thành công trên giao diện quản trị.
 \subsection{Sequence Diagram thực hiện lấy hàng}
 
 \begin{figure}[H]
@@ -100,6 +102,26 @@ Sau khi quản trị viên chọn hành động xử lý, quy trình rẽ nhánh
 Nếu khách hàng đổi địa chỉ, hệ thống cập nhật thông tin mới; trường hợp địa chỉ mới khác khu vực hoạt động, hệ thống sẽ hủy gán tài xế hiện tại để đưa đơn về trạng thái chờ tìm tài xế mới.
 Đối với trường hợp xử lý giao thất bại hoặc hủy đơn, hệ thống cập nhật trạng thái tương ứng  vào cơ sở dữ liệu.
 Quy trình kết thúc khi hệ thống gửi thông báo cập nhật đến các bên liên quan thông qua Notification Service và làm mới danh sách trên giao diện quản trị.
+
+\subsection{Sequence Diagram xử lý đơn khẩn cấp}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/XulydonkhancapSequence.jpg}
+    \caption{Sequence Diagram xử lý đơn khẩn cấp (Driver gặp tai nạn)}
+    \label{fig:xulydonkhan_cap_seq}
+\end{figure}
+
+Sơ đồ mô tả quy trình hệ thống và các tác nhân phối hợp xử lý khi tài xế gặp tai nạn hoặc sự cố nghiêm trọng trong quá trình giao hàng. 
+Quy trình được kích hoạt từ phía ứng dụng tài xế: Driver thực hiện chức năng \textit{Báo sự cố}, hệ thống Backend API tiếp nhận thông tin (đơn hàng, loại sự cố, vị trí hiện tại) và ghi nhận một bản ghi sự cố khẩn cấp trong cơ sở dữ liệu, đồng thời gửi thông báo khẩn đến quản trị viên thông qua kênh Notification Service.
+
+Trên giao diện Web Admin, quản trị viên mở chi tiết đơn khẩn cấp, xem thông tin đơn hàng, tài xế gặp nạn và vị trí xảy ra sự cố. 
+Tiếp đó, Admin yêu cầu hệ thống đề xuất danh sách tài xế thay thế phù hợp; Backend API truy vấn cơ sở dữ liệu để tìm các tài xế đang rảnh trong khu vực lân cận và trả kết quả về cho Web Admin hiển thị.
+
+Sau khi xem xét, quản trị viên chọn một tài xế mới và xác nhận thao tác gán lại đơn khẩn cấp.
+Hệ thống cập nhật lại phân công đơn hàng cho tài xế mới trong cơ sở dữ liệu, đồng thời gửi thông báo đến tài xế mới và khách hàng về việc thay đổi tài xế giao hàng.
+Quy trình kết thúc khi đơn khẩn cấp được gán thành công cho tài xế mới và trạng thái liên quan được đồng bộ trên hệ thống.
+
 
 \subsection{Sequence Diagram tra cứu hành trình đơn}
 

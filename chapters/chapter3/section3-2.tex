@@ -254,43 +254,49 @@ Luồng hoạt động chính của chức năng theo dõi tài xế được m�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/Quanlyxulysucoactivity.jpg}
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Quanlysulysucoactivity_new.jpg}
     \caption{Activity Diagram quản lý và xử lý sự cố đơn hàng}
     \label{fig:quanlyxulysuco}
 \end{figure}
 
 \textbf{Mục đích}
 
-Activity Diagram ``Quản lý và xử lý sự cố đơn hàng'' được xây dựng nhằm mô tả quy trình can thiệp thủ công của Quản trị viên (Admin) khi xảy ra các tình huống ngoại lệ trong vận hành.
-Sơ đồ chi tiết hóa các luồng xử lý phức tạp như: giải quyết đơn hàng giao thất bại, hỗ trợ khách hàng thay đổi địa chỉ giao hàng, hoặc cập nhật trạng thái đơn hàng thủ công.
-Qua đó, sơ đồ giúp định nghĩa rõ ràng logic nghiệp vụ để đảm bảo mọi sự cố đều được giải quyết triệt để, đúng quy trình và đồng bộ dữ liệu chính xác trên hệ thống.
+Activity Diagram ``Quản lý và xử lý sự cố đơn hàng'' mô tả quy trình can thiệp thủ công của Quản trị viên (Admin) khi xảy ra các tình huống ngoại lệ trong vận hành.
+Sơ đồ chi tiết hóa các luồng xử lý như: giải quyết đơn hàng giao thất bại, hỗ trợ khách hàng thay đổi địa chỉ giao hàng, xử lý đơn khẩn cấp khi tài xế gặp tai nạn, hoặc cập nhật trạng thái đơn hàng thủ công.
+Qua đó, sơ đồ giúp định nghĩa rõ ràng logic nghiệp vụ để đảm bảo mọi sự cố được xử lý nhất quán, đúng quy trình và dữ liệu trên hệ thống luôn được đồng bộ.
 
 \noindent\textbf{Luồng hoạt động chính}
 
-Luồng hoạt động chính của chức năng xử lý sự cố đơn hàng được mô tả như sau:
+Luồng hoạt động chính của chức năng quản lý và xử lý sự cố đơn hàng được mô tả như sau:
 
 \begin{enumerate}
     \item Admin tìm kiếm đơn hàng cần xử lý thông qua Mã vận đơn hoặc Số điện thoại.
     \item Hệ thống hiển thị chi tiết trạng thái hiện tại và lịch sử xử lý của đơn hàng đó.
     \item Admin chọn hành động xử lý cụ thể. Hệ thống sẽ rẽ nhánh dựa trên loại hành động:
     \begin{itemize}
-        \item \textbf{Trường hợp Xử lý giao thất bại :}
+        \item \textbf{Trường hợp Xử lý giao thất bại:}
         \begin{itemize}
             \item Admin kiểm tra lý do thất bại từ báo cáo của tài xế.
             \item Admin đưa ra quyết định: chọn ``Cho giao lại lần 2'' hoặc ``Chuyển hoàn về kho''.
         \end{itemize}
-        \item \textbf{Trường hợp Đổi địa chỉ :}
+        \item \textbf{Trường hợp Đổi địa chỉ:}
         \begin{itemize}
             \item Admin cập nhật địa chỉ mới theo yêu cầu khách hàng.
             \item Hệ thống kiểm tra khu vực của địa chỉ mới.
             \item Nếu khác khu vực: Hệ thống yêu cầu gán lại tài xế khác (Re-dispatch).
             \item Nếu cùng khu vực: Hệ thống giữ nguyên tài xế hiện tại.
         \end{itemize}
+        \item \textbf{Trường hợp Xử lý đơn khẩn cấp:}
+        \begin{itemize}
+            \item Admin đánh dấu đơn là ``Đơn khẩn cấp'' dựa trên báo cáo sự cố (ví dụ: tài xế gặp tai nạn).
+            \item Hệ thống ghi nhận sự cố, cập nhật trạng thái tài xế và đề xuất danh sách tài xế rảnh gần khu vực.
+            \item Admin chọn tài xế thay thế; nếu có tài xế phù hợp, hệ thống gán lại đơn cho tài xế mới, nếu không thì giữ đơn ở trạng thái ``Đơn khẩn cấp - chờ xử lý''.
+        \end{itemize}
         \item \textbf{Trường hợp Hủy/Cập nhật khác:} Admin chọn trực tiếp trạng thái mong muốn từ danh sách.
     \end{itemize}
     \item Hệ thống yêu cầu nhập lý do thay đổi hoặc ghi chú nội bộ.
     \item Admin nhập thông tin và xác nhận hành động.
-    \item Hệ thống thực hiện cập nhật trạng thái mới cho đơn hàng vào cơ sở dữ liệu.
+    \item Hệ thống cập nhật trạng thái mới cho đơn hàng vào cơ sở dữ liệu.
     \item Hệ thống gửi thông báo cập nhật đến các bên liên quan (Khách hàng, Tài xế).
     \item Kết thúc quá trình xử lý sự cố.
 \end{enumerate}
@@ -451,11 +457,44 @@ Luồng hoạt động chính của chức năng xem thông báo được mô t�
     \item Hệ thống kiểm tra người dùng có muốn xem thông báo khác không. Nếu có thì quay lại danh sách, nếu không thì kết thúc quy trình.
 \end{enumerate}
 
-\subsection{Activity Diagram tối ưu hoá phân bổ lịch trình}
+\subsection{Activity Diagram tối ưu lộ trình}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/ToiUuHoaPhanBoLichTrinh-AD.jpeg}
-    \caption{Activity Diagram tối ưu hoá phân bổ lịch trình}
-    \label{fig:toiuuhoaphanbolichtrinh}
+    \includegraphics[height=0.4\textheight]{frontmatter/image/Toiuulotrinhactivity.jpg}
+    \caption{Activity Diagram tối ưu lộ trình}
+    \label{fig:toiuulotrinh}
 \end{figure}
+
+\textbf{Mục đích}
+
+Activity Diagram ``Tối ưu lộ trình'' được xây dựng nhằm mô tả quy trình xử lý dữ liệu thông minh khi Quản trị viên (Admin) thực hiện gom nhóm và sắp xếp đơn hàng hàng loạt.
+Sơ đồ làm rõ logic quyết định của hệ thống trong việc lựa chọn thuật toán market basket analysis  dựa trên độ đo Lift để tối ưu hóa quãng đường di chuyển. Đồng thời, nó mô tả cơ chế tương tác  cho phép Admin xem trước và duyệt kế hoạch trước khi hệ thống thực thi gán đơn và xử lý các tình huống.
+Qua đó, sơ đồ giúp đảm bảo lộ trình giao hàng được xây dựng khoa học, tiết kiệm chi phí vận hành.
+
+\noindent\textbf{Luồng hoạt động chính}
+
+Luồng hoạt động chính của chức năng tối ưu lộ trình được mô tả như sau:
+
+\begin{enumerate}
+    \item Admin truy cập danh sách đơn hàng chờ và chọn các đơn hàng cần xử lý.
+    \item Admin kích hoạt chức năng ``Tối ưu lộ trình''.
+    \item Hệ thống tiến hành phân tích dữ liệu địa điểm và truy xuất tập luật kết hợp (Association Rules).
+    \item Hệ thống kiểm tra độ đo Lift để quyết định thuật toán áp dụng:
+    \begin{itemize}
+        \item \textbf{Nếu Lift > 1 (Có mối liên hệ mạnh):} Hệ thống gom nhóm đơn hàng theo cụm MBA, sau đó sắp xếp thứ tự giao trong cụm để tối ưu hóa quãng đường và đưa ra gợi ý thông minh.
+        \item \textbf{Nếu Lift thấp (Ít liên hệ):} Hệ thống chuyển sang thuật toán tham lam (Greedy) để gom nhóm dựa trên khoảng cách địa lý gần nhất.
+    \end{itemize}
+    \item Hệ thống tạo bảng kế hoạch phân công dự kiến và hiển thị bản xem trước kèm các thông số tiết kiệm ước tính.
+    \item Admin xem xét kế hoạch đề xuất và đưa ra quyết định:
+    \begin{itemize}
+        \item \textbf{Nếu kế hoạch không hợp lý:} Admin nhấn ``Hủy bỏ''. Hệ thống hủy kết quả tạm tính và quay lại màn hình danh sách gốc.
+        \item \textbf{Nếu đồng ý áp dụng:} Admin nhấn ``Xác nhận''. Hệ thống thực hiện gán hàng loạt và lưu lộ trình chính thức vào cơ sở dữ liệu.
+    \end{itemize}
+    \item Hệ thống gửi lệnh phân công xuống ứng dụng của Tài xế và kiểm tra kết nối:
+    \begin{itemize}
+        \item \textbf{Nếu gửi thành công:} Hệ thống thông báo quy trình phân công hoàn tất.
+        \item \textbf{Nếu gặp lỗi mạng:} Hệ thống lưu lệnh vào hàng đợi (Queue) để tự động gửi lại sau và thông báo trạng thái ``Đã lưu'' cho Admin.
+    \end{itemize}
+    \item Kết thúc quá trình tối ưu lộ trình.
+\end{enumerate}
