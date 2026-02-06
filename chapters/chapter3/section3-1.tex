@@ -88,7 +88,331 @@ Kiến trúc tổng thể của hệ thống được minh họa trong Hình~\re
 \label{fig:system_architecture}
 \end{figure}
 
+Yêu cầu chức năng 
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/authentication.jpg}
+    \caption{Sơ đồ phân rã chức năng Xác thực và Phân quyền}
+    \label{fig:auth-authorization}
+\end{figure}
 
+Dựa trên sơ đồ phân rã chức năng Xác thực và Phân quyền, hệ thống bao gồm các yêu cầu chức năng sau:
+\begin{itemize}
+    \item Cho phép người dùng đăng ký tài khoản bằng email hoặc Google.
+    \item Thực hiện xác thực email sau khi đăng ký.
+    \item Hỗ trợ đăng nhập bằng email hoặc tài khoản mạng xã hội.
+    \item Tạo mã xác thực JWT sau khi đăng nhập thành công.
+    \item Kiểm tra vai trò người dùng để thực hiện phân quyền truy cập.
+    \item Cung cấp chức năng quên và đặt lại mật khẩu thông qua email.
+    \item Quản lý phiên làm việc của người dùng trong hệ thống.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/user_management.jpg}
+    \caption{Sơ đồ phân rã chức năng Quản lý người dùng}
+    \label{fig:user-management}
+\end{figure}
+
+Dựa trên sơ đồ phân rã chức năng Quản lý người dùng, hệ thống bao gồm các yêu cầu chức năng sau:
+\begin{itemize}
+    \item \textbf{Quản lý hồ sơ người dùng (Profile Management):}
+    \begin{itemize}
+        \item Cập nhật thông tin cá nhân của người dùng.
+        \item Tải lên và thay đổi ảnh đại diện (avatar).
+        \item Thay đổi mật khẩu đăng nhập.
+    \end{itemize}
+
+    \item \textbf{Quản lý phân quyền (Role Management):}
+    \begin{itemize}
+        \item Phân quyền cho người dùng thông thường.
+        \item Phân quyền cho tài xế.
+        \item Phân quyền cho quản lý.
+        \item Phân quyền cho quản trị viên.
+    \end{itemize}
+
+    \item \textbf{Quản lý tài xế (Driver Management):}
+    \begin{itemize}
+        \item Đăng ký tài xế mới vào hệ thống.
+        \item Cập nhật thông tin phương tiện của tài xế.
+        \item Theo dõi hiệu suất làm việc của tài xế.
+        \item Quản lý trạng thái hoạt động của tài xế.
+    \end{itemize}
+
+    \item \textbf{Quản lý khách hàng (Customer Management):}
+    \begin{itemize}
+        \item Đăng ký khách hàng.
+        \item Quản lý và cập nhật địa chỉ khách hàng.
+        \item Theo dõi lịch sử đơn hàng của khách hàng.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/order-management.jpg}
+    \caption{Sơ đồ phân rã chức năng Quản lý Đơn hàng}
+    \label{fig:order-management}
+\end{figure}
+
+Dựa trên Hình~\ref{fig:order-management}, phân hệ \textbf{Quản lý Đơn hàng} đóng vai trò trung tâm trong hệ thống giao nhận, chịu trách nhiệm quản lý toàn bộ vòng đời của đơn hàng từ khi được tạo, xử lý, theo dõi cho đến khi hoàn tất hoặc hủy bỏ. Phân hệ này được phân rã thành các nhóm chức năng chính như sau:
+
+\subsubsection{Quản lý Đơn hàng thường}
+
+Chức năng này cho phép người dùng thao tác với các đơn hàng thông thường trong hệ thống, bao gồm:
+\begin{itemize}
+    \item \textbf{Tạo đơn hàng}: Cho phép tạo mới đơn hàng với các thông tin cần thiết như người gửi, người nhận, địa chỉ giao hàng và loại dịch vụ.
+    \item \textbf{Xem đơn hàng}: Cho phép người dùng theo dõi thông tin chi tiết và trạng thái hiện tại của đơn hàng.
+    \item \textbf{Cập nhật đơn hàng}: Cho phép chỉnh sửa thông tin đơn hàng khi đơn chưa được xử lý.
+    \item \textbf{Hủy đơn hàng}: Cho phép hủy đơn hàng khi đơn chưa được duyệt hoặc chưa được giao cho tài xế.
+\end{itemize}
+
+\subsubsection{Xử lý Đơn hàng}
+
+Nhóm chức năng này hỗ trợ nhân viên hoặc quản lý trong quá trình xử lý các đơn hàng đã được tạo:
+\begin{itemize}
+    \item \textbf{Duyệt đơn hàng}: Xác nhận đơn hàng hợp lệ để đưa vào quá trình giao nhận.
+    \item \textbf{Từ chối đơn hàng}: Từ chối các đơn hàng không hợp lệ hoặc không đáp ứng điều kiện vận chuyển.
+    \item \textbf{Chỉnh sửa đơn hàng}: Điều chỉnh thông tin đơn hàng trong quá trình xử lý.
+    \item \textbf{Hủy đơn hàng}: Hủy đơn trong trường hợp phát sinh lỗi hoặc yêu cầu đặc biệt.
+    \item \textbf{Xem lịch sử đơn hàng}: Theo dõi toàn bộ lịch sử xử lý và trạng thái của đơn hàng.
+\end{itemize}
+
+\subsubsection{Xử lý Đột xuất}
+
+Chức năng này hỗ trợ xử lý các tình huống phát sinh hoặc đơn hàng khẩn cấp:
+\begin{itemize}
+    \item \textbf{Nhận đơn khẩn cấp}: Tiếp nhận các đơn hàng có mức độ ưu tiên cao.
+    \item \textbf{Đánh giá khả thi}: Đánh giá khả năng thực hiện đơn hàng dựa trên nguồn lực hiện có.
+    \item \textbf{Chèn vào lộ trình}: Tích hợp đơn hàng khẩn cấp vào lộ trình giao hàng hiện tại.
+    \item \textbf{Tái tối ưu lộ trình}: Điều chỉnh và tối ưu lại lộ trình giao hàng nhằm đảm bảo hiệu quả vận chuyển.
+\end{itemize}
+
+\subsubsection{Quản lý Dịch vụ}
+
+Nhóm chức năng này cho phép quản lý các loại hình dịch vụ vận chuyển được sử dụng trong hệ thống:
+\begin{itemize}
+    \item \textbf{Tạo dịch vụ}: Thêm mới các loại dịch vụ vận chuyển.
+    \item \textbf{Xem dịch vụ}: Hiển thị danh sách và thông tin chi tiết các dịch vụ.
+    \item \textbf{Cập nhật dịch vụ}: Chỉnh sửa thông tin dịch vụ như giá cước và thời gian giao hàng.
+    \item \textbf{Hủy dịch vụ}: Ngừng cung cấp các dịch vụ không còn phù hợp.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/job-management.jpg}
+    \caption{Sơ đồ phân rã chức năng Quản lý Công việc}
+    \label{fig:job-management}
+\end{figure}
+
+Dựa trên Hình~\ref{fig:job-management}, phân hệ \textbf{Quản lý Công việc} chịu trách nhiệm tổ chức, điều phối và giám sát toàn bộ các công việc giao nhận trong hệ thống. Phân hệ này hỗ trợ việc tối ưu lộ trình, phân công nhiệm vụ cho tài xế, xử lý các tình huống đột xuất và quản lý địa điểm giao hàng nhằm đảm bảo quá trình vận hành diễn ra hiệu quả và chính xác.
+
+\subsubsection{Quản lý Điều hướng giao hàng}
+
+Chức năng này hỗ trợ tài xế trong quá trình thực hiện giao hàng thông qua việc cung cấp lộ trình và chỉ dẫn di chuyển:
+\begin{itemize}
+    \item \textbf{Hiển thị lộ trình}: Hiển thị lộ trình giao hàng đã được hệ thống tính toán.
+    \item \textbf{Tính toán lộ trình}: Xác định lộ trình tối ưu dựa trên khoảng cách, thời gian và điều kiện giao thông.
+    \item \textbf{Dẫn đường theo lộ trình}: Hỗ trợ tài xế di chuyển theo lộ trình đã được đề xuất.
+\end{itemize}
+
+\subsubsection{Quản lý Nhận đơn gấp}
+
+Nhóm chức năng này hỗ trợ xử lý các đơn hàng có mức độ ưu tiên cao hoặc phát sinh đột xuất:
+\begin{itemize}
+    \item \textbf{Nhận thông báo đơn hàng đột xuất}: Tiếp nhận thông báo về các đơn hàng gấp từ hệ thống.
+    \item \textbf{Hiển thị thông tin đơn gấp}: Cung cấp chi tiết đơn hàng để tài xế hoặc quản lý đánh giá.
+    \item \textbf{Chấp nhận hoặc từ chối đơn gấp}: Cho phép tài xế quyết định nhận hoặc từ chối đơn hàng đột xuất.
+    \item \textbf{Thông báo kết quả cho quản lý}: Gửi kết quả xử lý đơn gấp đến người quản lý.
+\end{itemize}
+
+\subsubsection{Tạo Lịch trình}
+
+Chức năng này cho phép hệ thống xây dựng và quản lý lịch trình giao hàng cho tài xế:
+\begin{itemize}
+    \item \textbf{Tạo lịch cho tài xế}: Lập kế hoạch giao hàng theo từng tài xế.
+    \item \textbf{Gán đơn vào lịch}: Phân bổ các đơn hàng cụ thể vào lịch trình.
+    \item \textbf{Tính thời gian dự kiến}: Ước lượng thời gian hoàn thành các công việc giao hàng.
+    \item \textbf{Thông báo cho tài xế}: Gửi thông báo lịch trình đến tài xế.
+\end{itemize}
+
+\subsubsection{Quản lý Nhận việc}
+
+Nhóm chức năng này hỗ trợ tài xế trong việc tiếp nhận và thực hiện các công việc được giao:
+\begin{itemize}
+    \item \textbf{Nhận danh sách đơn hàng từ quản lý}: Tài xế tiếp nhận danh sách đơn hàng được phân công.
+    \item \textbf{Nhận danh sách lộ trình giao hàng}: Tiếp nhận lộ trình tương ứng với các đơn hàng.
+    \item \textbf{Xác nhận đã nhận việc}: Xác nhận tiếp nhận công việc được giao.
+    \item \textbf{Xem chi tiết đơn hàng}: Xem thông tin chi tiết của từng đơn hàng.
+    \item \textbf{Cập nhật lại lộ trình giao hàng}: Điều chỉnh lộ trình trong quá trình thực hiện.
+    \item \textbf{Báo cáo sự cố}: Báo cáo các sự cố phát sinh trong quá trình giao hàng.
+\end{itemize}
+
+\subsubsection{Quản lý Địa điểm}
+
+Chức năng này cho phép quản lý các địa điểm phục vụ cho quá trình giao nhận:
+\begin{itemize}
+    \item \textbf{Tạo địa điểm}: Thêm mới các địa điểm giao nhận vào hệ thống.
+    \item \textbf{Hiển thị danh sách địa điểm}: Xem danh sách các địa điểm hiện có.
+    \item \textbf{Xem, cập nhật hoặc xóa địa điểm}: Chỉnh sửa hoặc loại bỏ các địa điểm không còn sử dụng.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/tracking-monitoring.jpg}
+    \caption{Sơ đồ phân rã chức năng Theo dõi và Giám sát}
+    \label{fig:tracking-monitoring}
+\end{figure}
+
+Dựa trên Hình~\ref{fig:tracking-monitoring}, phân hệ \textbf{Theo dõi và Giám sát} có nhiệm vụ theo dõi hành trình di chuyển của người dùng và tài xế, giám sát trạng thái đơn hàng theo thời gian thực, đồng thời cung cấp thông tin trực quan cho quản lý và khách hàng. Phân hệ này đóng vai trò quan trọng trong việc nâng cao tính minh bạch, khả năng kiểm soát và hiệu quả vận hành của hệ thống.
+
+\subsubsection{Quản lý Hành trình Người dùng}
+
+Chức năng này cho phép người dùng quản lý các lộ trình và điểm đến trong quá trình giao nhận:
+\begin{itemize}
+    \item \textbf{Quản lý lộ trình}: Quản lý các tuyến đường giao hàng của người dùng.
+    \item \textbf{Quản lý điểm đến}: Thêm, sửa, xóa và cập nhật thông tin các điểm đến.
+    \item \textbf{Tính toán tuyến đường tối ưu}: Xác định tuyến đường ngắn nhất hoặc hiệu quả nhất.
+    \item \textbf{Hiển thị tuyến đường trên bản đồ}: Trực quan hóa lộ trình giao hàng trên bản đồ số.
+    \item \textbf{Cập nhật vị trí người dùng theo thời gian thực}: Theo dõi vị trí hiện tại của người dùng.
+\end{itemize}
+
+\subsubsection{Lịch sử Chuyến đi}
+
+Nhóm chức năng này hỗ trợ tra cứu và tái sử dụng các chuyến đi đã thực hiện:
+\begin{itemize}
+    \item \textbf{Xem danh sách chuyến đi đã hoàn thành}: Hiển thị toàn bộ các chuyến đi trước đó.
+    \item \textbf{Xem chi tiết chuyến đi}: Cung cấp thông tin chi tiết về lộ trình, thời gian và trạng thái chuyến đi.
+    \item \textbf{Sao chép (clone) chuyến đi cũ}: Cho phép tạo lại chuyến đi mới dựa trên chuyến đi trước đó.
+\end{itemize}
+
+\subsubsection{GPS Tracking}
+
+Chức năng GPS Tracking cho phép hệ thống thu thập và xử lý dữ liệu vị trí:
+\begin{itemize}
+    \item \textbf{Bật GPS trên ứng dụng}: Kích hoạt chức năng định vị trên thiết bị người dùng hoặc tài xế.
+    \item \textbf{Thu thập tọa độ}: Ghi nhận dữ liệu vị trí theo thời gian thực.
+    \item \textbf{Gửi dữ liệu GPS về máy chủ}: Truyền dữ liệu vị trí định kỳ (5--10 giây/lần).
+    \item \textbf{Lưu trữ dữ liệu vào cơ sở dữ liệu}: Phục vụ cho việc theo dõi và phân tích sau này.
+\end{itemize}
+
+\subsubsection{Giám sát Thời gian Thực (Realtime Monitoring)}
+
+Nhóm chức năng này hỗ trợ giám sát hệ thống theo thời gian thực:
+\begin{itemize}
+    \item \textbf{Thiết lập kết nối WebSocket}: Duy trì kết nối liên tục giữa máy khách và máy chủ.
+    \item \textbf{Truyền dữ liệu GPS theo thời gian thực}: Cập nhật vị trí liên tục.
+    \item \textbf{Cập nhật bản đồ thời gian thực}: Hiển thị thay đổi vị trí trực tiếp trên bản đồ.
+    \item \textbf{Hiển thị cho quản lý}: Cung cấp giao diện giám sát cho quản lý hệ thống.
+    \item \textbf{Hiển thị cho khách hàng}: Cho phép khách hàng theo dõi đơn hàng đang vận chuyển.
+\end{itemize}
+
+\subsubsection{Giám sát}
+
+Chức năng này hỗ trợ quản lý trong việc theo dõi tổng thể hoạt động của hệ thống:
+\begin{itemize}
+    \item \textbf{Xem vị trí nhân viên theo thời gian thực}: Theo dõi vị trí tài xế đang hoạt động.
+    \item \textbf{Xem đơn hàng hiện tại}: Giám sát các đơn hàng đang được xử lý.
+    \item \textbf{Xem danh sách nhân viên}: Theo dõi danh sách và trạng thái của nhân viên.
+\end{itemize}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/operation-management.jpg}
+    \caption{Sơ đồ phân rã chức năng Quản lý Vận hành}
+    \label{fig:operation-management}
+\end{figure}
+
+Dựa trên Hình~\ref{fig:operation-management}, phân hệ \textbf{Quản lý Vận hành} chịu trách nhiệm điều phối, kiểm soát và xử lý các hoạt động vận hành trong hệ thống giao nhận. Phân hệ này hỗ trợ tiếp nhận booking từ khách hàng, quản lý đơn hàng và công việc, đồng thời xử lý các sự cố phát sinh nhằm đảm bảo hoạt động của hệ thống diễn ra liên tục và hiệu quả.
+
+\subsubsection{Quản lý Tiếp nhận Booking}
+
+Chức năng này cho phép hệ thống tiếp nhận và xử lý các yêu cầu đặt dịch vụ từ khách hàng:
+\begin{itemize}
+    \item \textbf{Xem danh sách đơn hàng từ khách hàng}: Hiển thị danh sách các booking được gửi từ phía khách hàng.
+    \item \textbf{Xem chi tiết thông tin đơn hàng}: Cung cấp đầy đủ thông tin chi tiết của từng booking.
+    \item \textbf{Xử lý booking}: Thực hiện xử lý các yêu cầu đặt dịch vụ.
+    \item \textbf{Duyệt đơn hàng}: Xác nhận booking hợp lệ để đưa vào hệ thống vận hành.
+    \item \textbf{Từ chối đơn hàng}: Từ chối các booking không phù hợp hoặc không đủ điều kiện.
+    \item \textbf{Phản hồi kết quả cho khách hàng}: Thông báo kết quả xử lý booking đến khách hàng.
+\end{itemize}
+
+\subsubsection{Quản lý Điều phối}
+
+Nhóm chức năng này hỗ trợ điều phối các hoạt động vận hành trong hệ thống:
+\begin{itemize}
+    \item \textbf{Quản lý đơn hàng}: Theo dõi và quản lý các đơn hàng trong quá trình vận hành.
+    \item \textbf{Phân loại đơn hàng}: Phân loại đơn hàng theo trạng thái hoặc mức độ ưu tiên.
+    \item \textbf{Cập nhật đơn hàng}: Cập nhật thông tin đơn hàng trong quá trình xử lý.
+    \item \textbf{Xem đơn hàng}: Tra cứu và theo dõi tình trạng đơn hàng.
+\end{itemize}
+
+\subsubsection{Quản lý Công việc}
+
+Chức năng này cho phép quản lý các công việc phát sinh trong quá trình vận hành:
+\begin{itemize}
+    \item \textbf{Tạo công việc}: Tạo mới các công việc liên quan đến vận hành.
+    \item \textbf{Xem công việc}: Xem danh sách và chi tiết các công việc.
+    \item \textbf{Phân loại công việc}: Phân loại công việc theo mức độ và trạng thái.
+    \item \textbf{Cập nhật công việc}: Cập nhật thông tin công việc trong quá trình thực hiện.
+    \item \textbf{Hủy công việc}: Hủy các công việc không còn cần thiết.
+\end{itemize}
+
+\subsubsection{Quản lý Sự cố Đột xuất}
+
+Chức năng này hỗ trợ xử lý các sự cố phát sinh trong quá trình vận hành:
+\begin{itemize}
+    \item \textbf{Xem sự cố}: Theo dõi danh sách và chi tiết các sự cố.
+    \item \textbf{Cập nhật sự cố}: Cập nhật trạng thái và thông tin xử lý sự cố.
+\end{itemize}
+
+
+\subsection{Phân hệ Quản lý RFM}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.3\textheight]{frontmatter/image/rfm-management.jpg}
+    \caption{Sơ đồ phân rã chức năng Quản lý RFM}
+    \label{fig:rfm-management}
+\end{figure}
+
+Dựa trên Hình~\ref{fig:rfm-management}, phân hệ \textbf{Quản lý RFM} chịu trách nhiệm phân tích và đánh giá hành vi khách hàng dựa trên mô hình RFM (Recency, Frequency, Monetary). 
+Phân hệ này hỗ trợ nhà quản lý theo dõi mức độ tương tác, tần suất sử dụng dịch vụ và giá trị giao dịch của khách hàng, từ đó phục vụ cho việc phân nhóm khách hàng và ra quyết định kinh doanh.
+
+\subsubsection{Xem RFM}
+
+Chức năng này cho phép người quản trị theo dõi thông tin RFM của khách hàng:
+\begin{itemize}
+    \item \textbf{Xem danh sách khách hàng}: Hiển thị danh sách khách hàng kèm theo các chỉ số RFM.
+    \item \textbf{Xem chi tiết RFM}: Cung cấp thông tin chi tiết về Recency, Frequency và Monetary của từng khách hàng.
+\end{itemize}
+
+\subsubsection{Phân tích RFM}
+
+Chức năng này hỗ trợ phân tích dữ liệu RFM nhằm đánh giá hành vi khách hàng:
+\begin{itemize}
+    \item \textbf{Phân nhóm khách hàng}: Phân loại khách hàng theo mức độ gắn bó và giá trị.
+    \item \textbf{Đánh giá hành vi}: Phân tích xu hướng sử dụng dịch vụ của khách hàng theo thời gian.
+\end{itemize}
+
+\subsubsection{Tính toán RFM}
+
+Chức năng này thực hiện tính toán các chỉ số RFM dựa trên dữ liệu giao dịch:
+\begin{itemize}
+    \item \textbf{Tính Recency}: Xác định khoảng thời gian kể từ lần giao dịch gần nhất.
+    \item \textbf{Tính Frequency}: Xác định tần suất thực hiện giao dịch.
+    \item \textbf{Tính Monetary}: Tính tổng giá trị giao dịch của khách hàng.
+\end{itemize}
+
+\subsubsection{Cập nhật RFM}
+
+Chức năng này cho phép cập nhật lại các chỉ số RFM khi dữ liệu thay đổi:
+\begin{itemize}
+    \item \textbf{Cập nhật dữ liệu}: Làm mới chỉ số RFM dựa trên giao dịch mới.
+    \item \textbf{Đồng bộ thông tin}: Đảm bảo dữ liệu phân tích luôn chính xác và nhất quán.
+\end{itemize}
 
 
 
@@ -318,7 +642,7 @@ Thành công: Người dùng truy cập được hệ thống và lưu phiên l�
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/dathangtheodoi.jpg}
+    \includegraphics[height=0.35\textheight]{frontmatter/image/dathangtheodoi.jpg}
     \caption{Use case Diagram chi tiết đặt hàng và theo dõi}
     \label{fig:intro}
 \end{figure}
