@@ -1,41 +1,61 @@
 \section{Kiến trúc tổng thể hệ thống}
 
-Hệ thống được thiết kế theo mô hình client--server với kiến trúc microservices, nhằm đảm bảo khả năng mở rộng, dễ bảo trì và phân tách rõ ràng các chức năng nghiệp vụ.
+Hệ thống được xây dựng theo mô hình client--server và triển khai theo kiến trúc microservices,
+nhằm đảm bảo khả năng mở rộng, dễ bảo trì và phân tách rõ ràng các chức năng nghiệp vụ.
+Các dịch vụ backend không giao tiếp trực tiếp với frontend mà thông qua một API Gateway,
+đóng vai trò là điểm truy cập duy nhất của hệ thống.
 
 \textbf{Tầng trình diễn (Presentation Layer)} bao gồm:
 \begin{itemize}
-    \item \textbf{Ứng dụng di động}: xây dựng theo mô hình MVVM, phục vụ cho Customer và Driver.
-    \item \textbf{Ứng dụng web}: xây dựng bằng Nuxt, phục vụ cho Admin và người dùng quản trị.
+    \item \textbf{Ứng dụng di động (Mobile Application)}: được xây dựng theo mô hình MVVM,
+    phục vụ cho Customer và Driver.
+    \item \textbf{Ứng dụng web (Web Application)}: được xây dựng bằng Nuxt,
+    phục vụ cho Admin và người dùng quản trị hệ thống.
 \end{itemize}
 
-\textbf{Tầng backend (Application Layer)} được triển khai theo kiến trúc microservices sử dụng FastAPI, bao gồm các dịch vụ chính:
+\textbf{Tầng backend (Application Layer)} được triển khai theo kiến trúc microservices
+sử dụng FastAPI, bao gồm các dịch vụ chính:
 \begin{itemize}
-    \item Authentication Service
-    \item Order Service
-    \item Driver Scheduling Service
-    \item Routing Optimization Service
-    \item Notification Service
+    \item Authentication Service (Dịch vụ xác thực)
+    \item Order Service (Dịch vụ quản lý đơn hàng)
+    \item Driver Scheduling Service (Dịch vụ điều phối tài xế)
+    \item Routing Optimization Service (Dịch vụ tối ưu lộ trình)
+    \item Route Analysis Service (Dịch vụ phân tích tuyến đường)
+    \item Incident Management Service (Dịch vụ xử lý sự cố)
+    \item Notification Service (Dịch vụ thông báo)
 \end{itemize}
 
-Các service giao tiếp với nhau thông qua REST API và được truy cập từ frontend thông qua API Gateway.
+Routing Optimization Service chịu trách nhiệm tính toán tuyến đường tối ưu dựa trên
+dữ liệu bản đồ và khoảng cách thực tế từ OSRM.
+Route Analysis Service thực hiện phân tích lịch sử di chuyển, đánh giá hiệu quả tuyến đường
+(thời gian, quãng đường, độ trễ) nhằm hỗ trợ tối ưu vận hành.
 
-Tầng dữ liệu (Data Layer) sử dụng Supabase (PostgreSQL) để:
+Incident Management Service chịu trách nhiệm tiếp nhận, quản lý và xử lý các sự cố phát sinh
+trong quá trình giao hàng như tai nạn, hỏng phương tiện hoặc thay đổi tài xế,
+đồng thời phối hợp với các dịch vụ khác để cập nhật trạng thái hệ thống.
+
+Tất cả các service backend giao tiếp với nhau thông qua FAST API và được định tuyến
+thông qua API Gateway, giúp tập trung xử lý xác thực, phân quyền và kiểm soát luồng dữ liệu.
+
+\textbf{Tầng dữ liệu (Data Layer)} sử dụng Supabase (PostgreSQL) để:
 \begin{itemize}
     \item Lưu trữ dữ liệu nghiệp vụ (orders, drivers, routes, profiles, ...)
-    \item Quản lý xác thực người dùng và phân quyền bằng JWT và Row Level Security (RLS)
+    \item Quản lý xác thực người dùng và phân quyền truy cập
+    thông qua JWT và Row Level Security (RLS)
 \end{itemize}
 
 Ngoài ra, hệ thống tích hợp với các dịch vụ bản đồ mã nguồn mở:
 \begin{itemize}
     \item \textbf{OpenStreetMap (OSM)}: cung cấp dữ liệu bản đồ
-    \item \textbf{OSRM}: tính toán khoảng cách và truy vấn tuyến đường thực tế
+    \item \textbf{OSRM}: hỗ trợ tính toán khoảng cách và truy vấn tuyến đường thực tế
 \end{itemize}
 
-Kiến trúc tổng thể của hệ thống được minh họa trong Hình~\ref{fig:system_architecture}.
+
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    node distance=1.5cm,
+    node distance=1cm,
     every node/.style={
         draw, rectangle, rounded corners, align=center,
         minimum width=3cm, minimum height=0.9cm
@@ -44,25 +64,42 @@ Kiến trúc tổng thể của hệ thống được minh họa trong Hình~\re
 ]
 
 % ===== Clients =====
-\node (customer) {Customer App\\(Mobile -- MVVM)};
-\node (driver) [below=of customer] {Driver App\\(Mobile -- MVVM)};
-\node (admin) [below=of driver] {Admin Web\\(Nuxt)};
+\node (customer) {Customer App\\Ứng dụng khách hàng\\(Mobile -- MVVM)};
+\node (driver) [below=of customer] {Driver App\\Ứng dụng tài xế\\(Mobile -- MVVM)};
+\node (admin) [below=of driver] {Admin Web\\Trang quản trị\\(Nuxt)};
 
 % ===== API Gateway =====
-\node (gateway) [right=1.4cm of driver] {API Gateway};
+\node (gateway) [right=1.4cm of driver] {API Gateway\\Cổng giao tiếp API};
 
 % ===== Backend Services =====
-\node (auth)     [right=1.6cm of gateway, yshift=3.0cm] {Authentication\\Service};
-\node (order)    [below=of auth] {Order\\Service};
-\node (schedule) [below=of order] {Driver and\\Scheduling\\Service};
-\node (routing)  [below=of schedule] {Routing and\\Optimization\\Service};
-\node (noti)     [below=of routing] {Notification\\Service};
+\node (auth)     [right=1.6cm of gateway, yshift=3.8cm]
+{Authentication Service\\Dịch vụ xác thực};
+
+\node (order)    [below=of auth]
+{Order Service\\Dịch vụ đơn hàng};
+
+\node (schedule) [below=of order]
+{Driver Scheduling Service\\Dịch vụ điều phối tài xế};
+
+\node (routing)  [below=of schedule]
+{Routing Optimization Service\\Dịch vụ tối ưu lộ trình};
+
+\node (analysis) [below=of routing]
+{Route Analysis Service\\Dịch vụ phân tích tuyến đường};
+
+\node (incident) [below=of analysis]
+{Incident Management Service\\Dịch vụ xử lý sự cố};
+
+\node (noti)     [below=of incident]
+{Notification Service\\Dịch vụ thông báo};
 
 % ===== Database =====
-\node (db) [right=1.4cm of schedule] {Supabase\\PostgreSQL + Auth};
+\node (db) [right=1.4cm of schedule]
+{Supabase\\PostgreSQL + Auth};
 
 % ===== External APIs =====
-\node (osrm) [below=of db] {OSRM / OSM\\Map Services};
+\node (osrm) [below=of db]
+{OSRM / OSM\\Dịch vụ bản đồ};
 
 % ===== Connections =====
 \draw[arrow] (customer) -- (gateway);
@@ -73,20 +110,26 @@ Kiến trúc tổng thể của hệ thống được minh họa trong Hình~\re
 \draw[arrow] (gateway) -- (order);
 \draw[arrow] (gateway) -- (schedule);
 \draw[arrow] (gateway) -- (routing);
+\draw[arrow] (gateway) -- (analysis);
+\draw[arrow] (gateway) -- (incident);
 \draw[arrow] (gateway) -- (noti);
 
 \draw[arrow] (auth) -- (db);
 \draw[arrow] (order) -- (db);
 \draw[arrow] (schedule) -- (db);
 \draw[arrow] (routing) -- (db);
+\draw[arrow] (analysis) -- (db);
+\draw[arrow] (incident) -- (db);
 \draw[arrow] (noti) -- (db);
 
 \draw[arrow] (routing) -- (osrm);
+\draw[arrow] (analysis) -- (osrm);
 
 \end{tikzpicture}
-\caption{Kiến trúc tổng thể hệ thống giao hàng}
+\caption{Kiến trúc tổng thể hệ thống giao hàng theo mô hình microservices}
 \label{fig:system_architecture}
 \end{figure}
+
 
 Yêu cầu chức năng 
 \begin{figure}[H]
@@ -416,6 +459,7 @@ Chức năng này cho phép cập nhật lại các chỉ số RFM khi dữ li�
 
 
 
+>>>>>>> 610c63ea0f72362b1da851204eb3996f084c21bd
 \section{Usecase Diagram }
 
 \subsection{Các tác nhân của hệ thống}
