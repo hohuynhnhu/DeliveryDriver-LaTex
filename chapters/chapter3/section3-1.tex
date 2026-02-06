@@ -412,54 +412,58 @@ Chức năng này hỗ trợ xử lý các sự cố phát sinh trong quá trìn
 \end{itemize}
 
 
-\subsection{Phân hệ Quản lý RFM}
+\subsection{Phân tích mối quan hệ giữa điểm nhận và điểm giao}
 
 \begin{figure}[H]
     \centering
     \includegraphics[height=0.3\textheight]{frontmatter/image/rfm-management.jpg}
-    \caption{Sơ đồ phân rã chức năng Quản lý RFM}
+    \caption{Sơ đồ phân rã phân tích mối quan hệ giữa điểm nhận và điểm giao}
     \label{fig:rfm-management}
 \end{figure}
+Phân hệ này nhằm xác định các cặp điểm nhận -- điểm giao
+thường xuyên xuất hiện cùng nhau trong các đơn hàng,
+từ đó hỗ trợ đề xuất vị trí mở bưu cục hoặc điểm trung chuyển
+nhằm tối ưu hóa hoạt động vận hành và phân phối.
 
-Dựa trên Hình~\ref{fig:rfm-management}, phân hệ \textbf{Quản lý RFM} chịu trách nhiệm phân tích và đánh giá hành vi khách hàng dựa trên mô hình RFM (Recency, Frequency, Monetary). 
-Phân hệ này hỗ trợ nhà quản lý theo dõi mức độ tương tác, tần suất sử dụng dịch vụ và giá trị giao dịch của khách hàng, từ đó phục vụ cho việc phân nhóm khách hàng và ra quyết định kinh doanh.
+\subsubsection{Xem kết quả phân tích}
 
-\subsubsection{Xem RFM}
-
-Chức năng này cho phép người quản trị theo dõi thông tin RFM của khách hàng:
+Chức năng này cho phép người quản trị theo dõi và khai thác
+kết quả phân tích mối quan hệ giữa các điểm nhận và điểm giao:
 \begin{itemize}
-    \item \textbf{Xem danh sách khách hàng}: Hiển thị danh sách khách hàng kèm theo các chỉ số RFM.
-    \item \textbf{Xem chi tiết RFM}: Cung cấp thông tin chi tiết về Recency, Frequency và Monetary của từng khách hàng.
+    \item Hiển thị danh sách các cặp điểm nhận -- điểm giao có mối liên hệ.
+    \item Cung cấp các chỉ số đánh giá mức độ liên kết của từng cặp.
 \end{itemize}
 
-\subsubsection{Phân tích RFM}
+\subsubsection{Phân tích giỏ hàng}
 
-Chức năng này hỗ trợ phân tích dữ liệu RFM nhằm đánh giá hành vi khách hàng:
+Chức năng này thực hiện phân tích dữ liệu đơn hàng
+dưới dạng các giỏ hàng, trong đó mỗi giỏ hàng bao gồm
+thông tin điểm nhận và điểm giao tương ứng.
+Thông qua quá trình này, hệ thống phát hiện các cặp điểm
+thường xuyên xuất hiện cùng nhau trong tập dữ liệu.
+
+\subsubsection{Tính toán các chỉ số đánh giá}
+
+Phân hệ sử dụng các chỉ số trong phân tích giỏ hàng
+để đánh giá mức độ liên quan giữa điểm nhận và điểm giao:
 \begin{itemize}
-    \item \textbf{Phân nhóm khách hàng}: Phân loại khách hàng theo mức độ gắn bó và giá trị.
-    \item \textbf{Đánh giá hành vi}: Phân tích xu hướng sử dụng dịch vụ của khách hàng theo thời gian.
+    \item \textbf{Support}: Tỷ lệ đơn hàng chứa đồng thời một điểm nhận và một điểm giao cụ thể.
+    \item \textbf{Confidence}: Xác suất xuất hiện điểm giao khi đã có điểm nhận.
+    \item \textbf{Lift}: Mức độ phụ thuộc giữa điểm nhận và điểm giao,
+    dùng để đánh giá ý nghĩa của mối quan hệ.
 \end{itemize}
 
-\subsubsection{Tính toán RFM}
+\subsubsection{Cập nhật và đề xuất}
 
-Chức năng này thực hiện tính toán các chỉ số RFM dựa trên dữ liệu giao dịch:
-\begin{itemize}
-    \item \textbf{Tính Recency}: Xác định khoảng thời gian kể từ lần giao dịch gần nhất.
-    \item \textbf{Tính Frequency}: Xác định tần suất thực hiện giao dịch.
-    \item \textbf{Tính Monetary}: Tính tổng giá trị giao dịch của khách hàng.
-\end{itemize}
-
-\subsubsection{Cập nhật RFM}
-
-Chức năng này cho phép cập nhật lại các chỉ số RFM khi dữ liệu thay đổi:
-\begin{itemize}
-    \item \textbf{Cập nhật dữ liệu}: Làm mới chỉ số RFM dựa trên giao dịch mới.
-    \item \textbf{Đồng bộ thông tin}: Đảm bảo dữ liệu phân tích luôn chính xác và nhất quán.
-\end{itemize}
+Dựa trên kết quả tính toán,
+các cặp điểm nhận -- điểm giao có giá trị Support và Lift cao
+được xem là các tuyến vận chuyển ổn định.
+Phân hệ tiến hành cập nhật kết quả phân tích khi có dữ liệu mới
+và đề xuất vị trí mở bưu cục hoặc điểm trung chuyển
+tại các khu vực phù hợp nhằm nâng cao hiệu quả khai thác mạng lưới logistics.
 
 
 
->>>>>>> 610c63ea0f72362b1da851204eb3996f084c21bd
 \section{Usecase Diagram }
 
 \subsection{Các tác nhân của hệ thống}
