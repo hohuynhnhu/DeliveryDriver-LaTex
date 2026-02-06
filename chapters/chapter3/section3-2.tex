@@ -170,44 +170,64 @@ Luồng hoạt động chính của chức năng quản lý đơn hàng được
     \item Kết thúc quá trình quản lý đơn hàng.
 \end{enumerate}
 
-\subsection{Activity Diagram phân công đơn hàng}
+\subsection{Activity Diagram xếp lịch kết hợp}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/Phancongdonhangactivity.jpg}
-    \caption{Activity Diagram phân công đơn hàng}
-    \label{fig:phancongdonhang}
+    % Bạn nhớ thay đổi tên file ảnh tương ứng
+    \includegraphics[height=0.6\textheight]{frontmatter/image/Xeplichkethop_activity.jpg}
+    \caption{Activity Diagram xếp lịch kết hợp (Tự động và Thủ công)}
+    \label{fig:xeplichkethop}
 \end{figure}
 
 \textbf{Mục đích}
 
-Activity Diagram ``Phân công đơn hàng'' được xây dựng nhằm mô tả quy trình nghiệp vụ khi Quản trị viên (Admin) thực hiện điều phối đơn hàng cho tài xế.
-Sơ đồ làm rõ logic hệ thống trong việc tìm kiếm tài xế phù hợp, cơ chế kiểm tra tải trọng công việc (workload) để tránh quá tải, và các quy tắc xử lý ngoại lệ như gán đè (Force Assign) hoặc xử lý khi không tìm thấy tài xế.
-Qua đó, sơ đồ giúp đảm bảo quy trình giao việc diễn ra minh bạch và tối ưu hóa hiệu suất vận hành.
+Activity Diagram ``Xếp lịch kết hợp'' được xây dựng nhằm mô tả quy trình lập lịch vận chuyển linh hoạt, cho phép Admin lựa chọn giữa việc sử dụng thuật toán tối ưu hóa tự động (Genetic Algorithm) hoặc tự sắp xếp thủ công.
+Sơ đồ làm rõ logic luồng đi từ việc khởi tạo dữ liệu, cơ chế đề xuất lịch trình thông minh của hệ thống, đến quy trình tinh chỉnh  với các ràng buộc kiểm tra .
+Đặc biệt, sơ đồ thể hiện khả năng xử lý linh hoạt các tình huống ngoại lệ thông qua tính năng "Gán đè"  hoặc bỏ qua bước chỉnh sửa nếu kết quả tự động đã đạt yêu cầu.
 
 \noindent\textbf{Luồng hoạt động chính}
 
-Luồng hoạt động chính của chức năng phân công đơn hàng được mô tả như sau:
+Luồng hoạt động chính của chức năng xếp lịch kết hợp được mô tả chi tiết như sau:
 
 \begin{enumerate}
-    \item Admin truy cập danh sách các đơn hàng chưa được phân công.
-    \item Admin chọn một hoặc nhiều đơn hàng (thường trong cùng một khu vực) để tiến hành gán.
-    \item Hệ thống tự động tìm kiếm và đề xuất danh sách tài xế phù hợp dựa trên vị trí và trạng thái.
-    \item Hệ thống kiểm tra kết quả tìm kiếm:
+    \item Admin bắt đầu quy trình bằng cách chọn ngày làm việc và khu vực địa lý cần xếp lịch.
+    \item Hệ thống tải toàn bộ danh sách đơn hàng chờ xử lý và danh sách tài xế khả dụng trong khu vực đó.
+    \item Admin lựa chọn phương thức xếp lịch:
     \begin{itemize}
-        \item \textbf{Nếu không có tài xế phù hợp:} Hệ thống cảnh báo ``Tất cả tài xế đều bận hoặc ở quá xa''. Admin có thể quyết định ``Chờ đợi'' (kết thúc quy trình) hoặc ``Gán cho tài xế lân cận'' (tiếp tục quy trình).
-        \item \textbf{Nếu có tài xế phù hợp:} Tiếp tục sang bước chọn tài xế.
+        \item \textbf{Nếu chọn Xếp thủ công:} Quy trình chuyển thẳng đến vòng lặp chỉnh sửa .
+        \item \textbf{Nếu chọn Chạy tự động:}
+        \begin{enumerate}
+            \item Hệ thống thực thi thuật toán di truyền (Genetic Algorithm) để tối ưu hóa quãng đường và cân bằng tải.
+            \item Hệ thống đề xuất lịch trình dự kiến.
+            \item Admin xem trước và đánh giá kết quả:
+            \begin{itemize}
+                \item Nếu \textbf{Chấp nhận ngay}: Bỏ qua các bước chỉnh sửa và chuyển thẳng đến bước lưu .
+                \item Nếu \textbf{Cần chỉnh sửa}: Tiếp tục sang vòng lặp chỉnh sửa .
+            \end{itemize}
+        \end{enumerate}
     \end{itemize}
-    \item Admin chọn một tài xế cụ thể từ danh sách để gán đơn.
-    \item Hệ thống kiểm tra tải trọng công việc hiện tại của tài xế đó:
-    \begin{itemize}
-        \item \textbf{Nếu tài xế quá tải:} Hệ thống hiển thị cảnh báo ``Đã nhận quá số lượng đơn cho phép''. Admin cần xác nhận: chọn ``Gán đè'' (Force Assign) để tiếp tục hoặc ``Chọn người khác'' để quay lại bước chọn tài xế.
-        \item \textbf{Nếu tải trọng bình thường:} Quy trình tiếp tục sang bước cập nhật.
-    \end{itemize}
-    \item Hệ thống cập nhật trạng thái đơn hàng thành ``Đã phân công''.
-    \item Hệ thống thêm đơn hàng vào lịch trình làm việc của tài xế.
-    \item Hệ thống gửi thông báo nhiệm vụ mới đến ứng dụng của tài xế.
-    \item Kết thúc quá trình phân công đơn hàng.
+    
+    \item \textbf{Vòng lặp chỉnh sửa (Thao tác Thủ công):}
+    \begin{enumerate}
+        \item Admin thực hiện kéo/thả đơn hàng để gán mới hoặc chuyển đổi giữa các tài xế.
+        \item Hệ thống kiểm tra các ràng buộc kỹ thuật .
+        \item Kiểm tra kết quả ràng buộc:
+        \begin{itemize}
+            \item \textbf{Nếu hợp lệ:} Chấp nhận thao tác và thoát vòng lặp (nếu đã hoàn tất).
+            \item \textbf{Nếu vi phạm ràng buộc:} Hệ thống cảnh báo . Admin quyết định:
+            \begin{itemize}
+                \item \textit{Chọn lại/Hủy thao tác:} Quay lại đầu vòng lặp để sửa lại.
+                \item \textit{Gán đè :} Bỏ qua cảnh báo và ép buộc gán đơn (dùng cho trường hợp khẩn cấp).
+            \end{itemize}
+        \end{itemize}
+        \item Quá trình lặp lại cho đến khi Admin không còn nhu cầu chỉnh sửa.
+    \end{enumerate}
+
+    \item Admin xác nhận hoàn tất lịch trình.
+    \item Hệ thống lưu dữ liệu cấu trúc lịch trình  và chi tiết  vào cơ sở dữ liệu.
+    \item Hệ thống gửi thông báo lộ trình và danh sách nhiệm vụ xuống ứng dụng của tài xế.
+    \item Kết thúc quy trình xếp lịch.
 \end{enumerate}
 
 

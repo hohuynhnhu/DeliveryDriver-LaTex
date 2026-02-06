@@ -42,22 +42,24 @@ Khách hàng nhập thông tin người gửi và người nhận trên ứng d�
 Sau khi địa chỉ được xác thực, khách hàng nhập thông tin hàng hóa và gửi yêu cầu tạo đơn. Hệ thống tiến hành lưu trữ bản ghi đơn hàng mới vào PostgreSQL, khởi tạo Mã vận đơn và đặt trạng thái ban đầu là ``Chờ xử lý''.
 Quy trình kết thúc khi hệ thống thông báo tạo đơn thành công và chuyển hướng khách hàng đến màn hình chi tiết đơn hàng vừa tạo.
 
-\subsection{Sequence Diagram phân công đơn hàng}
+\subsection{Sequence Diagram xếp lịch và phân công}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.4\textheight]{frontmatter/image/Phancongdonhangsequence.jpg}
-    \caption{Sequence Diagram phân công đơn hàng}
-    \label{fig:phancongdonhang_seq}
+    % Bạn hãy thay tên file ảnh tương ứng của bạn vào đây
+    \includegraphics[height=0.6\textheight]{frontmatter/image/Phancongdonhangsequence.jpg}
+    \caption{Sequence Diagram xếp lịch và phân công đơn hàng}
+    \label{fig:xeplich_sequence}
 \end{figure}
 
-Sơ đồ mô tả quy trình Quản trị viên (Admin) thực hiện phân công đơn hàng cho tài xế thông qua giao diện Web Admin, có tích hợp sự hỗ trợ từ thuật toán gợi ý thông minh.
+Sơ đồ mô tả quy trình Quản trị viên (Admin) thực hiện lập kế hoạch vận chuyển và phân công nhiệm vụ, kết hợp linh hoạt giữa cơ chế tối ưu hóa tự động của hệ thống và quyền kiểm soát thủ công của con người.
 
-Quy trình bắt đầu khi Admin chọn đơn hàng cần xử lý. Hệ thống Backend API không chỉ truy vấn dữ liệu từ PostgreSQL mà còn kích hoạt thuật toán MBA nội bộ để phân tích vị trí, lịch sử và các luật kết hợp, từ đó trả về danh sách tài xế được sắp xếp theo độ phù hợp cao nhất.
+Quy trình bắt đầu khi Admin lựa chọn ngày và khu vực cần xếp lịch. Hệ thống Backend API truy vấn dữ liệu từ PostgreSQL để hiển thị Dashboard. Tại đây, Admin có thể kích hoạt tính năng "Chạy tự động", yêu cầu hệ thống tính toán và đề xuất lộ trình tối ưu dựa trên các thuật toán nội bộ trước khi trả về kết quả dự kiến.
 
-Sau khi Admin chọn tài xế từ danh sách gợi ý và gửi yêu cầu phân công, hệ thống thực hiện kiểm tra logic nghiệp vụ về số lượng đơn hàng tài xế đang thực hiện.
-Nếu tài xế đang trong trạng thái quá tải (vượt định mức cho phép), hệ thống lập tức trả về cảnh báo lỗi và ngăn chặn việc gán đơn.
-Trong trường hợp tài xế đủ điều kiện tiếp nhận, hệ thống tiến hành cập nhật thông tin người phụ trách vào cơ sở dữ liệu, đồng thời gọi Notification Service để gửi thông báo nhận việc tức thời đến ứng dụng của tài xế và cập nhật trạng thái thành công trên giao diện quản trị.
+Trong giai đoạn tinh chỉnh (kéo thả đơn hàng hoặc đổi tài xế), hệ thống thực hiện cơ chế kiểm tra ràng buộc thời gian thực. Mỗi thao tác đều được đối chiếu với dữ liệu về tải trọng và thời gian làm việc.
+Nếu phát hiện vi phạm (như vượt quá tải trọng xe), hệ thống hiển thị cảnh báo rủi ro. Điểm đặc biệt là hệ thống cho phép Admin quyền quyết định: hoặc hủy thao tác để chọn lại, hoặc xác nhận Gán đè để cưỡng chế phân công trong các trường hợp ưu tiên.
+
+Cuối cùng, khi Admin xác nhận lưu lịch trình, hệ thống ghi nhận dữ liệu chính thức vào cơ sở dữ liệu. Đồng thời, Backend API kích hoạt Notification Service để gửi thông báo nhiệm vụ đến từng tài xế trong danh sách và cập nhật trạng thái của toàn bộ đơn hàng thành sẵn sàng lấy.
 \subsection{Sequence Diagram thực hiện lấy hàng}
 
 \begin{figure}[H]
