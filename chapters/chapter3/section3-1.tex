@@ -326,7 +326,7 @@ Dưới đây là các đặc tả use case của chi tiết đặt hàng và th
 
 \begin{table}[H]
 \centering
-\caption{UC-01: Tạo đơn hàng mới}
+\caption{UC-08: Tạo đơn hàng mới}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -339,7 +339,7 @@ Dưới đây là các đặc tả use case của chi tiết đặt hàng và th
 
 \begin{table}[H]
 \centering
-\caption{UC-02: Quản lý đơn hàng đã tạo}
+\caption{UC-09: Quản lý đơn hàng đã tạo}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -363,7 +363,7 @@ Dưới đây là các đặc tả use case của chi tiết đặt hàng và th
 
 \begin{table}[H]
 \centering
-\caption{UC-03: Tra cứu hành trình đơn hàng}
+\caption{UC-010: Tra cứu hành trình đơn hàng}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -397,7 +397,7 @@ Dưới đây là các đặc tả use case lấy hàng và giao hàng của tà
 
 \begin{table}[H]
 \centering
-\caption{UC-01: Cập nhật trạng thái hoạt động}
+\caption{UC-11: Cập nhật trạng thái hoạt động}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -421,7 +421,7 @@ Dưới đây là các đặc tả use case lấy hàng và giao hàng của tà
 
 \begin{table}[H]
 \centering
-\caption{UC-02: Xem lịch trình phân công}
+\caption{UC-12: Xem lịch trình phân công}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -445,7 +445,7 @@ Dưới đây là các đặc tả use case lấy hàng và giao hàng của tà
 
 \begin{table}[H]
 \centering
-\caption{UC-03: Thực hiện lấy hàng}
+\caption{UC-13: Thực hiện lấy hàng}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -472,7 +472,7 @@ Dưới đây là các đặc tả use case lấy hàng và giao hàng của tà
 
 \begin{table}[H]
 \centering
-\caption{UC-04: Thực hiện giao hàng}
+\caption{UC-14: Thực hiện giao hàng}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{4cm}|p{10cm}|}
 \hline
@@ -497,147 +497,243 @@ Dưới đây là các đặc tả use case lấy hàng và giao hàng của tà
 \end{tabular}
 \end{table}
 
-\subsection{Use case Diagram quản trị điều phối}
+\subsection{Đặc tả Use Case Diagram Quản trị điều phối}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.5\textheight]{frontmatter/image/quantridieuphoi.jpg}
+    % Đã sửa tên file ảnh theo yêu cầu
+    \includegraphics[width=0.9\textwidth]{frontmatter/image/quantridieuphoi.jpg} 
     \caption{Use case Diagram quản trị điều phối}
-    \label{fig:intro}
+    \label{fig:quantridieuphoi}
 \end{figure}
-Dưới đây là các đặc tả use case của quản trị điều phối:
 
+Dưới đây là bảng đặc tả chi tiết cho các Use case quan trọng của hệ thống:
+
+% --- UC-01: QUẢN LÝ BƯU CỤC ---
 \begin{table}[H]
 \centering
-\caption{UC-01: Phân công đơn hàng}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{|p{4cm}|p{10cm}|}
-\hline
-\textbf{Tên Use Case} & Phân công đơn hàng \\ \hline
-\textbf{Actor} & Admin \\ \hline
-\textbf{Mô tả} & Người quản trị thực hiện việc gán đơn hàng cho tài xế phù hợp dựa trên tuyến đường và tải trọng công việc. Việc phân công có thể được thực hiện thủ công hoặc duyệt phân công tự động do hệ thống đề xuất. \\ \hline
-\textbf{Tiền điều kiện} & 
-Có đơn hàng ở trạng thái chờ xử lý; có tài xế đang hoạt động và sẵn sàng nhận việc. \\ \hline
-\textbf{Luồng chính} &
-1. Actor truy cập danh sách các đơn hàng chưa được phân công.\\
-& 2. Actor chọn một hoặc nhiều đơn hàng cùng khu vực.\\
-& 3. Hệ thống đề xuất danh sách tài xế phù hợp gần khu vực đó nhất.\\
-& 4. Actor chọn tài xế cụ thể để gán đơn.\\
-& 5. Hệ thống cập nhật trạng thái đơn hàng sang đã phân công.\\
-& 6. Hệ thống thêm đơn hàng vào lịch trình làm việc của tài xế.\\
-& 7. Hệ thống gửi thông báo nhiệm vụ mới đến ứng dụng của tài xế. \\ \hline
-\textbf{Luồng phụ} &
-3a. Không có tài xế phù hợp: Hệ thống cảnh báo tất cả tài xế đều bận hoặc ở quá xa; Actor quyết định chờ đợi hoặc gán cho tài xế ở khu vực lân cận.\\
-& 4a. Tài xế quá tải: Hệ thống cảnh báo tài xế đã nhận quá số lượng đơn cho phép trong ca làm; Actor xác nhận tiếp tục gán đè hoặc chọn tài xế khác. \\ \hline
-\textbf{Hậu điều kiện} & 
-Đơn hàng được chuyển sang trách nhiệm của tài xế và xuất hiện trong lịch trình làm việc của họ. \\ \hline
-\end{tabular}
-\end{table}
-
-
-\begin{table}[H]
-\centering
-\caption{UC-02: Quan sát các tài xế}
+\caption{UC-15: Quản lý Bưu cục}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
-\textbf{Tên Use Case} & Quan sát các tài xế \\ \hline
+\textbf{Tên Use Case} & Quản lý Bưu cục \\ \hline
 \textbf{Actor} & Admin \\ \hline
-\textbf{Mô tả} & Người quản trị theo dõi vị trí thời gian thực, trạng thái hoạt động và tiến độ công việc của tất cả tài xế trên bản đồ số để điều phối vận hành hiệu quả. \\ \hline
+\textbf{Mô tả} & Quản trị viên thực hiện thêm mới, cập nhật thông tin, kích hoạt hoặc vô hiệu hóa các bưu cục (Post Office) để mở rộng hoặc thu hẹp mạng lưới vận chuyển. \\ \hline
 \textbf{Tiền điều kiện} & Admin đã đăng nhập hệ thống. \\ \hline
 \textbf{Luồng chính} &
 \begin{enumerate}
-    \item Actor truy cập màn hình Bản đồ điều phối.
-    \item Hệ thống hiển thị vị trí hiện tại của tất cả tài xế trên bản đồ.
-    \item Actor sử dụng bộ lọc để xem theo trạng thái: đang bận, đang rảnh hoặc ngoại tuyến.
-    \item Actor chọn một tài xế cụ thể.
-    \item Hệ thống hiển thị thông tin chi tiết gồm họ tên, số điện thoại, đơn hàng đang thực hiện và lộ trình dự kiến.
-    \item Actor theo dõi di chuyển của tài xế theo thời gian thực.
+    \item Actor truy cập danh sách bưu cục.
+    \item Hệ thống hiển thị danh sách bưu cục cùng trạng thái hoạt động.
+    \item Actor chọn chức năng "Thêm mới" hoặc chọn một bưu cục để "Chỉnh sửa".
+    \item Actor nhập thông tin (Tên, Mã bưu cục, Địa chỉ, Mã vùng phụ trách).
+    \item Actor thiết lập trạng thái (Kích hoạt/Vô hiệu hóa/Bảo trì).
+    \item Hệ thống kiểm tra tính hợp lệ của dữ liệu (Mã không trùng lặp).
+    \item Hệ thống lưu thông tin và thông báo thành công.
 \end{enumerate} \\ \hline
 \textbf{Luồng phụ} &
-\textbf{2a. Tài xế mất tín hiệu GPS:}
+\textbf{6a. Mã bưu cục đã tồn tại:}
 \begin{itemize}
-    \item Hệ thống hiển thị vị trí cuối cùng được ghi nhận.
-    \item Hệ thống cảnh báo mất kết nối.
-\end{itemize}
-\textbf{5a. Tài xế dừng quá lâu tại một điểm:}
-\begin{itemize}
-    \item Hệ thống hiển thị cảnh báo trạng thái bất thường để Actor kiểm tra.
+    \item Hệ thống báo lỗi trùng mã định danh.
+    \item Actor nhập lại mã mới.
 \end{itemize} \\ \hline
-\textbf{Hậu điều kiện} & Người quản trị nắm bắt được tình hình nhân sự và vận hành hiện tại của hệ thống. \\ \hline
+\textbf{Hậu điều kiện} & Thông tin bưu cục được cập nhật vào cơ sở dữ liệu và có hiệu lực ngay lập tức. \\ \hline
 \end{tabular}
 \end{table}
 
-
+% --- UC-16: QUẢN LÝ TÀI XẾ ---
 \begin{table}[H]
 \centering
-\caption{UC-03: Xử lý đơn hàng}
+\caption{UC-16: Quản lý Tài xế \& Theo dõi vị trí}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
-\textbf{Tên Use Case} & Xử lý đơn hàng \\ \hline
+\textbf{Tên Use Case} & Quản lý Tài xế \\ \hline
 \textbf{Actor} & Admin \\ \hline
-\textbf{Mô tả} & Người quản trị quản lý vòng đời đơn hàng và can thiệp xử lý các sự cố phát sinh như khách hủy đơn, giao hàng thất bại hoặc thay đổi thông tin vận chuyển. \\ \hline
-\textbf{Tiền điều kiện} & Đơn hàng đã tồn tại trên hệ thống. \\ \hline
+\textbf{Mô tả} & Quản lý hồ sơ tài xế, cập nhật trạng thái làm việc (Sẵn sàng/Bận/Nghỉ) và theo dõi vị trí thực (Real-time tracking) trên bản đồ. \\ \hline
+\textbf{Tiền điều kiện} & Có tài xế đã đăng ký trong hệ thống. \\ \hline
 \textbf{Luồng chính} &
 \begin{enumerate}
-    \item Actor tìm kiếm đơn hàng theo mã vận đơn hoặc số điện thoại.
-    \item Hệ thống hiển thị chi tiết trạng thái và lịch sử xử lý của đơn hàng.
-    \item Actor chọn hành động xử lý phù hợp (hủy đơn, cập nhật thông tin, điều phối lại).
-    \item Hệ thống yêu cầu nhập lý do thay đổi hoặc ghi chú nội bộ.
-    \item Actor xác nhận hành động.
-    \item Hệ thống cập nhật trạng thái mới cho đơn hàng.
-    \item Hệ thống gửi thông báo cập nhật đến các bên liên quan.
+    \item Actor truy cập module Quản lý tài xế.
+    \item Hệ thống hiển thị danh sách tài xế và trạng thái hiện tại.
+    \item Actor chọn xem chi tiết một tài xế.
+    \item Hệ thống hiển thị hồ sơ cá nhân, lịch sử đơn hàng và vị trí hiện tại trên bản đồ .
+    \item Actor cập nhật trạng thái tài xế.
+    \item Hệ thống lưu trạng thái mới.
 \end{enumerate} \\ \hline
 \textbf{Luồng phụ} &
-\textbf{3a. Xử lý đơn giao thất bại:}
+\textbf{4a. Tài xế mất tín hiệu GPS:}
 \begin{itemize}
-    \item Tài xế báo cáo giao không thành công.
-    \item Actor kiểm tra lý do và quyết định giao lại hoặc chuyển hoàn về kho.
+    \item Hệ thống hiển thị cảnh báo "Mất kết nối" và thời gian cập nhật lần cuối.
 \end{itemize}
-\textbf{3b. Khách hàng yêu cầu đổi địa chỉ:}
+\textbf{5a. Tài xế đang có đơn hàng chưa hoàn thành:}
 \begin{itemize}
-    \item Actor cập nhật địa chỉ mới.
-    \item Nếu địa chỉ mới khác khu vực, hệ thống yêu cầu gán lại tài xế.
+    \item Hệ thống ngăn chặn việc chuyển trạng thái sang "Inactive" hoặc "Off Duty".
+    \item Hệ thống yêu cầu hoàn thành đơn hàng hoặc điều phối lại trước.
 \end{itemize} \\ \hline
-\textbf{Hậu điều kiện} & Vấn đề của đơn hàng được giải quyết và trạng thái hệ thống được đồng bộ. \\ \hline
+\textbf{Hậu điều kiện} & Trạng thái tài xế được đồng bộ để phục vụ cho việc xếp lịch. \\ \hline
 \end{tabular}
 \end{table}
 
-
+% --- UC-17: THEO DÕI & XỬ LÝ ĐƠN ---
 \begin{table}[H]
 \centering
-\caption{UC-04: Tối ưu hóa phân bổ theo độ ưu tiên}
+\caption{UC-17: Theo dõi \& Xử lý đơn}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
-\textbf{Tên Use Case} & Tối ưu hóa phân bổ theo độ ưu tiên \\ \hline
-\textbf{Actor} & Hệ thống (Scheduler Service), Admin \\ \hline
-\textbf{Mô tả} & Hệ thống tự động tính toán và sắp xếp thứ tự giao hàng sao cho các đơn hàng có độ ưu tiên cao (Express, Fragile) được xử lý sớm nhất, đồng thời cân bằng tải trọng giữa các tài xế. \\ \hline
-\textbf{Tiền điều kiện} & 
-\begin{itemize}
-    \item Danh sách đơn hàng đang ở trạng thái chờ xử lý (Pending).
-    \item Có ít nhất một tài xế đang ở trạng thái sẵn sàng (Active).
-\end{itemize} \\ \hline
+\textbf{Tên Use Case} & Theo dõi \& Xử lý đơn \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Quản lý vòng đời đơn hàng từ lúc tiếp nhận  đến khi hoàn tất, bao gồm việc phê duyệt, từ chối hoặc gom nhóm đơn theo vùng. \\ \hline
+\textbf{Tiền điều kiện} & Có đơn hàng mới được tạo từ phía khách hàng . \\ \hline
 \textbf{Luồng chính} &
 \begin{enumerate}
-    \item Hệ thống truy xuất danh sách đơn hàng và thông tin độ ưu tiên (Express: 100, Fragile: 80, Normal: 50).
-    \item Hệ thống khởi tạo quần thể các phương án phân bổ ngẫu nhiên (Genetic Algorithm Population).
-    \item Hệ thống tính toán điểm thích nghi (Fitness Score) cho từng phương án dựa trên trọng số ưu tiên (Priority Weight).
-    \item Hệ thống thực hiện các bước tiến hóa (Lai ghép và Đột biến) để tìm ra lịch trình có điểm tối ưu nhất.
-    \item Hệ thống gán thứ tự ưu tiên giao hàng (Queue position) cho từng đơn hàng trong lịch trình của tài xế.
-    \item Hệ thống lưu kết quả vào cơ sở dữ liệu và hiển thị lịch trình đã tối ưu.
+    \item Actor xem danh sách đơn hàng mới .
+    \item Actor kiểm tra thông tin chi tiết (địa chỉ, loại hàng).
+    \item Actor thực hiện hành động "Phê duyệt"  để chuyển thành Order chính thức hoặc "Từ chối" .
+    \item Nếu phê duyệt, hệ thống tự động gom nhóm đơn  dựa trên mã vùng .
+    \item Hệ thống cập nhật trạng thái đơn hàng.
 \end{enumerate} \\ \hline
 \textbf{Luồng phụ} &
-\textbf{3a. Đơn hàng hỏa tốc (Express) bị xếp muộn:}
+\textbf{3a. Từ chối đơn hàng:}
 \begin{itemize}
-    \item Thuật toán phát hiện đơn Express có vị trí hàng đợi (Queue) lớn.
-    \item Hệ thống áp dụng hình phạt (Penalty) vào điểm Fitness để loại bỏ phương án này, ưu tiên đưa đơn lên đầu danh sách.
-\end{itemize}
-\textbf{4a. Nhiều đơn hàng cùng độ ưu tiên trong một khu vực:}
-\begin{itemize}
-    \item Hệ thống sử dụng tiêu chí khoảng cách (Area Code) để sắp xếp các đơn này liên tiếp nhau nhằm tối ưu quãng đường di chuyển.
+    \item Actor nhập lý do từ chối (Sai địa chỉ, ...).
+    \item Hệ thống gửi thông báo hủy đến khách hàng.
 \end{itemize} \\ \hline
-\textbf{Hậu điều kiện} & Các đơn hàng quan trọng được xếp vào vị trí giao hàng sớm nhất và tài xế nhận được danh sách nhiệm vụ đã sắp xếp. \\ \hline
+\textbf{Hậu điều kiện} & Đơn hàng chuyển sang trạng thái "Confirmed" và sẵn sàng để xếp lịch. \\ \hline
 \end{tabular}
 \end{table}
+
+% --- UC-04: XẾP LỊCH THỦ CÔNG ---
+\begin{table}[H]
+\centering
+\caption{UC-18: Xếp lịch thủ công}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Xếp lịch thủ công \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Cho phép Admin tự tay chọn tài xế và gán các đơn hàng cụ thể vào lịch trình của tài xế đó, thường dùng cho các trường hợp đặc biệt hoặc xử lý sự cố. \\ \hline
+\textbf{Tiền điều kiện} & Đơn hàng đã được xác nhận, Tài xế đang ở trạng thái sẵn sàng. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor chọn ngày và khu vực cần xếp lịch.
+    \item Hệ thống hiển thị danh sách đơn chưa gán và danh sách tài xế khả dụng.
+    \item Actor kéo thả hoặc chọn các đơn hàng gán cho một tài xế cụ thể.
+    \item Hệ thống tính toán tải trọng và cảnh báo nếu vượt quá giới hạn.
+    \item Actor xác nhận "Tạo lịch trình" .
+    \item Hệ thống lưu bản ghi vào bảng.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{4a. Tài xế quá tải:}
+\begin{itemize}
+    \item Hệ thống cảnh báo tổng khối lượng/số đơn vượt mức cho phép.
+    \item Actor bỏ bớt đơn hoặc xác nhận gán đè.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Lịch trình được tạo và gửi đến App của tài xế. \\ \hline
+\end{tabular}
+\end{table}
+
+% --- UC-05: XẾP LỊCH TỰ ĐỘNG (GA) ---
+\begin{table}[H]
+\centering
+\caption{UC-19: Xếp lịch tự động (Genetic Algorithm)}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Xếp lịch tự động (GA) \\ \hline
+\textbf{Actor} &Admin\\ \hline
+\textbf{Mô tả} & Hệ thống sử dụng thuật toán di truyền (Genetic Algorithm) để tối ưu hóa lộ trình giao hàng, giảm thiểu quãng đường và cân bằng tải giữa các tài xế. \\ \hline
+\textbf{Tiền điều kiện} & Danh sách đơn hàng lớn cần xử lý trong ngày. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor chọn khu vực và nhấn "Tối ưu hóa lịch trình".
+    \item Hệ thống thu thập dữ liệu đơn hàng và vị trí kho/bưu cục.
+    \item Hệ thống khởi tạo quần thể (Population) các phương án lộ trình.
+    \item Hệ thống chạy vòng lặp  để tìm phương án có Fitness Score cao nhất (Quãng đường ngắn nhất, thời gian nhanh nhất).
+    \item Hệ thống đề xuất lịch trình tối ưu cho admin xem trước.
+    \item admin xem xét và áp dụng.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{5a. Không tìm thấy phương án thỏa mãn:}
+\begin{itemize}
+    \item Do số lượng đơn quá lớn so với số tài xế.
+    \item Hệ thống cảnh báo và đề xuất để lại một số đơn sang ca sau.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Hàng loạt lịch trình được tạo tự động nhanh chóng và tối ưu. \\ \hline
+\end{tabular}
+\end{table}
+
+% --- UC-20: HỦY/CẬP NHẬT LỊCH ---
+\begin{table}[H]
+\centering
+\caption{UC-20: Hủy/Cập nhật lịch trình}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Hủy/Cập nhật lịch \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Chỉnh sửa lịch trình đang chạy hoặc chưa chạy (thêm/bớt đơn, đổi tài xế) hoặc hủy bỏ hoàn toàn lịch trình do sự cố. \\ \hline
+\textbf{Tiền điều kiện} & Lịch trình đã tồn tại. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor tìm kiếm mã lịch trình (Schedule ID).
+    \item Actor chọn "Chỉnh sửa".
+    \item Hệ thống cho phép gỡ bỏ đơn hàng khỏi lịch (đơn sẽ quay lại trạng thái Pending) hoặc chuyển lịch sang tài xế khác.
+    \item Actor lưu thay đổi.
+    \item Hệ thống gửi thông báo cập nhật cho tài xế liên quan.
+\end{enumerate} \\ \hline
+\textbf{Luồng phụ} &
+\textbf{2a. Hủy lịch trình đang chạy:}
+\begin{itemize}
+    \item Tài xế đã bắt đầu đi giao.
+    \item Hệ thống yêu cầu xác nhận khẩn cấp và gửi thông báo dừng ngay lập tức cho tài xế.
+\end{itemize} \\ \hline
+\textbf{Hậu điều kiện} & Lịch trình được cập nhật lại trạng thái và dữ liệu. \\ \hline
+\end{tabular}
+\end{table}
+
+% --- UC-07: XEM DASHBOARD THỐNG KÊ ---
+\begin{table}[H]
+\centering
+\caption{UC-21: Xem Dashboard thống kê}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Xem Dashboard thống kê \\ \hline
+\textbf{Actor} & Admin \\ \hline
+\textbf{Mô tả} & Cung cấp cái nhìn tổng quan về hiệu suất hệ thống: Tổng đơn hàng, Doanh thu, Tỷ lệ giao thành công, Hiệu suất tài xế. \\ \hline
+\textbf{Tiền điều kiện} & Admin đăng nhập hệ thống. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor truy cập trang chủ (Dashboard).
+    \item Hệ thống truy vấn dữ liệu tổng hợp từ Database và Data Warehouse.
+    \item Actor lọc dữ liệu theo khoảng thời gian (Ngày/Tuần/Tháng).
+\end{enumerate} \\ \hline
+\textbf{Hậu điều kiện} & Admin nắm bắt được tình hình kinh doanh để ra quyết định. \\ \hline
+\end{tabular}
+\end{table}
+
+% --- UC-08: GỢI Ý MỞ BƯU CỤC MỚI ---
+\begin{table}[H]
+\centering
+\caption{UC-22: Gợi ý mở bưu cục mới (Analytics)}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\textbf{Tên Use Case} & Gợi ý mở bưu cục mới \\ \hline
+\textbf{Actor} & Admin  \\ \hline
+\textbf{Mô tả} & Hệ thống sử dụng thuật toán phân tích giỏ hàng (Market Basket Analysis - Apriori) để phân tích tần suất các tuyến đường và gợi ý vị trí tiềm năng đặt bưu cục mới. \\ \hline
+\textbf{Tiền điều kiện} & Dữ liệu lịch sử đơn hàng đủ lớn được lưu trong Database. \\ \hline
+\textbf{Luồng chính} &
+\begin{enumerate}
+    \item Actor chọn module Phân tích nâng cao.
+    \item Actor chọn chức năng "Gợi ý địa điểm".
+    \item Actor thiết lập tham số (Độ hỗ trợ tối thiểu - Min Support).
+    \item Hệ thống chạy thuật toán khai phá dữ liệu trên các cặp điểm giao nhận phổ biến.
+    \item Hệ thống hiển thị danh sách các khu vực có nhu cầu cao nhưng chưa có bưu cục phủ sóng.
+    \item Hệ thống hiển thị dự báo doanh thu nếu mở bưu cục tại đó.
+\end{enumerate} \\ \hline
+\textbf{Hậu điều kiện} & Admin có dữ liệu định lượng để quyết định chiến lược mở rộng. \\ \hline
+\end{tabular}
+\end{table}
+
