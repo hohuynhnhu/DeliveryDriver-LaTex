@@ -1,6 +1,233 @@
 \section{Class Diagram}
 
-\subsection{Class Diagram về tối ưu hóa lộ trình}
+\subsection{Class Diagram của  Gateway}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/ClassDiagram- Gateway.jpg}
+    \caption{Class diagram của Gateway}
+    \label{fig:gateway_cld}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Gateway Layer:}
+    \begin{itemize}
+        \item \texttt{FastAPIRouter / GatewayRouter}: Thành phần tiếp nhận request từ client, chịu trách nhiệm định tuyến yêu cầu và thực hiện kiểm tra trạng thái hệ thống (health check).
+    \end{itemize}
+
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{GatewayService}: Application service trung tâm điều phối luồng xử lý request tại Gateway; thực hiện xác thực, phân phối request đến các service backend và tổng hợp response trả về client.
+    \end{itemize}
+
+    \item \textbf{Ports Layer:}
+    \begin{itemize}
+        \item \texttt{ServiceClientInterface}: Interface định nghĩa chuẩn giao tiếp giữa Gateway và các service backend, đảm bảo tính loose coupling và khả năng mở rộng.
+    \end{itemize}
+
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{AuthServiceClient}: HTTP adapter giao tiếp với Auth Service, thực hiện xác thực request và kiểm tra token người dùng.
+        
+        \item \texttt{OrderServiceClient}: HTTP adapter giao tiếp với Order Service, xử lý các nghiệp vụ liên quan đến đơn hàng như gửi yêu cầu hoặc phê duyệt đơn.
+        
+        \item \texttt{UserServiceClient}: HTTP adapter giao tiếp với User Service, truy vấn thông tin người dùng.
+        
+        \item \texttt{HTTPClient}: Thành phần hạ tầng chịu trách nhiệm gửi HTTP request (GET, POST) đến các service backend.
+    \end{itemize}
+
+    \item \textbf{Value Objects:}
+    \begin{itemize}
+        \item \texttt{GatewayRequest}: Value Object biểu diễn request nội bộ của Gateway, bao gồm path, headers và body.
+        
+        \item \texttt{GatewayResponse}: Value Object biểu diễn response trả về từ Gateway, bao gồm status code và dữ liệu phản hồi.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Class Diagram của Auth Service}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{frontmatter/image/ClassDiagram-authService.jpg}
+    \caption{Class diagram của Auth Service}
+    \label{fig:auth_service_cld}
+\end{figure}
+Auth Service quản lý xác thực và phân quyền người dùng, được thiết kế theo kiến trúc Clean Architecture với 4 layers độc lập. Service này bao gồm các thành phần chính:
+\begin{itemize}
+    \item \textbf{Presentation Layer:}
+    \begin{itemize}
+        \item \texttt{AuthRouter}: FastAPI router cung cấp 10 RESTful endpoints (register, login, logout, refresh, get/update profile, search user, reset password, verify, health check)
+    \end{itemize}
+    
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{AuthService}: Orchestrates business logic với 8 use cases chính (register, login, logout, refresh\_token, get\_current\_user, update\_profile, reset\_password\_request, search\_user)
+        \item Chịu trách nhiệm convert giữa Domain Entities và API Schemas
+    \end{itemize}
+    
+    \item \textbf{Domain Layer:}
+    \begin{itemize}
+        \item \texttt{AuthRepositoryInterface}: Interface (Port) định nghĩa 8 abstract methods cho data access
+        \item \texttt{User}: Entity với 13 attributes và 3 business methods (get\_display\_name, is\_profile\_complete, has\_location)
+        \item \texttt{GeoPoint}: Value Object đại diện tọa độ địa lý (lat, lng)
+        \item \texttt{AuthTokens}: Value Object chứa JWT access và refresh tokens
+        \item \texttt{AuthResult}: DTO kết quả authentication
+        \item \texttt{SearchUser}: DTO user data tối giản cho tìm kiếm
+    \end{itemize}
+    
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{SupabaseAuthRepository}: Implement AuthRepositoryInterface (Adapter) kết nối với Supabase
+        \item \texttt{SupabaseClient}: External service connector quản lý kết nối Supabase
+        \item Áp dụng DUAL TABLE strategy: \texttt{auth.users} cho authentication và \texttt{public.users} cho profile data
+    \end{itemize}
+\end{itemize}
+Service này tuân theo Dependency Rule (Presentation $\rightarrow$ Application $\rightarrow$ Domain $\leftarrow$ Infrastructure) và áp dụng các patterns: Clean Architecture, Hexagonal (Ports \& Adapters), Repository Pattern, Dependency Injection. Security features bao gồm JWT authentication (access token TTL 1h, refresh token TTL 7d), password hashing tự động, session management, và hỗ trợ email verification/password reset.
+
+\subsection{Class Diagram của ApproveOrderRouter}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/ClassDiagram- ApproveOrderRouter.jpg}
+    \caption{Class diagram của ApproveOrderRouter}
+    \label{fig:approve_order_router_cld}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Presentation Layer:}
+    \begin{itemize}
+        \item \texttt{ApproveOrderRouter}:  
+        Thành phần thuộc tầng Presentation, được xây dựng trên FastAPI, chịu trách nhiệm tiếp nhận các HTTP request từ client liên quan đến nghiệp vụ duyệt đơn hàng (Approve Order).  
+        Lớp này định nghĩa các API endpoint như lấy danh sách đơn hàng theo schedule, truy vấn đơn hàng theo mức độ ưu tiên hoặc khu vực, xử lý duyệt đơn hàng theo vùng hoặc toàn bộ các đơn đang ở trạng thái pending, và kiểm tra trạng thái hoạt động của hệ thống (health check).  
+        \texttt{ApproveOrderRouter} không chứa logic nghiệp vụ mà chỉ đóng vai trò định tuyến và chuyển tiếp request xuống tầng Application.
+    \end{itemize}
+
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{ApproveOrderGatewayService}:  
+        Là application service trung tâm của Gateway, chịu trách nhiệm điều phối luồng xử lý các request liên quan đến Approve Order.  
+        Lớp này tiếp nhận request từ \texttt{ApproveOrderRouter}, chuyển đổi dữ liệu đầu vào sang dạng chuẩn của Gateway, sau đó phân phối request tới các service backend thông qua các client tương ứng.  
+        Các phương thức như \texttt{dispatch()} và \texttt{aggregate()} cho phép Gateway xử lý linh hoạt nhiều loại request khác nhau và tổng hợp response trả về cho client, đồng thời đảm bảo Gateway không phụ thuộc trực tiếp vào chi tiết triển khai của backend service.
+
+        \item \texttt{GatewayRequest}:  
+        Value Object đại diện cho request nội bộ của Gateway, bao gồm thông tin đường dẫn API, headers và body.  
+        Việc chuẩn hóa request dưới dạng \texttt{GatewayRequest} giúp Gateway dễ dàng mở rộng, tái sử dụng và thống nhất cách giao tiếp với các service backend.
+
+        \item \texttt{GatewayResponse}:  
+        Value Object đại diện cho response nội bộ của Gateway, bao gồm mã trạng thái HTTP và dữ liệu phản hồi.  
+        Lớp này đảm bảo kết quả trả về từ các backend service được đóng gói và trả về client theo một cấu trúc thống nhất.
+    \end{itemize}
+
+    \item \textbf{Domain (Port) Layer:}
+    \begin{itemize}
+        \item \texttt{ServiceClientInterface}:  
+        Interface định nghĩa chuẩn giao tiếp giữa Gateway và các service backend.  
+        Tầng Application chỉ phụ thuộc vào interface này thay vì phụ thuộc trực tiếp vào các implementation cụ thể, từ đó tuân thủ nguyên tắc Dependency Inversion và đảm bảo tính loose coupling cũng như khả năng mở rộng của hệ thống.
+    \end{itemize}
+
+    \item \textbf{Infrastructure Layer:}
+\begin{itemize}
+        \item \texttt{ApproveOrderServiceClient}:  
+        Là HTTP adapter triển khai \texttt{ServiceClientInterface}, chịu trách nhiệm gửi các request từ Gateway tới Approve Order backend service.  
+        Lớp này đóng vai trò cầu nối giữa tầng Application và hạ tầng giao tiếp mạng, che giấu chi tiết triển khai HTTP đối với Gateway service.
+
+        \item \texttt{HTTPClient}:  
+        Thành phần hạ tầng chịu trách nhiệm thực hiện các lời gọi HTTP (GET, POST) đến backend service.  
+        \texttt{HTTPClient} được sử dụng như một client dùng chung, giúp chuẩn hóa và tái sử dụng logic giao tiếp HTTP trong toàn bộ Gateway.
+    \end{itemize}
+
+    \item \textbf{External Service:}
+    \begin{itemize}
+        \item \texttt{ApproveOrderBackend}:  
+        Đại diện cho Approve Order Service nằm ngoài Gateway, cung cấp các API xử lý nghiệp vụ duyệt đơn hàng thông qua các endpoint \texttt{/api/orders/*} và endpoint kiểm tra trạng thái hoạt động của service (\texttt{/health}).  
+        Gateway tương tác với service này thông qua \texttt{ApproveOrderServiceClient} mà không phụ thuộc trực tiếp vào chi tiết triển khai nội bộ của backend.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Class Diagram của Kafka to DataLake Service}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/ClassDiagram-KafkaToDataLake.jpg}
+    \caption{Class diagram của Kafka to DataLake Service}
+    \label{fig:kafka_to_datalake_cld}
+\end{figure}
+
+Kafka to DataLake Service chịu trách nhiệm streaming dữ liệu từ Kafka message queue vào MinIO Data Lake theo cấu trúc phân vùng theo ngày. Service này bao gồm các thành phần chính:
+
+\begin{itemize}
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{DataLakeService}: Orchestrates toàn bộ workflow consume từ Kafka và store vào MinIO
+    \end{itemize}
+    
+    \item \textbf{Domain Layer:}
+    \begin{itemize}
+        \item \texttt{KafkaMessage}: DTO đại diện cho message từ Kafka
+        \item \texttt{DataLakeObject}: DTO đại diện cho object trong Data Lake
+        \item \texttt{FilePathStrategy}: Domain service sinh đường dẫn phân vùng theo ngày (orders/YYYY/MM/DD/timestamp.json)
+    \end{itemize}
+    
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{KafkaConsumerWrapper}: Wrapper cho Kafka consumer với safe deserialization
+        \item \texttt{MinIOWriter}: Writer cho MinIO với bucket management
+        \item \texttt{MessageDeserializer}: Xử lý JSON deserialization an toàn
+        \item \texttt{HealthChecker}: Kiểm tra kết nối Kafka và MinIO trước khi start service
+    \end{itemize}
+\end{itemize}
+
+Service này đảm bảo tính toàn vẹn dữ liệu bằng cách xử lý lỗi gracefully và retry logic, đồng thời tổ chức dữ liệu theo cấu trúc phân vùng theo thời gian để tối ưu việc truy vấn sau này.
+
+Service này đảm bảo tính toàn vẹn dữ liệu bằng cách xử lý lỗi gracefully và retry logic, đồng thời tổ chức dữ liệu theo cấu trúc phân vùng theo thời gian để tối ưu việc truy vấn sau này.
+
+\subsection{Class Diagram của ETL Processor Service}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.4\textheight]{frontmatter/image/ClassDiagram-ETLProcessor.jpg}
+    \caption{Class diagram của ETL Processor Service}
+    \label{fig:etl_processor_cld}
+\end{figure}
+
+ETL Processor Service bao gồm hai thành phần chính: ETL Worker để xử lý dữ liệu từ Data Lake vào Data Warehouse, và Analytics API để phân tích dữ liệu bằng thuật toán Apriori. Service này được thiết kế với các thành phần:
+
+\begin{itemize}
+    \item \textbf{Presentation Layer:}
+    \begin{itemize}
+        \item \texttt{AnalyticsRouter}: REST API controller cung cấp các endpoint phân tích location pairs, gợi ý bưu cục mới, và hotspots
+    \end{itemize}
+    
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{LocationAnalysisService}: Service phân tích location pairs và tạo insights
+        \item \texttt{ETLOrchestrator}: Orchestrates ETL workflow (Extract → Transform → Load) chạy định kỳ mỗi 300 giây
+    \end{itemize}
+    
+    \item \textbf{Domain Layer:}
+    \begin{itemize}
+        \item \texttt{marketbasketEngine}: Domain service triển khai thuật toán market basket analysis để tính Support, Confidence, Lift
+        \item \texttt{PairAnalysis}: DTO chứa kết quả phân tích cặp pickup-delivery
+        \item \texttt{Suggestion}: DTO chứa gợi ý mở bưu cục mới với priority score
+        \item \texttt{Hotspot}: DTO chứa thông tin các điểm có lượng đơn hàng cao
+        \item \texttt{AssociationType}: Enum phân loại mức độ liên kết (VERY\_FREQUENT, FREQUENT, TRENDING, NORMAL)
+    \end{itemize}
+    
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{MinIOExtractor}: Extracts dữ liệu JSON từ MinIO Data Lake
+        \item \texttt{DataTransformer}: Transforms dữ liệu thành schema của Data Warehouse
+        \item \texttt{WarehouseLoader}: Loads dữ liệu vào PostgreSQL (fact\_orders, fact\_routes, dim\_areas)
+    \end{itemize}
+    
+    \item \textbf{Data Models:}
+    \begin{itemize}
+        \item \texttt{FactOrders}: Fact table chứa thông tin đơn hàng
+        \item \texttt{FactRoutes}: Fact table chứa thông tin tuyến đường (pickup-delivery pairs)
+        \item \texttt{DimAreas}: Dimension table chứa thống kê theo vùng
+    \end{itemize}
+\end{itemize}
+
+
 
 % \begin{figure}[H]
 %     \centering
@@ -10,7 +237,7 @@
 % \end{figure}
 
 
-\subsection{Class Diagram về driver tracking}
+%\subsection{Class Diagram về driver tracking}
 
 % \begin{figure}[H]
 %     \centering
