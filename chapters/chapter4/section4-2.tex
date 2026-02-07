@@ -13,6 +13,10 @@ Giao diện bắt đầu là màn hình đầu tiên khi người dùng mở ứ
     \label{fig:start}
 \end{figure}
 
+Giao diện tạo tài khoản mới của hệ thống \textbf{DeliveryDriver} được thiết kế theo hướng tối giản, với bố cục tập trung ở trung tâm màn hình nhằm giúp người dùng dễ dàng thao tác và theo dõi. Giao diện bao gồm các trường thông tin cơ bản như: \textit{Họ và tên}, \textit{Email}, \textit{Số điện thoại}, \textit{Mật khẩu} và \textit{Xác nhận mật khẩu}, đáp ứng đầy đủ yêu cầu cho quá trình đăng ký tài khoản.
+
+Nút \textbf{Đăng ký} được bố trí rõ ràng, cho phép người dùng nhanh chóng hoàn tất việc tạo tài khoản. Bên cạnh đó, giao diện còn cung cấp liên kết \textbf{Đăng nhập} dành cho người dùng đã có tài khoản, cùng với tùy chọn quay về trang chủ, đảm bảo tính thuận tiện, thân thiện và nâng cao trải nghiệm người dùng.
+
 \subsection{Giao diện đăng nhập}
 
 Giao diện đăng nhập cho phép người dùng nhập thông tin tài khoản để truy cập vào hệ thống.
@@ -23,6 +27,9 @@ Giao diện đăng nhập cho phép người dùng nhập thông tin tài khoả
     \caption{Giao diện đăng nhập}
     \label{fig:login}
 \end{figure}
+
+Giao diện tạo tài khoản mới của hệ thống \textbf{DeliveryDriver} được thiết kế tối giản, với bố cục tập trung ở trung tâm màn hình. Giao diện bao gồm các trường thông tin: \textit{Họ và tên}, \textit{Email}, \textit{Số điện thoại}, \textit{Mật khẩu} và \textit{Xác nhận mật khẩu}. Nút \textbf{Đăng ký} giúp người dùng dễ dàng hoàn tất quá trình tạo tài khoản. Liên kết \textbf{Đăng nhập} dành cho người đã có tài khoản và tùy chọn quay về trang chủ, đảm bảo tính thuận tiện và dễ sử dụng.
+
 
 \subsection{Giao diện đăng ký}
 
@@ -46,6 +53,9 @@ Giao diện hồ sơ cá nhân cho phép người dùng xem và cập nhật th�
     \label{fig:profile}
 \end{figure}
 
+Giao diện \textbf{Thông tin cá nhân} cho phép người dùng quản lý thông tin tài khoản và bảo mật. Màn hình hiển thị ảnh đại diện, họ tên và vai trò người dùng, kèm theo các chức năng \textbf{Chỉnh sửa thông tin} và \textbf{Đổi mật khẩu}. Phần nội dung chính bao gồm các thông tin cá nhân như \textit{Họ và tên}, \textit{Email}, \textit{Số điện thoại}, \textit{Mã khu vực}, \textit{Địa chỉ chi tiết} và \textit{Tọa độ vị trí}. Bố cục giao diện rõ ràng, dễ theo dõi, hỗ trợ người dùng cập nhật và quản lý thông tin một cách hiệu quả.
+
+
 \subsection{Giao diện Dashboard}
 
 Sau khi đăng nhập, người dùng được chuyển đến Dashboard tương ứng với vai trò của mình trong hệ thống.
@@ -57,6 +67,9 @@ Sau khi đăng nhập, người dùng được chuyển đến Dashboard tương
     \caption{Giao diện Dashboard theo vai trò}
     \label{fig:dashboard}
 \end{figure}
+
+Giao diện \textbf{Dashboard khách hàng} hiển thị tổng quan thông tin sử dụng hệ thống sau khi người dùng đăng nhập. Phần đầu màn hình hiển thị lời chào người dùng và cung cấp các thống kê nhanh, bao gồm tổng số đơn hàng, số đơn đang xử lý và số đơn đã hoàn thành. Bên dưới là nút \textbf{Tạo đơn hàng mới} giúp người dùng thực hiện thao tác nhanh chóng. Khu vực \textbf{Truy cập nhanh} cho phép người dùng chuyển đến các chức năng chính như \textit{Hồ sơ}, \textit{Địa chỉ} và \textit{Đơn hàng}.
+
 
 \section{Triển khai các chức năng chính}
 
@@ -88,6 +101,9 @@ Chức năng theo dõi đơn hàng cho phép khách hàng quan sát trạng thá
     \caption{Giao diện theo dõi trạng thái đơn hàng}
     \label{fig:track_order}
 \end{figure}
+
+Giao diện \textbf{Tạo đơn hàng mới – bước nhập thông tin} được thiết kế theo dạng quy trình, giúp người dùng dễ dàng theo dõi các bước tạo đơn. Màn hình tập trung vào việc khai báo thông tin người gửi và địa điểm lấy hàng, bao gồm \textit{số điện thoại}, \textit{địa chỉ}, \textit{mã khu vực} và \textit{tọa độ}. Hệ thống tích hợp chức năng chọn địa chỉ thông qua bản đồ, hỗ trợ xác định vị trí chính xác, đảm bảo quá trình tạo đơn hàng diễn ra nhanh chóng và hiệu quả.
+
 
 \subsection{Triển khai chức năng dành cho Admin}
 
@@ -162,6 +178,7 @@ Admin thực hiện phân công đơn hàng và xử lý các đơn khẩn cấp
      \caption{Giao diện xử lý và phân công đơn hàng đột xuất}
      \label{fig:assign_order}
  \end{figure}
+
 
 %\subsubsection{Lên lịch giao hàng}
 
