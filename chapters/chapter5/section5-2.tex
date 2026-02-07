@@ -110,19 +110,47 @@ Toàn bộ mã nguồn của hệ thống được quản lý và lưu trữ tr�
 \end{center}
 
 \vspace{0.5cm} % khoảng cách dưới tiêu đề
-
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.3}
-    \setlength{\tabcolsep}{8pt}
+    \setlength{\tabcolsep}{6pt}
+    \caption{Phân công công việc các thành viên trong nhóm}
+
     \begin{tabular}{|c|p{4cm}|p{9cm}|}
         \hline
         \textbf{TT} &
         \textbf{Họ và tên thành viên} &
-        \textbf{Các nội dung, công việc thành viên đóng góp cho nhóm} \\
+        \textbf{Nội dung công việc đảm nhiệm} \\
         \hline
-        1 & Lê Tuấn Khang &  \\ \hline
-        2 & Hồ Huỳnh Nhu &  \\ \hline
+
+        1 & Lê Tuấn Khang &
+        Frontend Web:
+        \begin{itemize}
+            \item Kết nối backend (xác thực, hồ sơ)
+            \item Đặt hàng và xử lý đơn hàng
+        \end{itemize} \\ \hline
+
+        2 & Hồ Huỳnh Nhu &
+        Frontend Web:
+        \begin{itemize}
+            \item Giao diện xử lý khẩn cấp
+            \item Phân tích 
+            \item Mã hóa địa chỉ
+            \item Sửa lỗi giao diện đặt hàng
+            \item 
+        \end{itemize}
+        Backend:
+        \begin{itemize}
+            \item Xây dựng service đặt đơn 
+            \item Xây dựng service phân tích và gợi ý tuyến đường
+            \item Xây dựng xử lý đơn khẩn cấp
+            \item Kafka, MinIO, tính toán chỉ số dữ liệu
+        \end{itemize}
+        LaTeX:
+        \begin{itemize}
+            \item Dựng project, chỉnh format, vẽ kiến trúc hệ thống
+        \end{itemize} \\ \hline
+
         3 & Phạm Ngọc Diễm My &  \\ \hline
         4 & Nguyễn Huỳnh Tường Vi &  \\ \hline
         5 & Huỳnh Sĩ Nguyên &  \\ \hline
@@ -130,6 +158,7 @@ Toàn bộ mã nguồn của hệ thống được quản lý và lưu trữ tr�
         7 & Nguyễn Hoàng Uyển Nhi &  \\ \hline
     \end{tabular}
 \end{table}
+
 
 
 
