@@ -1,7 +1,92 @@
 \section{Class Diagram}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 \subsection{Class Diagram của  Gateway}
+=======
+\subsection{Class Diagram Routing Service}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{frontmatter/image/routingService-classDiagram.png}
+    \caption{Class diagram của Routing Service}
+    \label{fig:routing_service_cld}
+\end{figure}
+
+Routing Service chịu trách nhiệm xử lý bài toán tối ưu lộ trình dựa trên danh sách các điểm vị trí đầu vào, kết hợp giữa tính toán khoảng cách và truy vấn dữ liệu lộ trình thực tế từ dịch vụ định tuyến bên ngoài. Service này được thiết kế theo kiến trúc phân tầng nhằm tách biệt rõ ràng giữa giao tiếp, xử lý nghiệp vụ và hạ tầng kỹ thuật, bao gồm các thành phần chính sau:
+
+\begin{itemize}
+    \item \textbf{Presentation Layer:}
+    \begin{itemize}
+        \item \texttt{RouteAPI}: Tiếp nhận yêu cầu tối ưu lộ trình từ client, nhận dữ liệu đầu vào dưới dạng \texttt{RouteRequest} và trả về kết quả \texttt{RouteResponse}.
+    \end{itemize}
+    
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{RouteOptimizer}: Điều phối thuật toán tối ưu thứ tự các điểm đi dựa trên chỉ số bắt đầu và kết thúc.
+        \item \texttt{DistanceMatrixService}: Tính toán ma trận khoảng cách giữa các vị trí để phục vụ cho quá trình tối ưu.
+        \item \texttt{OSRMService}: Tương tác với dịch vụ OSRM để lấy thông tin lộ trình và khoảng cách thực tế.
+    \end{itemize}
+    
+    \item \textbf{Domain Layer:}
+    \begin{itemize}
+        \item \texttt{RouteRequest}: Đối tượng chứa dữ liệu đầu vào cho bài toán định tuyến, bao gồm danh sách vị trí và chỉ số điểm bắt đầu, kết thúc.
+        \item \texttt{RouteResponse}: Đối tượng phản hồi kết quả xử lý, bao gồm trạng thái thành công và dữ liệu lộ trình tối ưu.
+        \item \texttt{OptimizedRoute}: Đại diện cho lộ trình đã được tối ưu, bao gồm thứ tự các điểm và tổng quãng đường.
+        \item \texttt{Location}: Định nghĩa thông tin vị trí địa lý với tọa độ vĩ độ và kinh độ.
+    \end{itemize}
+    
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{Config}: Quản lý các cấu hình hệ thống, đặc biệt là thông tin kết nối tới dịch vụ OSRM.
+        \item \texttt{Logger}: Cung cấp cơ chế ghi log phục vụ việc theo dõi và xử lý lỗi trong quá trình vận hành.
+    \end{itemize}
+    
+    \item \textbf{Utility Layer:}
+    \begin{itemize}
+        \item \texttt{Geolib}: Cung cấp các hàm tính toán hỗ trợ như khoảng cách haversine giữa các vị trí địa lý.
+    \end{itemize}
+\end{itemize}
+
+Routing Service đảm bảo luồng phụ thuộc một chiều từ tầng Presentation xuống các tầng dưới, giúp hệ thống dễ mở rộng, dễ bảo trì và cho phép thay thế các thành phần hạ tầng mà không ảnh hưởng đến logic nghiệp vụ cốt lõi.
+
+\subsection{Class Diagram WebSocket Service}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{frontmatter/image/websocker-classDiagram.png}
+    \caption{Class diagram của WebSocket Service}
+    \label{fig:websocket_service_cld}
+\end{figure}
+
+WebSocket Service chịu trách nhiệm xử lý giao tiếp thời gian thực giữa hệ thống và client, phục vụ bài toán theo dõi vị trí tài xế theo thời gian thực. Service được thiết kế theo kiến trúc phân tầng nhằm tách biệt rõ ràng giữa tầng giao tiếp WebSocket, xử lý nghiệp vụ và hạ tầng kỹ thuật, bao gồm các thành phần chính sau:
+
+\begin{itemize}
+    \item \textbf{Presentation Layer:}
+    \begin{itemize}
+        \item \texttt{LocationRoutes}: Cung cấp các endpoint WebSocket phục vụ việc cập nhật vị trí tài xế và truy vấn vị trí hiện tại.
+        \item \texttt{WebSocketRoutes}: Quản lý các luồng theo dõi vị trí tài xế theo thời gian thực, bao gồm theo dõi một tài xế hoặc nhiều tài xế đồng thời.
+    \end{itemize}
+    
+    \item \textbf{Application Layer:}
+    \begin{itemize}
+        \item \texttt{LocationService}: Chứa logic nghiệp vụ liên quan đến vị trí tài xế như cập nhật vị trí, lấy vị trí hiện tại, truy vấn lịch sử di chuyển và xử lý trạng thái offline khi tài xế ngắt kết nối.
+    \end{itemize}
+    
+    \item \textbf{Infrastructure Layer:}
+    \begin{itemize}
+        \item \texttt{SupabaseClient}: Cung cấp kết nối và thao tác với hệ thống lưu trữ Supabase để lưu trữ và truy vấn dữ liệu vị trí.
+        \item \texttt{ConnectionManager}: Quản lý vòng đời các kết nối WebSocket, bao gồm kết nối, ngắt kết nối và broadcast dữ liệu vị trí tới các client đang theo dõi.
+    \end{itemize}
+    
+    \item \textbf{DTO Layer:}
+    \begin{itemize}
+        \item \texttt{LocationUpdateDTO}: Đối tượng truyền dữ liệu đại diện cho thông tin vị trí tài xế, bao gồm vĩ độ, kinh độ, tốc độ, hướng di chuyển và trạng thái.
+    \end{itemize}
+\end{itemize}
+
+WebSocket Service tuân theo nguyên tắc phụ thuộc một chiều từ tầng Presentation xuống các tầng Application và Infrastructure, giúp đảm bảo tính mở rộng, khả năng bảo trì và đáp ứng tốt yêu cầu xử lý dữ liệu thời gian thực của hệ thống.
+>>>>>>> c119f5e4d04048661f43f05c44ba5f8009204c80
 
 \begin{figure}[H]
     \centering
