@@ -3,6 +3,10 @@
 Phần này trình bày các giao diện chính của hệ thống giao nhận bưu phẩm. Các giao diện được thiết kế đơn giản, trực quan, phù hợp với từng vai trò người dùng gồm khách hàng, shipper và admin.
 
 
+Giao diện tạo tài khoản mới của hệ thống \textbf{DeliveryDriver} được thiết kế theo hướng tối giản, với bố cục tập trung ở trung tâm màn hình nhằm giúp người dùng dễ dàng thao tác và theo dõi. Giao diện bao gồm các trường thông tin cơ bản như: \textit{Họ và tên}, \textit{Email}, \textit{Số điện thoại}, \textit{Mật khẩu} và \textit{Xác nhận mật khẩu}, đáp ứng đầy đủ yêu cầu cho quá trình đăng ký tài khoản.
+
+Nút \textbf{Đăng ký} được bố trí rõ ràng, cho phép người dùng nhanh chóng hoàn tất việc tạo tài khoản. Bên cạnh đó, giao diện còn cung cấp liên kết \textbf{Đăng nhập} dành cho người dùng đã có tài khoản, cùng với tùy chọn quay về trang chủ, đảm bảo tính thuận tiện, thân thiện và nâng cao trải nghiệm người dùng.
+
 \subsection{Giao diện đăng nhập}
 
 Giao diện đăng nhập cho phép người dùng nhập thông tin tài khoản để truy cập vào hệ thống.
@@ -14,7 +18,11 @@ Giao diện đăng nhập cho phép người dùng nhập thông tin tài khoả
     \label{fig:login}
 \end{figure}
 
+ở trung tâm màn hình. Giao diện bao gồm các trường thông tin: \textit{Họ và tên}, \textit{Email}, \textit{Số điện thoại}, \textit{Mật khẩu} và \textit{Xác nhận mật khẩu}. Nút \textbf{Đăng ký} giúp người dùng dễ dàng hoàn tất quá trình tạo tài khoản. Liên kết \textbf{Đăng nhập} dành cho người đã có tài khoản và tùy chọn quay về trang chủ, đảm bảo tính thuận tiện và dễ sử dụng.
+
+
 Giao diện đăng nhập của hệ thống DeliveryDriver được thiết kế đơn giản, hiện đại với bố cục tập trung ở trung tâm màn hình. Giao diện gồm các trường Email, Mật khẩu, tùy chọn Ghi nhớ đăng nhập, liên kết Quên mật khẩu và nút Đăng nhập nổi bật. Ngoài ra, hệ thống hỗ trợ đăng nhập nhanh bằng Google và Facebook, cùng liên kết Đăng ký cho người dùng mới. Thiết kế trực quan, dễ sử dụng và thuận tiện cho người dùng.
+
 \subsection{Giao diện đăng ký}
 
 
@@ -36,7 +44,11 @@ Giao diện tạo tài khoản mới của hệ thống DeliveryDriver được 
     \label{fig:profile}
 \end{figure}
 Giao diện Thông tin cá nhân cho phép người dùng quản lý thông tin tài khoản và bảo mật. Màn hình hiển thị ảnh đại diện, họ tên và vai trò người dùng, kèm các chức năng Chỉnh sửa thông tin và Đổi mật khẩu. Phần nội dung chính bao gồm các thông tin cá nhân như Họ và tên, Email, Số điện thoại, Mã khu vực, Địa chỉ chi tiết và Tọa độ vị trí. Bố cục rõ ràng, dễ theo dõi, hỗ trợ người dùng cập nhật và quản lý thông tin hiệu quả.
-\subsection{Giao diện Dashboard của khách hàng}
+
+
+\subsection{Giao diện Dashboard}
+
+Sau khi đăng nhập, người dùng được chuyển đến Dashboard tương ứng với vai trò của mình trong hệ thống.
 
 
 \begin{figure}[H]
@@ -46,6 +58,9 @@ Giao diện Thông tin cá nhân cho phép người dùng quản lý thông tin 
     \label{fig:dashboard}
 \end{figure}
 Giao diện Dashboard khách hàng hiển thị tổng quan thông tin sử dụng hệ thống sau khi đăng nhập. Phần đầu màn hình chào người dùng và cung cấp thống kê nhanh gồm tổng đơn hàng, đơn đang xử lý và đơn đã hoàn thành. Bên dưới là nút Tạo đơn hàng mới giúp người dùng thao tác nhanh. Khu vực Truy cập nhanh cho phép chuyển đến các chức năng chính như Hồ sơ, Địa chỉ và Đơn hàng.
+
+
+\section{Triển khai các chức năng chính}
 
 \subsection{Giao diện tạo đơn hàng của khách hàng}
 
@@ -102,7 +117,12 @@ Giao diện Tạo đơn hàng – bước xác nhận hiển thị toàn bộ th
  
 Giao diện theo dõi trạng thái đơn hàng hiển thị chi tiết thông tin và tiến trình xử lý của một đơn hàng cụ thể. Hiển thị mã đơn hàng, thời gian tạo và trạng thái hiện tại. Khu vực theo dõi cho biết các mốc như đơn hàng đã được tạo và đã được xác nhận. Ngoài ra, giao diện hiển thị thêm thông tin lấy hàng, điểm giao hàng và thông tin tổng quan của đơn, cho phép người dùng hủy đơn hàng hoặc quay lại danh sách đơn.
 
+
+
+\section{Triển khai chức năng dành cho Admin}
+
 \subsection{Giao diện dashboard của admin}
+
 
 %\subsubsection{Theo dõi trạng thái shipper}
 
@@ -188,7 +208,9 @@ Giao diện Duyệt đơn hàng với dịch vụ gửi thẳng cho bưu cục c
      \caption{Giao diện xử lý và phân công đơn hàng đột xuất}
      \label{fig:assign_order}
  \end{figure}
+
 Giao diện Xử lý sự cố khẩn cấp cho phép admin xử lý các tình huống phát sinh trong quá trình giao nhận, như tai nạn hoặc sự cố bất ngờ của tài xế. Tại đây, admin có thể chuyển đơn hàng từ tài xế gặp sự cố sang tài xế khác phù hợp, ghi nhận loại sự cố và mô tả chi tiết. Thông tin các lịch giao hàng gặp vấn đề cũng được hiển thị song song, giúp đảm bảo việc điều phối và xử lý đơn hàng diễn ra kịp thời, hạn chế gián đoạn dịch vụ.
+
 %\subsubsection{Lên lịch giao hàng}
 
 %Admin có thể lên lịch giao hàng cho shipper dựa trên tình trạng hoạt động.
