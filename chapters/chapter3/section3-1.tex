@@ -1085,27 +1085,31 @@ Dưới đây là bảng đặc tả chi tiết cho các Use case quan trọng c
 \end{tabular}
 \end{table}
 
-% --- UC-08: GỢI Ý MỞ BƯU CỤC MỚI ---
+% --- UC-22: PHÂN TÍCH CẶP ĐIỂM ---
 \begin{table}[H]
 \centering
-\caption{UC-22: Gợi ý mở bưu cục mới (Analytics)}
+\caption{UC-22: Phân tích cặp điểm giao nhận }
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
-\textbf{Tên Use Case} & Gợi ý mở bưu cục mới \\ \hline
+\textbf{Tên Use Case} & Phân tích cặp điểm giao nhận \\ \hline
 \textbf{Actor} & Admin  \\ \hline
-\textbf{Mô tả} & Hệ thống sử dụng thuật toán phân tích giỏ hàng (Market Basket Analysis - Apriori) để phân tích tần suất các tuyến đường và gợi ý vị trí tiềm năng đặt bưu cục mới. \\ \hline
-\textbf{Tiền điều kiện} & Dữ liệu lịch sử đơn hàng đủ lớn được lưu trong Database. \\ \hline
+\textbf{Mô tả} & Hệ thống sử dụng kỹ thuật để khai phá dữ liệu, tìm ra mối tương quan và tần suất xuất hiện cùng nhau giữa điểm lấy hàng (Pickup) và điểm giao hàng (Drop), từ đó nhận diện các "tuyến đường nóng". \\ \hline
+\textbf{Tiền điều kiện} & Dữ liệu lịch sử đơn hàng (gồm tọa độ nhận/giao) đủ lớn và đã được làm sạch. \\ \hline
 \textbf{Luồng chính} &
 \begin{enumerate}
-    \item Actor chọn module Phân tích nâng cao.
-    \item Actor chọn chức năng "Gợi ý địa điểm".
-    \item Actor thiết lập tham số (Độ hỗ trợ tối thiểu - Min Support).
-    \item Hệ thống chạy thuật toán khai phá dữ liệu trên các cặp điểm giao nhận phổ biến.
-    \item Hệ thống hiển thị danh sách các khu vực có nhu cầu cao nhưng chưa có bưu cục phủ sóng.
-    \item Hệ thống hiển thị dự báo doanh thu nếu mở bưu cục tại đó.
+    \item Actor chọn module phân tích vận hành.
+    \item Actor chọn chức năng phân tích luồng tuyến.
+    \item Actor thiết lập tham số đầu vào: Khoảng thời gian, Loại xe, và Ngưỡng hỗ trợ tối thiểu .
+    \item Hệ thống chạy thuật toán Market Basket Analysis trên tập dữ liệu đã lọc.
+    \item Hệ thống hiển thị kết quả
 \end{enumerate} \\ \hline
-\textbf{Hậu điều kiện} & Admin có dữ liệu định lượng để quyết định chiến lược mở rộng. \\ \hline
+\textbf{Luồng mở rộng} &
+\textbf{Tại bước 5 :} Nếu một cặp điểm có chỉ số Lift cao vượt ngưỡng nhưng chưa có bưu cục trung gian:
+\begin{enumerate}
+    \item[5a.] Hệ thống thực hiện Use Case mở rộng: "Gợi ý mở bưu cục mới".
+    \item[5b.] Hệ thống đánh dấu vị trí tiềm năng trên bản đồ và hiển thị dự báo hiệu quả nếu mở bưu cục tại đó.
+\end{enumerate} \\ \hline
+\textbf{Hậu điều kiện} & Admin nắm được xu hướng di chuyển của đơn hàng và nhận được các đề xuất mở rộng mạng lưới (nếu có). \\ \hline
 \end{tabular}
 \end{table}
-
