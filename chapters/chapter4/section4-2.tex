@@ -228,19 +228,4 @@ Màn hình bản đồ hỗ trợ shipper theo dõi vị trí và lộ trình gi
 
 
 
-\subsection{Triển khai chức năng xác thực}
-
-Hệ thống sử dụng Supabase Authentication để thực hiện đăng ký, đăng nhập và quản lý phiên làm việc của người dùng.
-Sau khi xác thực thành công, thông tin người dùng được liên kết với bảng \texttt{profiles}.
-
-\subsection{Triển khai quản lý hồ sơ cá nhân}
-
-Người dùng có thể xem và cập nhật thông tin cá nhân như họ tên, số điện thoại và ảnh đại diện.
-Dữ liệu được lưu trữ và đồng bộ thông qua Supabase Database.
-
-\subsection{Triển khai thuật toán tối ưu lộ trình}
-
-Thuật toán tối ưu lộ trình được triển khai dưới dạng một microservice độc lập.
-Dịch vụ này nhận danh sách các điểm giao hàng và trả về thứ tự giao hàng tối ưu nhằm giảm tổng quãng đường di chuyển.
-
 

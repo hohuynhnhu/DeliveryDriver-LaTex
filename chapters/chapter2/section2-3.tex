@@ -41,12 +41,11 @@ Manager cần tương tác với nhân viên và khách hàng thông qua hệ th
 
 Ngược lại, Manager cũng có thể gửi thông báo cập nhật trạng thái đơn hàng cho khách hàng. Các loại thông báo bao gồm xác nhận đơn hàng, thông báo đang giao và thông báo hoàn thành. Dữ liệu thông báo được lưu trong bảng Notification với thông tin người gửi, người nhận, loại thông báo và nội dung.
 
-\subsubsection{Phân tích RFM và gợi ý tuyến đường}
+\subsubsection{Phân tích đo lường mức độ mối quan hệ của địa điểm giao và nhận bằng phân tích giỏ hàng}
 
-Để hỗ trợ việc ra quyết định kinh doanh, hệ thống cung cấp chức năng phân tích RFM (Recency - Frequency - Monetary) cho các tuyến đường. Hệ thống tự động thu thập và phân tích dữ liệu đơn hàng trong một khoảng thời gian để xác định các tuyến đường có tần suất sử dụng cao và doanh thu tốt.
+Nhằm hỗ trợ việc ra quyết định mở rộng mạng lưới bưu cục, hệ thống áp dụng phương pháp phân tích giỏ hàng để đo lường mức độ liên kết giữa các địa điểm giao và nhận. Thông qua việc phân tích dữ liệu đơn hàng trong một khoảng thời gian nhất định, hệ thống xác định các nhóm địa điểm thường xuyên xuất hiện cùng nhau trong các tuyến giao hàng.
 
-Kết quả phân tích được lưu trong bảng RFM, bao gồm thời gian bắt đầu, kết thúc phân tích và danh sách các tuyến đường nổi bật. Dựa trên kết quả này, hệ thống đưa ra các gợi ý tuyến cố định được lưu trong bảng Routes\_suggest, giúp Manager xem xét khả năng thiết lập các tuyến giao hàng định kỳ để tối ưu chi phí vận hành.
-
+Kết quả phân tích phản ánh nhu cầu vận chuyển tập trung theo khu vực và mức độ phụ thuộc giữa các địa điểm, từ đó làm nổi bật các cụm khu vực có lưu lượng giao nhận cao nhưng chưa được phục vụ tối ưu. Dựa trên các cụm này, hệ thống đề xuất các vị trí tiềm năng để mở thêm bưu cục mới, giúp rút ngắn quãng đường vận chuyển, giảm tải cho các bưu cục hiện hữu và tối ưu chi phí vận hành.
 
 
 \subsection{Yêu cầu phi chức năng}
