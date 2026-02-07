@@ -6,7 +6,28 @@ Mỗi microservice sở hữu cơ sở dữ liệu riêng biệt nhằm đảm b
 
 \begin{figure}[H]
     \centering
-    \includegraphics[height=0.9\textheight]{figures/chapter2/erd.jpg}
+    \includegraphics[height=0.7\textheight]{figures/chapter2/erd.jpg}
     \caption{Sơ đồ ERD }
-    \label{fig:intro}
+    \label{fig:erd-system}
 \end{figure}
+Sơ đồ ERD ở Hình~\ref{fig:erd-system} mô tả cấu trúc dữ liệu của hệ thống quản lý giao nhận,
+bao gồm các thực thể chính như \textit{users}, \textit{drivers}, \textit{orders},
+\textit{order\_details}, \textit{schedules}, \textit{post\_offices} và \textit{notifications}.
+
+Thực thể \textit{users} lưu trữ thông tin người dùng của hệ thống và có mối quan hệ
+một-nhiều với thực thể \textit{orders}. Mỗi đơn hàng trong bảng \textit{orders}
+được liên kết với một bưu cục thông qua khóa ngoại \textit{post\_office\_id}.
+
+Thực thể \textit{drivers} lưu thông tin tài xế và được liên kết với
+\textit{schedules}, cho phép quản lý lịch làm việc và phân công giao hàng.
+Chi tiết từng đơn hàng được lưu trong bảng \textit{order\_details}, bảng này
+liên kết giữa đơn hàng và lịch giao tương ứng.
+
+Ngoài ra, hệ thống còn quản lý vị trí tài xế thông qua các bảng
+\textit{driver\_current\_location} và \textit{driver\_location\_history},
+giúp theo dõi vị trí hiện tại và lịch sử di chuyển của tài xế theo thời gian.
+
+Thực thể \textit{notifications} được sử dụng để lưu trữ các thông báo gửi đến người dùng,
+liên kết trực tiếp với bảng \textit{users}. Các quy tắc ưu tiên xử lý đơn hàng
+được định nghĩa trong bảng \textit{priority\_rules}, hỗ trợ hệ thống trong việc
+xử lý và phân loại đơn hàng theo mức độ ưu tiên.
